@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_role', function (Blueprint $table) {
+        Schema::create('testimonials', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('role_id')->constrained()->onDelete('cascade');
-            $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->string('name');
+            $table->string('designation')->nullable();
+            $table->text('testimonial');
+            $table->string('image')->nullable();
+            $table->enum('status', ['active', 'inactive'])->default('pending');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_role');
+        Schema::dropIfExists('testimonials');
     }
 };
