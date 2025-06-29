@@ -5,15 +5,24 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateServiceRequest;
 use App\Models\Service;
 use Illuminate\Http\Request;
+use App\Interfaces\ServiceRepositoryInterface;
 
 class ServiceController extends Controller
 {
+    protected $serviceRepository;
+
+    public function __construct(ServiceRepositoryInterface $serviceRepository)
+    {
+        $this->serviceRepository = $serviceRepository;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $services = $this->serviceRepository->all();
+        return $services;
     }
 
     /**
@@ -29,8 +38,13 @@ class ServiceController extends Controller
      */
     public function store(CreateServiceRequest $request)
     {
+
+        // $this->serviceRepository->create($request->all());
+        // return redirect()->route('services.index')->with('success', 'Service created!');
+
+
         //
-        dd($request);
+        // dd($request);
         $validated = $request->validated();
 
         // handle file upload
@@ -38,7 +52,8 @@ class ServiceController extends Controller
             $validated['image'] = $request->file('image')->store('services', 'public');
         }
 
-        Service::create($validated);
+        // Service::create($validated);
+        $this->serviceRepository->create($validated);
 
         return redirect()->route('services.index')->with('success', 'Service created successfully.');
     }
@@ -83,4 +98,23 @@ class ServiceController extends Controller
     {
         //
     }
+
+
+    // public function edit($id)
+    // {
+    //     $service = $this->serviceRepository->find($id);
+    //     return view('admin.services.edit', compact('service'));
+    // }
+
+    // public function update(Request $request, $id)
+    // {
+    //     $this->serviceRepository->update($id, $request->all());
+    //     return redirect()->route('services.index')->with('success', 'Service updated!');
+    // }
+
+    // public function destroy($id)
+    // {
+    //     $this->serviceRepository->delete($id);
+    //     return redirect()->route('services.index')->with('success', 'Service deleted!');
+    // }
 }
