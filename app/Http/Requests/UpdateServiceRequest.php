@@ -3,15 +3,16 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class CreateServiceRequest extends FormRequest
+class UpdateServiceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true; // or add auth logic
+        return true;
     }
 
     /**
@@ -21,14 +22,17 @@ class CreateServiceRequest extends FormRequest
      */
     public function rules(): array
     {
-
         return [
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'status' => 'required|in:active,inactive',
-            'slug' => 'nullable|string|max:255|unique:services,slug',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:11000',
+            // 'slug' => [
+            //     'nullable',
+            //     'string',
+            //     'max:255',
+            //     Rule::unique('services', 'slug')->ignore($this->route('service')->id),
+            // ],
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:11000',
         ];
-        
     }
 }

@@ -38,4 +38,16 @@ class Service extends Model
     {
         return $this->belongsTo(User::class, 'updated_by');
     }
+
+
+    // public function getStatusBadgeAttribute()
+    // {
+    //     return render_status_badge($this->status);  // from helper
+    // }
+
+    public function getStatusBadgeAttribute()
+    {
+        // Pass ID and route name for dynamic toggle link
+        return render_status_badge($this->status, $this->id, route('services.toggle-status', $this->id));
+    }
 }

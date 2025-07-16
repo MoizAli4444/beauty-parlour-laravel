@@ -14,10 +14,13 @@ return new class extends Migration
         Schema::create('service_variants', function (Blueprint $table) {
             $table->id();
             $table->foreignId('service_id')->constrained()->onDelete('cascade');
+            $table->string('image')->nullable();
             $table->string('name');
+            $table->string('slug')->unique();
+            $table->text('description')->nullable();
             $table->decimal('price', 8, 2);
-            $table->integer('duration_minutes');
-            $table->enum('status', ['available', 'unavailable'])->default('available');
+            $table->string('duration')->nullable();
+            $table->enum('status', ['active', 'inactive'])->default('active');
             $table->softDeletes();
             $table->timestamps();
         });

@@ -21,6 +21,8 @@ return new class extends Migration
             $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('updated_by')->nullable()->constrained('users')->nullOnDelete();
 
+            // later update created and updated by field to foreign id only remove constraints
+
             $table->softDeletes();
             $table->timestamps();
         });

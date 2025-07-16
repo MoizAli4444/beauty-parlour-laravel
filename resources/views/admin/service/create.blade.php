@@ -9,19 +9,17 @@
             <div class="row mb-6 gy-6">
                 <div class="col-xl">
                     <div class="card">
+
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">Basic Layout</h5>
-                            <small class="text-body float-end">Default label</small>
+                            <h5 class="mb-0">Create Service</h5>
+                            <a href="{{ route('services.index') }}" class="btn btn-primary">All Services</a>
                         </div>
+
                         <div class="card-body">
-                            <form
-                                action="{{ isset($service) ? route('services.update', $service->id) : route('services.store') }}"
-                                method="POST" enctype="multipart/form-data">
+
+                            <form action="{{ route('services.store') }}" method="POST" enctype="multipart/form-data">
 
                                 @csrf
-                                @if (isset($service))
-                                    @method('PUT')
-                                @endif
 
                                 <!-- Name -->
                                 <div class="mb-4">
@@ -76,9 +74,10 @@
                                 </div>
 
                                 <!-- Submit -->
-                                <button type="submit" class="btn btn-primary">
-                                    {{ isset($service) ? 'Update' : 'Create' }} Service
+                                <button type="submit" class="btn btn-warning">
+                                    Create Service
                                 </button>
+                                
                             </form>
 
                         </div>
@@ -89,8 +88,6 @@
         </div>
         <!-- / Content -->
 
-
-        <div class="content-backdrop fade"></div>
     </div>
     <!-- Content wrapper -->
 @endsection

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateServiceRequest;
+use App\Http\Requests\UpdateServiceRequest;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use App\Interfaces\ServiceRepositoryInterface;
+use Illuminate\Support\Facades\Storage;
 
 class ServiceController extends Controller
 {
@@ -16,13 +18,21 @@ class ServiceController extends Controller
         $this->serviceRepository = $serviceRepository;
     }
 
+    public function datatable(Request $request)
+    {
+        if ($request->ajax()) {
+            return $this->serviceRepository->getDatatableData();
+        }
+
+        return abort(403);
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $services = $this->serviceRepository->all();
-        return $services;
+        return view('admin.service.index');
     }
 
     /**
@@ -30,7 +40,7 @@ class ServiceController extends Controller
      */
     public function create()
     {
-        return view('admin.service.add');
+        return view('admin.service.create');
     }
 
     /**
@@ -39,20 +49,14 @@ class ServiceController extends Controller
     public function store(CreateServiceRequest $request)
     {
 
-        // $this->serviceRepository->create($request->all());
-        // return redirect()->route('services.index')->with('success', 'Service created!');
-
-
-        //
-        // dd($request);
         $validated = $request->validated();
 
-        // handle file upload
         if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('services', 'public');
+            $file = $request->file('image');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $validated['image'] = $file->storeAs('services', $filename, 'public');
         }
 
-        // Service::create($validated);
         $this->serviceRepository->create($validated);
 
         return redirect()->route('services.index')->with('success', 'Service created successfully.');
@@ -61,35 +65,58 @@ class ServiceController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Service $service)
+    public function show($slug)
     {
-        //
+        $service = $this->serviceRepository->findBySlug($slug);
+
+        if (!$service) {
+            return redirect()->route('services.index')->with('error', 'Service not found.');
+        }
+
+        return view('admin.service.show', compact('service'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Service $service)
+    public function edit($slug)
     {
-        //
+        $service = $this->serviceRepository->findBySlug($slug);
+
+        if (!$service) {
+            return redirect()->route('services.index')->with('error', 'Service not found');
+        }
+
+        return view('admin.service.edit', compact('service'));
     }
 
     /**
      * Update the specified resource in storage.
      */
 
-    public function update(CreateServiceRequest $request, $id = null)
+    public function update(UpdateServiceRequest $request, $id = null)
     {
         $validated = $request->validated();
 
+        $service = $this->serviceRepository->find($id);
+
+        // Handle image upload
         if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('services', 'public');
+            // Delete old image if exists
+            if ($service->image && Storage::disk('public')->exists($service->image)) {
+                Storage::disk('public')->delete($service->image);
+            }
+
+            $file = $request->file('image');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $validated['image'] = $file->storeAs('services', $filename, 'public');
         }
 
-        $request->update($validated); // recheck this logic
+        $this->serviceRepository->update($id, $validated);
 
         return redirect()->route('services.index')->with('success', 'Service updated successfully.');
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -99,18 +126,21 @@ class ServiceController extends Controller
         //
     }
 
+    public function toggleStatus($id)
+    {
+        $service = Service::findOrFail($id);
 
-    // public function edit($id)
-    // {
-    //     $service = $this->serviceRepository->find($id);
-    //     return view('admin.services.edit', compact('service'));
-    // }
+        $service->status = $service->status === 'active' ? 'inactive' : 'active';
+        $service->save();
 
-    // public function update(Request $request, $id)
-    // {
-    //     $this->serviceRepository->update($id, $request->all());
-    //     return redirect()->route('services.index')->with('success', 'Service updated!');
-    // }
+        return response()->json([
+            'status' => true,
+            'message' => 'Status updated successfully.',
+            'new_status' => $service->status,
+            'badge' => $service->status_badge
+        ]);
+    }
+
 
     // public function destroy($id)
     // {

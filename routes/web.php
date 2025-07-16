@@ -19,12 +19,22 @@ Route::get('/dashboard', function () {
 
 
 Route::prefix('services')->name('services.')->group(function () {
+    Route::get('/datatable', [ServiceController::class, 'datatable'])->name('datatable');
+
     Route::get('/', [ServiceController::class, 'index'])->name('index');
     Route::get('/create', [ServiceController::class, 'create'])->name('create');
+    Route::get('/{slug}', [ServiceController::class, 'show'])->name('show');
+    Route::get('{slug}/edit', [ServiceController::class, 'edit'])->name('edit');
+
     Route::post('/store', [ServiceController::class, 'store'])->name('store');
-    Route::get('/{service}/edit', [ServiceController::class, 'edit'])->name('edit');
-    Route::put('/{service}', [ServiceController::class, 'update'])->name('update');
+
+    Route::put('/{id}', [ServiceController::class, 'update'])->name('update');
+
+
     Route::delete('/{service}', [ServiceController::class, 'destroy'])->name('destroy');
+
+    Route::patch('/{id}/toggle-status', [ServiceController::class, 'toggleStatus'])->name('toggle-status');
+
 });
 
 

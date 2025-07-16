@@ -11,6 +11,8 @@
     <title>Demo: Dashboard - Analytics | Sneat - Bootstrap Dashboard FREE</title>
 
     <meta name="description" content="" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon/favicon.ico') }}" />
@@ -48,6 +50,10 @@
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
 
     <script src="{{ asset('assets/js/config.js') }}"></script>
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+
 </head>
 
 <body>
@@ -91,6 +97,9 @@
 
 
     <!-- Core JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
 
     <script src="{{ asset('assets/vendor/libs/jquery/jquery.js') }}"></script>
 
@@ -115,6 +124,58 @@
 
     <!-- Place this tag before closing body tag for github widget button. -->
     <script async defer src="https://buttons.github.io/buttons.js') }}"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+    <script src="../assets/js/ui-toasts.js"></script>
+
+    {{-- /////////////////////////////// --}}
+    <!-- SweetAlert2 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+
+<!-- SweetAlert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
+    @if (session('success') || session('error') || session('info'))
+        @php
+            $type = session('success') ? 'success' : (session('error') ? 'danger' : 'info');
+            $message = session('success') ?? (session('error') ?? session('info'));
+        @endphp
+
+        <div class="position-fixed top-0 end-0 p-3" style="z-index: 2055;">
+            <div class="toast align-items-center text-bg-{{ $type }} border-0" role="alert"
+                aria-live="assertive" aria-atomic="true" data-bs-delay="3000" data-bs-autohide="true"
+                id="toastNotification">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        {{ $message }}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var toastEl = document.getElementById('toastNotification');
+                if (toastEl) {
+                    var toast = new bootstrap.Toast(toastEl);
+                    toast.show();
+                }
+            });
+        </script>
+    @endif
+
+
+
+    @stack('scripts')
+
+    @include('admin.layouts.globalscript')
+
 </body>
 
 </html>
