@@ -1,13 +1,16 @@
-
-
 <script>
     $(document).ready(function() {
-        
+
         $('#servicesTable').DataTable({
             processing: true,
             serverSide: true,
             ajax: '{{ route('services.datatable') }}',
             columns: [{
+                    data: 'checkbox',
+                    name: 'checkbox',
+                    orderable: false,
+                    searchable: false
+                }, {
                     data: 'id',
                     name: 'id'
                 },
@@ -30,7 +33,7 @@
                     searchable: false
                 }
             ]
-            
+
         });
     });
 </script>

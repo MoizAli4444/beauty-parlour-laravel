@@ -144,4 +144,16 @@ class ServiceController extends Controller
             'badge' => $service->status_badge
         ]);
     }
+
+    public function bulkDelete(Request $request)
+    {
+        Service::whereIn('id', $request->ids)->delete();
+        return response()->json(['message' => 'Selected services deleted successfully.']);
+    }
+
+    public function bulkStatus(Request $request)
+    {
+        Service::whereIn('id', $request->ids)->update(['status' => $request->status]);
+        return response()->json(['message' => 'Status updated']);
+    }
 }

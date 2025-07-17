@@ -75,4 +75,102 @@
             }
         });
     });
+
+
+    // Select all functionality datatable checkbox
+    $('#select-all').on('click', function() {
+        $('.row-checkbox').prop('checked', this.checked);
+    });
+
+
+
+    // =====================
+
+    function getSelectedIds() {
+        let ids = [];
+        $('.row-checkbox:checked').each(function() {
+            ids.push($(this).val());
+        });
+        return ids;
+    }
+
+    // $('#bulkDelete').on('click', function() {
+    //     let ids = getSelectedIds();
+    //     if (ids.length === 0) {
+    //         return Swal.fire('No services selected.', '', 'warning');
+    //     }
+
+    //     Swal.fire({
+    //         title: 'Are you sure?',
+    //         text: "Selected services will be deleted!",
+    //         icon: 'warning',
+    //         showCancelButton: true,
+    //         confirmButtonColor: '#d33',
+    //         cancelButtonColor: '#3085d6',
+    //         confirmButtonText: 'Yes, delete them!'
+    //     }).then((result) => {
+    //         if (result.isConfirmed) {
+    //             $.ajax({
+    //                 url: '{{ route('services.bulkDelete') }}',
+    //                 method: 'POST',
+    //                 data: {
+    //                     ids: ids,
+    //                     _token: '{{ csrf_token() }}'
+    //                 },
+    //                 success: function(response) {
+    //                     $('#servicesTable').DataTable().ajax.reload();
+    //                     Swal.fire('Deleted!', 'Services have been deleted.', 'success');
+    //                 }
+    //             });
+    //         }
+    //     });
+    // });
+
+    $('.btn-bulk-actions').on('click', function() {
+        let ids = getSelectedIds();
+        if (ids.length === 0) {
+            return Swal.fire('No services selected.', '', 'warning');
+        }
+
+        let url = $(this).data('url');
+        let action = $(this).data('action');
+        let message = $(this).data('message') || 'Are you sure?';
+
+        Swal.fire({
+            title: 'Confirm',
+            text: message,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, proceed!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let postData = {
+                    ids: ids,
+                    _token: '{{ csrf_token() }}'
+                };
+
+                // Only add status if it's not delete
+                if (action !== 'delete') {
+                    postData.status = action;
+                }
+
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                    data: postData,
+                    success: function(response) {
+                        $('#servicesTable').DataTable().ajax.reload();
+                        Swal.fire('Success', 'Action completed successfully.', 'success');
+                    },
+                    error: function() {
+                        Swal.fire('Error', 'Something went wrong.', 'error');
+                    }
+                });
+            }
+        });
+    });
+
+
+   
 </script>

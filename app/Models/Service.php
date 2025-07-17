@@ -68,4 +68,6 @@ class Service extends Model
 
     // {!! render_delete_button($service->id, route('services.destroy', $service->id)) !!}
 
+    
+
 }

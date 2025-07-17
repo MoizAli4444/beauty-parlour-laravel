@@ -14,9 +14,30 @@
                             <a href="{{ route('services.create') }}" class="btn btn-warning">Create</a>
                         </div>
                         <div class="card-body">
+                            <button id="bulkDelete" class="btn btn-danger btn-sm btn-bulk-actions"
+                                data-url="{{ route('services.bulkDelete') }}" data-action="delete"
+                                data-message="Are you sure you want to delete selected services?">
+                                Delete Selected
+                            </button>
+
+                            <button id="bulkActivate" class="btn btn-success btn-sm btn-bulk-actions"
+                                data-url="{{ route('services.bulkStatus') }}" data-action="active"
+                                data-message="Are you sure you want to activate selected services?">
+                                Mark Active
+                            </button>
+
+                            <button id="bulkDeactivate" class="btn btn-warning btn-sm btn-bulk-actions"
+                                data-url="{{ route('services.bulkStatus') }}" data-action="inactive"
+                                data-message="Are you sure you want to deactivate selected services?">
+                                Mark Inactive
+                            </button>
+
+
+
                             <table id="servicesTable" class="table table-bordered">
                                 <thead>
                                     <tr>
+                                        <th><input type="checkbox" id="select-all"></th> {{-- universal checkbox --}}
                                         <th>ID</th>
                                         <th>Name</th>
                                         <th>Status</th>
