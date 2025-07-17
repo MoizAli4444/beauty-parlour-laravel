@@ -121,9 +121,13 @@ class ServiceController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Service $service)
+    public function destroy($id)
     {
-        //
+        $this->serviceRepository->delete($id);
+        return response()->json([
+            'status' => true,
+            'message' => 'Status updated successfully.',
+        ]);
     }
 
     public function toggleStatus($id)
@@ -140,11 +144,4 @@ class ServiceController extends Controller
             'badge' => $service->status_badge
         ]);
     }
-
-
-    // public function destroy($id)
-    // {
-    //     $this->serviceRepository->delete($id);
-    //     return redirect()->route('services.index')->with('success', 'Service deleted!');
-    // }
 }

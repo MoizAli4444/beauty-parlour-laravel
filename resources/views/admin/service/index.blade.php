@@ -11,7 +11,7 @@
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h5 class="mb-0">All Services</h5>
-                            <a href="{{ route('services.create') }}" class="btn btn-primary">Create</a>
+                            <a href="{{ route('services.create') }}" class="btn btn-warning">Create</a>
                         </div>
                         <div class="card-body">
                             <table id="servicesTable" class="table table-bordered">

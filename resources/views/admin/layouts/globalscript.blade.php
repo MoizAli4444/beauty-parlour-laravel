@@ -1,4 +1,5 @@
 <script>
+    // change status from datatable
     $(document).on('click', '.toggle-status', function() {
         let url = $(this).data('route');
         let id = $(this).data('id');
@@ -25,13 +26,50 @@
 
                             // el.replaceWith(response.badge);
                             Swal.fire('Updated!', response.message, 'success');
-                                    $('#servicesTable').DataTable().ajax.reload(null, false);
+                            $('#servicesTable').DataTable().ajax.reload(null, false);
                         } else {
                             Swal.fire('Error!', 'Something went wrong.', 'error');
                         }
                     },
                     error: function() {
                         Swal.fire('Error!', 'Request failed.', 'error');
+                    }
+                });
+            }
+        });
+    });
+
+    // delete record form datatable
+    $(document).on('click', '.delete-record', function(e) {
+        e.preventDefault();
+        let id = $(this).data('id');
+        let route = $(this).data('route');
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This action cannot be undone!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: route,
+                    type: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        Swal.fire('Deleted!', response.message ||
+                            'Record deleted successfully.', 'success');
+                        // Optionally reload DataTable
+                        $('#servicesTable').DataTable().ajax.reload(null, false);
+
+                    },
+                    error: function(xhr) {
+                        Swal.fire('Error!', 'Something went wrong.', 'error');
                     }
                 });
             }

@@ -14,19 +14,46 @@ class ServiceSeeder extends Seeder
      */
     public function run(): void
     {
+        // $statuses = ['active', 'inactive'];
+
+        // for ($i = 0; $i < 10; $i++) {
+        //     $name = fake()->unique()->words(2, true); // e.g. "Bridal Makeup"
+
+        //     Service::create([
+        //         'name' => $name,
+        //         'slug' => Str::slug($name),
+        //         'description' => fake()->paragraph(),
+        //         'image' => 'services/sample' . rand(1, 5) . '.jpg',
+        //         'status' => $statuses[array_rand($statuses)],
+        //         'created_by' => rand(1, 1), // make sure user IDs exist
+        //         'updated_by' => rand(1, 1),
+        //     ]);
+        // }
+
+        $services = [
+            'Haircuts & Styling',
+            'Facial Treatments',
+            'Party & Bridal Makeup',
+            'Manicure & Pedicure',
+            'Threading & Waxing',
+            'Hair Coloring',
+            'Hair Rebonding & Keratin',
+            'Body Massage',
+            'Nail Art & Extensions',
+            'Skin Whitening Treatment',
+        ];
+
         $statuses = ['active', 'inactive'];
 
-        for ($i = 0; $i < 10; $i++) {
-            $name = fake()->unique()->words(2, true); // e.g. "Bridal Makeup"
-
+        foreach ($services as $index => $name) {
             Service::create([
                 'name' => $name,
                 'slug' => Str::slug($name),
-                'description' => fake()->paragraph(),
-                'image' => 'services/sample' . rand(1, 5) . '.jpg',
+                'description' => fake()->sentence(12), // short but meaningful
+                'image' => 'services/sample' . rand(1, 5) . '.jpg', // ensure these sample images exist
                 'status' => $statuses[array_rand($statuses)],
-                'created_by' => rand(1, 1), // make sure user IDs exist
-                'updated_by' => rand(1, 1),
+                'created_by' => 1, // replace with valid user ID
+                'updated_by' => 1,
             ]);
         }
     }

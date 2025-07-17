@@ -47,7 +47,25 @@ class Service extends Model
 
     public function getStatusBadgeAttribute()
     {
-        // Pass ID and route name for dynamic toggle link
         return render_status_badge($this->status, $this->id, route('services.toggle-status', $this->id));
     }
+
+    public function getEditButtonAttribute()
+    {
+        return render_edit_button(route('services.edit', $this->slug));
+    }
+
+    public function getViewButtonAttribute()
+    {
+        return render_view_button(route('services.show', $this->slug));
+    }
+
+
+    public function getDeleteButtonAttribute()
+    {
+        return render_delete_button($this->id, route('services.destroy', $this->id));
+    }
+
+    // {!! render_delete_button($service->id, route('services.destroy', $service->id)) !!}
+
 }
