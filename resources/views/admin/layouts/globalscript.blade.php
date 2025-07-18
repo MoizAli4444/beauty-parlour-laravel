@@ -1,5 +1,8 @@
 <script>
-    // change status from datatable
+    // Handles status toggle with SweetAlert confirmation prompt
+    // Sends AJAX PATCH request with CSRF token to update status
+    // On success, shows alert and reloads DataTable; shows error if request fails
+
     $(document).on('click', '.toggle-status', function() {
         let url = $(this).data('route');
         let id = $(this).data('id');
@@ -39,7 +42,10 @@
         });
     });
 
-    // delete record form datatable
+    // Handle single record deletion with confirmation using SweetAlert
+    // Sends AJAX DELETE request with CSRF token and reloads DataTable on success
+    // Displays success or error alert based on response
+
     $(document).on('click', '.delete-record', function(e) {
         e.preventDefault();
         let id = $(this).data('id');
@@ -76,15 +82,25 @@
         });
     });
 
+    /**
+     * Bulk Action Handler for Services Table
+     *
+     * Toggle all row checkboxes when the "Select All" checkbox is clicked
+     * This script handles bulk actions (Delete, Activate, Deactivate) for selected services
+     * in a DataTable. It uses SweetAlert for confirmation dialogs and sends AJAX POST requests
+     * to perform the actions. The action type and request URL are passed dynamically through
+     * button data attributes (`data-url`, `data-action`, `data-message`).
+     *
+     * - getSelectedIds(): Collects all checked row checkboxes and returns their values as an array.
+     * - .btn-bulk-actions click handler: Triggers confirmation modal and sends the appropriate
+     *   AJAX request based on the action (delete/status update).
+     *
+     * This approach makes bulk action buttons reusable and easy to manage.
+     */
 
-    // Select all functionality datatable checkbox
     $('#select-all').on('click', function() {
         $('.row-checkbox').prop('checked', this.checked);
     });
-
-
-
-    // =====================
 
     function getSelectedIds() {
         let ids = [];
@@ -93,38 +109,6 @@
         });
         return ids;
     }
-
-    // $('#bulkDelete').on('click', function() {
-    //     let ids = getSelectedIds();
-    //     if (ids.length === 0) {
-    //         return Swal.fire('No services selected.', '', 'warning');
-    //     }
-
-    //     Swal.fire({
-    //         title: 'Are you sure?',
-    //         text: "Selected services will be deleted!",
-    //         icon: 'warning',
-    //         showCancelButton: true,
-    //         confirmButtonColor: '#d33',
-    //         cancelButtonColor: '#3085d6',
-    //         confirmButtonText: 'Yes, delete them!'
-    //     }).then((result) => {
-    //         if (result.isConfirmed) {
-    //             $.ajax({
-    //                 url: '{{ route('services.bulkDelete') }}',
-    //                 method: 'POST',
-    //                 data: {
-    //                     ids: ids,
-    //                     _token: '{{ csrf_token() }}'
-    //                 },
-    //                 success: function(response) {
-    //                     $('#servicesTable').DataTable().ajax.reload();
-    //                     Swal.fire('Deleted!', 'Services have been deleted.', 'success');
-    //                 }
-    //             });
-    //         }
-    //     });
-    // });
 
     $('.btn-bulk-actions').on('click', function() {
         let ids = getSelectedIds();
@@ -170,7 +154,4 @@
             }
         });
     });
-
-
-   
 </script>
