@@ -24,7 +24,8 @@ class Service extends Model
     {
         return [
             'slug' => [
-                'source' => 'name'
+                'source' => 'name',
+                'onUpdate' => true
             ]
         ];
     }
@@ -38,12 +39,6 @@ class Service extends Model
     {
         return $this->belongsTo(User::class, 'updated_by');
     }
-
-
-    // public function getStatusBadgeAttribute()
-    // {
-    //     return render_status_badge($this->status);  // from helper
-    // }
 
     public function getStatusBadgeAttribute()
     {
@@ -68,6 +63,6 @@ class Service extends Model
 
     // {!! render_delete_button($service->id, route('services.destroy', $service->id)) !!}
 
-    
+
 
 }

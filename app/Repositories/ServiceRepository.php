@@ -16,10 +16,10 @@ class ServiceRepository implements ServiceRepositoryInterface
     public function getDatatableData()
     {
         return DataTables::of(Service::query()->latest())
+
             ->addColumn('checkbox', function ($row) {
                 return '<input type="checkbox" class="row-checkbox" value="' . $row->id . '">';
             })
-
 
             ->editColumn('name', function ($row) {
                 return strlen($row->name) > 20 ? substr($row->name, 0, 20) . '...' : $row->name;
