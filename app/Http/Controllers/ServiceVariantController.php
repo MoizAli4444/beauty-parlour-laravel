@@ -2,17 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Interfaces\ServiceVariantRepositoryInterface;
+use App\Models\Service;
 use App\Models\ServiceVariant;
 use Illuminate\Http\Request;
 
 class ServiceVariantController extends Controller
 {
+    protected $serviceVariantRepo;
+
+    public function __construct(ServiceVariantRepositoryInterface $serviceVariantRepo)
+    {
+        $this->serviceVariantRepo = $serviceVariantRepo;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return view('admin.service-variant.index');
     }
 
     /**
@@ -20,7 +29,8 @@ class ServiceVariantController extends Controller
      */
     public function create()
     {
-        //
+        $services = Service::get();
+        return view('admin.service-variant.create',compact('services'));
     }
 
     /**
