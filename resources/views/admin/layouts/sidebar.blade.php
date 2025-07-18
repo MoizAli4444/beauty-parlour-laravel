@@ -68,6 +68,13 @@
             </a>
         </li>
 
+         <li class="menu-item {{ request()->routeIs('service-variants.*') ? 'active' : '' }}">
+            <a href="{{ route('service-variants.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-spa"></i>
+                <div class="text-truncate" data-i18n="Services">Service Variants</div>
+            </a>
+        </li>
+
 
 
         <!-- Dashboards -->
