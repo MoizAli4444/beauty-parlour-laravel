@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Interfaces\ServiceRepositoryInterface;
+use App\Interfaces\ServiceVariantRepositoryInterface;
 use App\Repositories\ServiceRepository;
+use App\Repositories\ServiceVariantRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -18,6 +20,7 @@ class AppServiceProvider extends ServiceProvider
         //     \App\Repositories\BookingRepository::class
         // );
         $this->app->bind(ServiceRepositoryInterface::class, ServiceRepository::class);
+        $this->app->bind(ServiceVariantRepositoryInterface::class, ServiceVariantRepository::class);
     }
 
     /**
