@@ -20,20 +20,25 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
 
 
-    // Resource Routes (outside group for simplicity)
+    // ==========================
+    // Services Module Routes
+    // ==========================
+
+    // Resource Routes
     Route::resource('services', ServiceController::class);
 
+    // Custom Service Routes
     Route::prefix('services')->name('services.')->group(function () {
-        // Custom Routes
+        // For DataTables AJAX loading
         Route::get('datatable', [ServiceController::class, 'datatable'])->name('datatable');
+
+        // For toggling status
         Route::patch('{id}/toggle-status', [ServiceController::class, 'toggleStatus'])->name('toggle-status');
+
+        // Bulk actions
         Route::post('bulk-delete', [ServiceController::class, 'bulkDelete'])->name('bulkDelete');
         Route::post('bulk-status', [ServiceController::class, 'bulkStatus'])->name('bulkStatus');
     });
-
-
-
-
 
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
