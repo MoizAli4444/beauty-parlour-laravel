@@ -17,55 +17,91 @@
 
                         <div class="card-body">
 
-                            <form action="{{ route('services.store') }}" method="POST" enctype="multipart/form-data">
-
+                            <form action="{{ route('service-variants.store') }}" method="POST"
+                                enctype="multipart/form-data">
                                 @csrf
+
+                                <!-- Service Selection -->
+                                <div class="mb-4">
+                                    <label for="service_id" class="form-label">Select Service</label>
+                                    <select name="service_id" id="service_id" class="form-select">
+                                        @foreach ($services as $service)
+                                            <option value="{{ $service->id }}"
+                                                {{ old('service_id') == $service->id ? 'selected' : '' }}>
+                                                {{ $service->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('service_id')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                                <!-- Image -->
+                                <div class="mb-4">
+                                    <label for="image" class="form-label">Variant Image</label>
+                                    <input type="file" name="image" id="image" class="form-control">
+                                    @error('image')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
 
                                 <!-- Name -->
                                 <div class="mb-4">
-                                    <label class="form-label" for="name">Service Name</label>
-                                    <input type="text" name="name" class="form-control" id="name"
-                                        value="{{ old('name', $service->name ?? '') }}" placeholder="Enter service name">
+                                    <label for="name" class="form-label">Variant Name</label>
+                                    <input type="text" name="name" id="name" class="form-control"
+                                        value="{{ old('name') }}">
                                     @error('name')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                                <!-- Slug -->
+                                <div class="mb-4">
+                                    <label for="slug" class="form-label">Slug</label>
+                                    <input type="text" name="slug" id="slug" class="form-control"
+                                        value="{{ old('slug') }}">
+                                    @error('slug')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
 
                                 <!-- Description -->
                                 <div class="mb-4">
-                                    <label class="form-label" for="description">Description</label>
-                                    <textarea name="description" id="description" class="form-control" rows="4"
-                                        placeholder="Write a short description...">{{ old('description', $service->description ?? '') }}</textarea>
+                                    <label for="description" class="form-label">Description</label>
+                                    <textarea name="description" id="description" rows="4" class="form-control">{{ old('description') }}</textarea>
                                     @error('description')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
 
-                                <!-- Image Upload -->
+                                <!-- Price -->
                                 <div class="mb-4">
-                                    <label class="form-label" for="image">Service Image</label>
-                                    <input type="file" name="image" id="image" class="form-control">
-                                    @error('image')
+                                    <label for="price" class="form-label">Price</label>
+                                    <input type="number" name="price" id="price" class="form-control" step="0.01"
+                                        value="{{ old('price') }}">
+                                    @error('price')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
+                                </div>
 
-                                    @if (isset($service) && $service->image)
-                                        <div class="mt-2">
-                                            <img src="{{ asset('storage/' . $service->image) }}" alt="Service Image"
-                                                width="120">
-                                        </div>
-                                    @endif
+                                <!-- Duration -->
+                                <div class="mb-4">
+                                    <label for="duration" class="form-label">Duration</label>
+                                    <input type="text" name="duration" id="duration" class="form-control"
+                                        value="{{ old('duration') }}" placeholder="e.g., 30 minutes">
+                                    @error('duration')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
 
                                 <!-- Status -->
                                 <div class="mb-4">
-                                    <label class="form-label" for="status">Status</label>
+                                    <label for="status" class="form-label">Status</label>
                                     <select name="status" id="status" class="form-select">
-                                        <option value="active"
-                                            {{ old('status', $service->status ?? '') === 'active' ? 'selected' : '' }}>
-                                            Active</option>
-                                        <option value="inactive"
-                                            {{ old('status', $service->status ?? '') === 'inactive' ? 'selected' : '' }}>
+                                        <option value="active" {{ old('status') === 'active' ? 'selected' : '' }}>Active
+                                        </option>
+                                        <option value="inactive" {{ old('status') === 'inactive' ? 'selected' : '' }}>
                                             Inactive</option>
                                     </select>
                                     @error('status')
@@ -73,12 +109,10 @@
                                     @enderror
                                 </div>
 
-                                <!-- Submit -->
-                                <button type="submit" class="btn btn-warning">
-                                    Create Service
-                                </button>
-                                
+                                <!-- Submit Button -->
+                                <button type="submit" class="btn btn-primary">Create Variant</button>
                             </form>
+
 
                         </div>
                     </div>

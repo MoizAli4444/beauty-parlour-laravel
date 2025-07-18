@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\ServiceVariantController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -39,6 +40,27 @@ Route::middleware('auth')->group(function () {
         Route::post('bulk-delete', [ServiceController::class, 'bulkDelete'])->name('bulkDelete');
         Route::post('bulk-status', [ServiceController::class, 'bulkStatus'])->name('bulkStatus');
     });
+
+    // ==============================
+    // Service Variants Module Routes
+    // ==============================
+
+    // Resource Routes
+    Route::resource('service-variants', ServiceVariantController::class);
+
+    // Custom Routes
+    Route::prefix('service-variants')->name('service-variants.')->group(function () {
+        // For DataTables AJAX loading
+        Route::get('datatable', [ServiceVariantController::class, 'datatable'])->name('datatable');
+
+        // For toggling status
+        Route::patch('{id}/toggle-status', [ServiceVariantController::class, 'toggleStatus'])->name('toggle-status');
+
+        // Bulk actions
+        Route::post('bulk-delete', [ServiceVariantController::class, 'bulkDelete'])->name('bulkDelete');
+        Route::post('bulk-status', [ServiceVariantController::class, 'bulkStatus'])->name('bulkStatus');
+    });
+
 
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
