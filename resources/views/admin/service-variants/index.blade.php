@@ -53,5 +53,5 @@
 @endsection
 
 @push('scripts')
-    @include('admin.service.js.script')
+    @include('admin.service-variants.js.script')
 @endpush
