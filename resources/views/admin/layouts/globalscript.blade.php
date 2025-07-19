@@ -29,7 +29,7 @@
 
                             // el.replaceWith(response.badge);
                             Swal.fire('Updated!', response.message, 'success');
-                            $('#servicesTable').DataTable().ajax.reload(null, false);
+                            $('#indexPageDataTable').DataTable().ajax.reload(null, false);
                         } else {
                             Swal.fire('Error!', 'Something went wrong.', 'error');
                         }
@@ -71,7 +71,7 @@
                         Swal.fire('Deleted!', response.message ||
                             'Record deleted successfully.', 'success');
                         // Optionally reload DataTable
-                        $('#servicesTable').DataTable().ajax.reload(null, false);
+                        $('#indexPageDataTable').DataTable().ajax.reload(null, false);
 
                     },
                     error: function(xhr) {
@@ -144,7 +144,7 @@
                     method: 'POST',
                     data: postData,
                     success: function(response) {
-                        $('#servicesTable').DataTable().ajax.reload();
+                        $('#indexPageDataTable').DataTable().ajax.reload();
                         Swal.fire('Success', 'Action completed successfully.', 'success');
                     },
                     error: function() {

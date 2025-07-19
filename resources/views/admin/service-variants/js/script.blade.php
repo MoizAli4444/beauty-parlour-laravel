@@ -1,6 +1,6 @@
 <script>
     $(document).ready(function() {
-        $('#serviceVariantsTable').DataTable({
+        $('#indexPageDataTable').DataTable({
             processing: true,
             serverSide: true,
             ajax: '{{ route('service-variants.datatable') }}',

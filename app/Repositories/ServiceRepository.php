@@ -80,4 +80,23 @@ class ServiceRepository implements ServiceRepositoryInterface
         $service = Service::findOrFail($id);
         return $service->delete(); // uses softDeletes
     }
+
+    public function toggleStatus($id)
+    {
+        $service = Service::findOrFail($id);
+        $service->status = $service->status === 'active' ? 'inactive' : 'active';
+        $service->save();
+
+        return $service;
+    }
+
+    public function bulkDelete(array $ids)
+    {
+        return Service::whereIn('id', $ids)->delete();
+    }
+
+    public function bulkStatus(array $ids, string $status)
+    {
+        return Service::whereIn('id', $ids)->update(['status' => $status]);
+    }
 }

@@ -11,17 +11,17 @@
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h5 class="mb-0">All Services</h5>
-                            <a href="{{ route('services.create') }}" class="btn btn-warning">Create</a>
+                            <a href="{{ route('service-variants.create') }}" class="btn btn-warning">Create</a>
                         </div>
                         <div class="card-body">
 
                             @include('admin.pages-partials.bulk-actions', [
-                                'deleteUrl' => route('services.bulkDelete'),
-                                'statusUrl' => route('services.bulkStatus'),
-                                'itemType' => 'services', // optional
+                                'deleteUrl' => route('service-variants.bulkDelete'),
+                                'statusUrl' => route('service-variants.bulkStatus'),
+                                'itemType' => 'service-variants', // optional
                             ])
 
-                            <table id="serviceVariantsTable" class="table table-bordered">
+                            <table id="indexPageDataTable" class="table table-bordered">
                                 <thead>
                                     <tr>
                                         <th><input type="checkbox" id="select-all"></th>

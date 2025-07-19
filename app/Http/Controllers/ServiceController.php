@@ -133,28 +133,27 @@ class ServiceController extends Controller
 
     public function toggleStatus($id)
     {
-        $service = Service::findOrFail($id);
-
-        $service->status = $service->status === 'active' ? 'inactive' : 'active';
-        $service->save();
+        $service = $this->serviceRepository->toggleStatus($id);
 
         return response()->json([
             'status' => true,
             'message' => 'Status updated successfully.',
             'new_status' => $service->status,
-            'badge' => $service->status_badge
+            'badge' => $service->status_badge,
         ]);
     }
 
     public function bulkDelete(Request $request)
     {
-        Service::whereIn('id', $request->ids)->delete();
+        $this->serviceRepository->bulkDelete($request->ids);
+
         return response()->json(['message' => 'Selected services deleted successfully.']);
     }
 
     public function bulkStatus(Request $request)
     {
-        Service::whereIn('id', $request->ids)->update(['status' => $request->status]);
+        $this->serviceRepository->bulkStatus($request->ids, $request->status);
+
         return response()->json(['message' => 'Status updated']);
     }
 }

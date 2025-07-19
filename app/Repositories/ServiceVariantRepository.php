@@ -103,4 +103,23 @@ class ServiceVariantRepository implements ServiceVariantRepositoryInterface
         $variant = $this->find($id);
         return $variant->delete();
     }
+
+    public function toggleStatus($id)
+    {
+        $variant = $this->model->findOrFail($id);
+        $variant->status = $variant->status === 'active' ? 'inactive' : 'active';
+        $variant->save();
+
+        return $variant;
+    }
+
+    public function bulkDelete(array $ids)
+    {
+        return $this->model->whereIn('id', $ids)->delete();
+    }
+
+    public function bulkStatus(array $ids, string $status)
+    {
+        return $this->model->whereIn('id', $ids)->update(['status' => $status]);
+    }
 }
