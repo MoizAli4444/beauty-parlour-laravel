@@ -97,12 +97,12 @@ class ServiceVariantController extends Controller
 
             $file = $request->file('image');
             $filename = time() . '.' . $file->getClientOriginalExtension();
-            $validated['image'] = $file->storeAs('services', $filename, 'public');
+            $validated['image'] = $file->storeAs('service-variants', $filename, 'public');
         }
 
         $this->serviceVariantRepo->update($id, $validated);
 
-        return redirect()->route('services.index')->with('success', 'Service updated successfully.');
+        return redirect()->route('service-variants.index')->with('success', 'Variant updated successfully.');
     }
 
     /**

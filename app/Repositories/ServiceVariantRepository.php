@@ -41,7 +41,7 @@ class ServiceVariantRepository implements ServiceVariantRepositoryInterface
 
 
                 ->editColumn('price', function ($row) {
-                    return '₨' . number_format($row->price, 2);
+                    return 'Rs ' . number_format($row->price, 2);
                 })
 
                 ->editColumn('duration', function ($row) {
@@ -93,6 +93,7 @@ class ServiceVariantRepository implements ServiceVariantRepositoryInterface
     public function update($id, array $data)
     {
         $variant = $this->find($id);
+        $data = $this->addUpdatedBy($data);
         $variant->update($data);
         return $variant;
     }
