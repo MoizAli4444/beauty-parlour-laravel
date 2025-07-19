@@ -12,7 +12,13 @@
 
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h5 class="mb-0">Edit Service</h5>
-                            <a href="{{ route('services.index') }}" class="btn btn-warning">All Services</a>
+
+                            <div>
+                              {!! render_delete_button($service->id, route('services.destroy', $service->id), false) !!}
+                                {!! render_view_button(route('services.show', $service->slug), false) !!}
+                                {!! render_index_button(route('services.index'), 'All Services', false) !!}
+
+                            </div>
                         </div>
 
                         <div class="card-body">

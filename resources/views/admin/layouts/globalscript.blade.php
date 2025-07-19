@@ -27,9 +27,15 @@
                     success: function(response) {
                         if (response.status) {
 
-                            // el.replaceWith(response.badge);
                             Swal.fire('Updated!', response.message, 'success');
-                            $('#indexPageDataTable').DataTable().ajax.reload(null, false);
+                            // el.replaceWith(response.badge);
+                            // $('#indexPageDataTable').DataTable().ajax.reload(null, false);
+
+                            $('#indexPageDataTable').length ?
+                                $('#indexPageDataTable').DataTable().ajax.reload(null,
+                                    false) :
+                                el.replaceWith(response.badge);
+
                         } else {
                             Swal.fire('Error!', 'Something went wrong.', 'error');
                         }
@@ -71,7 +77,20 @@
                         Swal.fire('Deleted!', response.message ||
                             'Record deleted successfully.', 'success');
                         // Optionally reload DataTable
-                        $('#indexPageDataTable').DataTable().ajax.reload(null, false);
+                        // $('#indexPageDataTable').DataTable().ajax.reload(null, false);
+
+                        // $('#indexPageDataTable').length ?
+                        //     $('#indexPageDataTable').DataTable().ajax.reload(null, false) :
+                        //     window.location.href = route;
+
+                        if ($('#indexPageDataTable').length) {
+                            $('#indexPageDataTable').DataTable().ajax.reload(null, false);
+                        } else {
+                            // Extract base from destroy route and redirect to index
+                            let indexRoute = route.replace(/\/\d+$/, ''); // Remove ID
+                            window.location.href = indexRoute;
+                        }
+
 
                     },
                     error: function(xhr) {

@@ -12,10 +12,10 @@
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h5 class="mb-0">View Service</h5>
                             <div>
-                                <a href="{{ route('services.edit', $service->slug) }}" class="btn btn-light">
-                                    <i class="fas fa-edit"></i> Edit
-                                </a>
-                                <a href="{{ route('services.index') }}" class="btn btn-warning">All Services</a>
+
+                                {!! render_delete_button($service->id, route('services.destroy', $service->id), false) !!}
+                                {!! render_edit_button(route('services.edit', $service->slug), false) !!}
+                                {!! render_index_button(route('services.index'), 'All Services', false) !!}
                             </div>
                         </div>
 
@@ -61,7 +61,7 @@
                             </div>
                         </div>
 
-                        
+
 
                     </div>
                 </div>

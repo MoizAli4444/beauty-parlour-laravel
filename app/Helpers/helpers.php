@@ -1,10 +1,26 @@
 <?php
 
+if (!function_exists('render_index_button')) {
+    function render_index_button($route, $label = 'All Records', $isOutline = true): string
+    {
+        if ($route) {
+            $btnClass = $isOutline ? 'btn-sm btn-outline-warning' : 'btn-warning';
+            return "<a href='{$route}' class='btn {$btnClass} me-2'>
+                        <i class='fas fa-list'></i> {$label}
+                    </a>";
+        }
+
+        return '';
+    }
+}
+
+
 if (!function_exists('render_view_button')) {
-    function render_view_button($slug): string
+    function render_view_button($slug, $isOutline = true): string
     {
         if ($slug) {
-            return "<a href='{$slug}' class='btn btn-sm btn-outline-info me-2'>
+            $btnClass = $isOutline ? 'btn-sm btn-outline-info' : 'btn-info';
+            return "<a href='{$slug}' class='btn {$btnClass} me-2'>
                         <i class='fas fa-eye'></i> View
                     </a>";
         }
@@ -14,10 +30,11 @@ if (!function_exists('render_view_button')) {
 }
 
 if (!function_exists('render_edit_button')) {
-    function render_edit_button($slug): string
+    function render_edit_button($slug, $isOutline = true): string
     {
         if ($slug) {
-            return "<a href='{$slug}' class='btn btn-sm btn-outline-warning me-2'>
+            $btnClass = $isOutline ? 'btn-sm btn-outline-warning' : 'btn-warning';
+            return "<a href='{$slug}' class='btn {$btnClass} me-2'>
                         <i class='fas fa-edit'></i> Edit
                     </a>";
         }
@@ -28,10 +45,11 @@ if (!function_exists('render_edit_button')) {
 
 
 if (!function_exists('render_delete_button')) {
-    function render_delete_button($id, $route): string
+    function render_delete_button($id, $route, $isOutline = true, $extraClass = ''): string
     {
         if ($id && $route) {
-            return "<a href='javascript:void(0)' data-id='{$id}' data-route='{$route}' class='btn btn-sm btn-outline-danger me-2'>
+            $btnClass = $isOutline ? 'btn-sm btn-outline-danger' : 'btn-danger';
+            return "<a href='javascript:void(0)' data-id='{$id}' data-route='{$route}' class='delete-record btn  {$btnClass} {$extraClass}'>
                         <i class='fas fa-trash-alt'></i> Delete
                     </a>";
         }
@@ -39,6 +57,7 @@ if (!function_exists('render_delete_button')) {
         return '';
     }
 }
+
 
 
 if (!function_exists('render_status_badge')) {

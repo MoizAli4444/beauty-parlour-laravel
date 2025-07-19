@@ -69,9 +69,15 @@ class ServiceVariantController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ServiceVariant $serviceVariant)
+    public function show($slug)
     {
-        //
+        $variant = $this->serviceVariantRepo->findBySlug($slug);
+
+        if (!$variant) {
+            return redirect()->route('service-variants.index')->with('error', 'Variant not found.');
+        }
+
+        return view('admin.service-variants.show', compact('variant'));
     }
 
     /**
@@ -120,9 +126,13 @@ class ServiceVariantController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ServiceVariant $serviceVariant)
+    public function destroy($id)
     {
-        //
+        $this->serviceVariantRepo->delete($id);
+        return response()->json([
+            'status' => true,
+            'message' => 'Status updated successfully.',
+        ]);
     }
 
     public function toggleStatus($id)

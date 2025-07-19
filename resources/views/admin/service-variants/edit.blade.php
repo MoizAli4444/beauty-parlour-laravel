@@ -8,7 +8,14 @@
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h5 class="mb-0">Edit Service Variant</h5>
-                            <a href="{{ route('service-variants.index') }}" class="btn btn-warning">All Variants</a>
+
+                            <div>
+                                
+                                {!! render_delete_button($variant->id, route('service-variants.destroy', $variant->id), false) !!}
+                                {!! render_view_button(route('service-variants.show', $variant->slug), false) !!}
+                                {!! render_index_button(route('service-variants.index'), 'All Variants', false) !!}
+
+                            </div>
                         </div>
                         <div class="card-body">
                             <form action="{{ route('service-variants.update', $variant->id) }}" method="POST"
