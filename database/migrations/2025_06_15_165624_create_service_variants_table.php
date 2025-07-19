@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('service_variants', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('service_id')->constrained()->onDelete('cascade');
+            $table->foreignId('service_id')->nullable();
             $table->string('image')->nullable();
             $table->string('name');
             $table->string('slug')->unique();

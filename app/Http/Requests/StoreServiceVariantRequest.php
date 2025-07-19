@@ -23,7 +23,7 @@ class StoreServiceVariantRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'service_id'   => ['required', 'exists:services,id'],
+            'service_id'   => ['nullable', 'exists:services,id'],
             'name'         => ['required', 'string', 'max:255'],
             'image'        => ['nullable', 'image', 'max:11000'], // ~10MB
             'description'  => ['nullable', 'string'],

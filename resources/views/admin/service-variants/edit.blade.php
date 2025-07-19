@@ -10,7 +10,7 @@
                             <h5 class="mb-0">Edit Service Variant</h5>
 
                             <div>
-                                
+
                                 {!! render_delete_button($variant->id, route('service-variants.destroy', $variant->id), false) !!}
                                 {!! render_view_button(route('service-variants.show', $variant->slug), false) !!}
                                 {!! render_index_button(route('service-variants.index'), 'All Variants', false) !!}
@@ -27,6 +27,8 @@
                                 <div class="mb-4">
                                     <label class="form-label" for="service_id">Select Service</label>
                                     <select name="service_id" id="service_id" class="form-select">
+                                        <option value="" {{ $variant->service_id === null ? 'selected' : '' }}>-- No
+                                            Service --</option>
                                         @foreach ($services as $service)
                                             <option value="{{ $service->id }}"
                                                 {{ $variant->service_id == $service->id ? 'selected' : '' }}>

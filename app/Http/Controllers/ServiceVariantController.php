@@ -43,7 +43,9 @@ class ServiceVariantController extends Controller
      */
     public function create()
     {
-        $services = Service::get();
+        $services = Service::where('status', 'active')
+        ->select('id', 'name')
+        ->get();
         return view('admin.service-variants.create', compact('services'));
     }
 
@@ -92,7 +94,9 @@ class ServiceVariantController extends Controller
             return redirect()->route('service-variants.index')->with('error', 'Variant not found');
         }
 
-        $services = Service::get();
+         $services = Service::where('status', 'active')
+        ->select('id', 'name')
+        ->get();
 
         return view('admin.service-variants.edit', compact('variant', 'services'));
     }

@@ -25,6 +25,7 @@
                                 <div class="mb-4">
                                     <label for="service_id" class="form-label">Select Service</label>
                                     <select name="service_id" id="service_id" class="form-select">
+                                        <option value="">-- No Service --</option>
                                         @foreach ($services as $service)
                                             <option value="{{ $service->id }}"
                                                 {{ old('service_id') == $service->id ? 'selected' : '' }}>
