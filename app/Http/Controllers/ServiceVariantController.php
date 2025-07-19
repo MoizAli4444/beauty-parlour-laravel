@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreServiceVariantRequest;
 use App\Http\Requests\UpdateServiceVariantRequest;
 use App\Interfaces\ServiceVariantRepositoryInterface;
 use App\Models\Service;
@@ -49,9 +50,20 @@ class ServiceVariantController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreServiceVariantRequest $request)
     {
-        //
+
+        $validated = $request->validated();
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $validated['image'] = $file->storeAs('service-variants', $filename, 'public');
+        }
+
+        $this->serviceVariantRepo->create($validated);
+
+        return redirect()->route('service-variants.index')->with('success', 'Variant created successfully.');
     }
 
     /**

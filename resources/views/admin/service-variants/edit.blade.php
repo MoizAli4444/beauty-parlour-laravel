@@ -8,7 +8,7 @@
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h5 class="mb-0">Edit Service Variant</h5>
-                            <a href="{{ route('service-variants.index') }}" class="btn btn-primary">All Variants</a>
+                            <a href="{{ route('service-variants.index') }}" class="btn btn-warning">All Variants</a>
                         </div>
                         <div class="card-body">
                             <form action="{{ route('service-variants.update', $variant->id) }}" method="POST"
@@ -38,16 +38,6 @@
                                     <input type="text" name="name" id="name"
                                         value="{{ old('name', $variant->name) }}" class="form-control">
                                     @error('name')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-
-                                {{-- Slug --}}
-                                <div class="mb-4">
-                                    <label class="form-label" for="slug">Slug</label>
-                                    <input type="text" name="slug" id="slug"
-                                        value="{{ old('slug', $variant->slug) }}" class="form-control">
-                                    @error('slug')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
@@ -111,7 +101,7 @@
                                 </div>
 
                                 {{-- Submit --}}
-                                <button type="submit" class="btn btn-success">Update Variant</button>
+                                <button type="submit" class="btn btn-warning">Update Variant</button>
                             </form>
                         </div>
                     </div>

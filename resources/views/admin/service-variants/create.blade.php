@@ -11,8 +11,8 @@
                     <div class="card">
 
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">Create Service</h5>
-                            <a href="{{ route('services.index') }}" class="btn btn-primary">All Services</a>
+                            <h5 class="mb-0">Create Variant</h5>
+                            <a href="{{ route('service-variants.index') }}" class="btn btn-primary">All Variants</a>
                         </div>
 
                         <div class="card-body">
@@ -56,15 +56,7 @@
                                     @enderror
                                 </div>
 
-                                <!-- Slug -->
-                                <div class="mb-4">
-                                    <label for="slug" class="form-label">Slug</label>
-                                    <input type="text" name="slug" id="slug" class="form-control"
-                                        value="{{ old('slug') }}">
-                                    @error('slug')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
+                                
 
                                 <!-- Description -->
                                 <div class="mb-4">
