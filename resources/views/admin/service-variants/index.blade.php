@@ -21,12 +21,15 @@
                                 'itemType' => 'services', // optional
                             ])
 
-                            <table id="servicesTable" class="table table-bordered">
+                            <table id="serviceVariantsTable" class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th><input type="checkbox" id="select-all"></th> {{-- universal checkbox --}}
+                                        <th><input type="checkbox" id="select-all"></th>
                                         <th>ID</th>
                                         <th>Name</th>
+                                        <th>Service Name</th>
+                                        <th>Price</th>
+                                        <th>Duration</th>
                                         <th>Status</th>
                                         <th>Created At</th>
                                         <th>Action</th>

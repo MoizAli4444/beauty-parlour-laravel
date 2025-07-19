@@ -42,28 +42,34 @@ class ServiceVariant extends Model
         return $this->belongsTo(User::class, 'updated_by');
     }
 
+    public function service()
+    {
+        return $this->belongsTo(Service::class);
+    }
+
+
     public function getStatusBadgeAttribute()
     {
-        return render_status_badge($this->status, $this->id, route('services.toggle-status', $this->id));
+        return render_status_badge($this->status, $this->id, route('service-variants.toggle-status', $this->id));
     }
 
     public function getEditButtonAttribute()
     {
-        return render_edit_button(route('services.edit', $this->slug));
+        return render_edit_button(route('service-variants.edit', $this->slug));
     }
 
     public function getViewButtonAttribute()
     {
-        return render_view_button(route('services.show', $this->slug));
+        return render_view_button(route('service-variants.show', $this->slug));
     }
 
 
     public function getDeleteButtonAttribute()
     {
-        return render_delete_button($this->id, route('services.destroy', $this->id));
+        return render_delete_button($this->id, route('service-variants.destroy', $this->id));
     }
 
-    // {!! render_delete_button($service->id, route('services.destroy', $service->id)) !!}
+    // {!! render_delete_button($service->id, route('service-variants.destroy', $service->id)) !!}
 
 
 

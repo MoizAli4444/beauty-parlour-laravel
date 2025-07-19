@@ -20,6 +20,7 @@ class ServiceController extends Controller
 
     public function datatable(Request $request)
     {
+        // dd("call");
         if ($request->ajax()) {
             return $this->serviceRepository->getDatatableData();
         }

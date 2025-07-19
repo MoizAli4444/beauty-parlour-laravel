@@ -16,12 +16,23 @@ class ServiceVariantController extends Controller
         $this->serviceVariantRepo = $serviceVariantRepo;
     }
 
+
+    public function datatable(Request $request)
+    {
+        // dd("call");
+        if ($request->ajax()) {
+            return $this->serviceVariantRepo->getDatatableData();
+        }
+
+        return abort(403);
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('admin.service-variant.index');
+        return view('admin.service-variants.index');
     }
 
     /**
@@ -30,7 +41,7 @@ class ServiceVariantController extends Controller
     public function create()
     {
         $services = Service::get();
-        return view('admin.service-variant.create',compact('services'));
+        return view('admin.service-variants.create', compact('services'));
     }
 
     /**
@@ -71,5 +82,32 @@ class ServiceVariantController extends Controller
     public function destroy(ServiceVariant $serviceVariant)
     {
         //
+    }
+
+    public function toggleStatus($id)
+    {
+        $service = Service::findOrFail($id);
+
+        $service->status = $service->status === 'active' ? 'inactive' : 'active';
+        $service->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Status updated successfully.',
+            'new_status' => $service->status,
+            'badge' => $service->status_badge
+        ]);
+    }
+
+    public function bulkDelete(Request $request)
+    {
+        Service::whereIn('id', $request->ids)->delete();
+        return response()->json(['message' => 'Selected services deleted successfully.']);
+    }
+
+    public function bulkStatus(Request $request)
+    {
+        Service::whereIn('id', $request->ids)->update(['status' => $request->status]);
+        return response()->json(['message' => 'Status updated']);
     }
 }

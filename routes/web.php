@@ -25,13 +25,12 @@ Route::middleware('auth')->group(function () {
     // Services Module Routes
     // ==========================
 
-    // Resource Routes
-    Route::resource('services', ServiceController::class);
+
 
     // Custom Service Routes
     Route::prefix('services')->name('services.')->group(function () {
         // For DataTables AJAX loading
-        Route::get('datatable', [ServiceController::class, 'datatable'])->name('datatable');
+        Route::get('/datatable', [ServiceController::class, 'datatable'])->name('datatable');
 
         // For toggling status
         Route::patch('{id}/toggle-status', [ServiceController::class, 'toggleStatus'])->name('toggle-status');
@@ -41,26 +40,29 @@ Route::middleware('auth')->group(function () {
         Route::post('bulk-status', [ServiceController::class, 'bulkStatus'])->name('bulkStatus');
     });
 
+    // Resource Routes
+    Route::resource('services', ServiceController::class);
+
     // ==============================
     // Service Variants Module Routes
     // ==============================
 
-    // Resource Routes
-    Route::resource('service-variants', ServiceVariantController::class);
-
+    
     // Custom Routes
     Route::prefix('service-variants')->name('service-variants.')->group(function () {
         // For DataTables AJAX loading
         Route::get('datatable', [ServiceVariantController::class, 'datatable'])->name('datatable');
-
+        
         // For toggling status
         Route::patch('{id}/toggle-status', [ServiceVariantController::class, 'toggleStatus'])->name('toggle-status');
-
+        
         // Bulk actions
         Route::post('bulk-delete', [ServiceVariantController::class, 'bulkDelete'])->name('bulkDelete');
         Route::post('bulk-status', [ServiceVariantController::class, 'bulkStatus'])->name('bulkStatus');
     });
-
+    
+    // Resource Routes
+    Route::resource('service-variants', ServiceVariantController::class);
 
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

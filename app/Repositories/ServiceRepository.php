@@ -15,28 +15,32 @@ class ServiceRepository implements ServiceRepositoryInterface
 
     public function getDatatableData()
     {
-        return DataTables::of(Service::query()->latest())
+        try {
+            return DataTables::of(Service::query()->latest())
 
-            ->addColumn('checkbox', function ($row) {
-                return '<input type="checkbox" class="row-checkbox" value="' . $row->id . '">';
-            })
+                ->addColumn('checkbox', function ($row) {
+                    return '<input type="checkbox" class="row-checkbox" value="' . $row->id . '">';
+                })
 
-            ->editColumn('name', function ($row) {
-                return strlen($row->name) > 20 ? substr($row->name, 0, 20) . '...' : $row->name;
-            })
+                ->editColumn('name', function ($row) {
+                    return strlen($row->name) > 20 ? substr($row->name, 0, 20) . '...' : $row->name;
+                })
 
-            ->editColumn('status', function ($row) {
-                return $row->status_badge; // uses model accessor
-            })
-            ->editColumn('created_at', function ($row) {
-                return $row->created_at->format('d M Y'); // Example: 29 Jun 2025
-            })
+                ->editColumn('status', function ($row) {
+                    return $row->status_badge; // uses model accessor
+                })
+                ->editColumn('created_at', function ($row) {
+                    return $row->created_at->format('d M Y'); // Example: 29 Jun 2025
+                })
 
-            ->addColumn('action', function ($row) {
-                return view('admin.service.action', ['service' => $row])->render();
-            })
-            ->rawColumns(['checkbox', 'action', 'status']) // allow HTML rendering
-            ->make(true);
+                ->addColumn('action', function ($row) {
+                    return view('admin.service.action', ['service' => $row])->render();
+                })
+                ->rawColumns(['checkbox', 'action', 'status']) // allow HTML rendering
+                ->make(true);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
 

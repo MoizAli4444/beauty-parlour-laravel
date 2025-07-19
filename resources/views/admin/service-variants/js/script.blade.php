@@ -1,10 +1,9 @@
 <script>
     $(document).ready(function() {
-
-        $('#servicesTable').DataTable({
+        $('#serviceVariantsTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '{{ route('services.datatable') }}',
+            ajax: '{{ route('service-variants.datatable') }}',
             columns: [{
                     data: 'checkbox',
                     name: 'checkbox',
@@ -18,6 +17,18 @@
                 {
                     data: 'name',
                     name: 'name'
+                },
+                {
+                    data: 'service',
+                    name: 'service' 
+                },
+                {
+                    data: 'price',
+                    name: 'price'
+                },
+                {
+                    data: 'duration',
+                    name: 'duration'
                 },
                 {
                     data: 'status',
@@ -34,7 +45,6 @@
                     searchable: false
                 }
             ]
-
         });
     });
 </script>
