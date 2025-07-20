@@ -11,12 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('staff', function (Blueprint $table) {
+        Schema::create('shifts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('phone')->nullable();
-            $table->string('address')->nullable();
+            $table->string('name'); // Morning, Evening, Full-Time
+            
+            $table->string('slug')->unique();
+            $table->text('description')->nullable();
+            
+            $table->time('start_time')->nullable();
+            $table->time('end_time')->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
+
             $table->softDeletes();
             $table->timestamps();
         });
@@ -27,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('staff');
+        Schema::dropIfExists('shifts');
     }
 };
