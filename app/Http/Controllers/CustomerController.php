@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Customer\StoreCustomerRequest;
 use App\Models\Customer;
+use App\Repositories\Customer\CustomerRepository;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -26,10 +28,13 @@ class CustomerController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreCustomerRequest $request, CustomerRepository $repository)
     {
-        //
+        $repository->create($request->validated());
+
+        return redirect()->back()->with('success', 'Customer created successfully!');
     }
+
 
     /**
      * Display the specified resource.
