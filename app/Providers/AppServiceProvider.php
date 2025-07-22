@@ -2,10 +2,14 @@
 
 namespace App\Providers;
 
+use App\Interfaces\CustomerRepositoryInterface;
 use App\Interfaces\ServiceRepositoryInterface;
 use App\Interfaces\ServiceVariantRepositoryInterface;
+use App\Interfaces\StaffRepositoryInterface;
+use App\Repositories\CustomerRepository;
 use App\Repositories\ServiceRepository;
 use App\Repositories\ServiceVariantRepository;
+use App\Repositories\StaffRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -21,6 +25,8 @@ class AppServiceProvider extends ServiceProvider
         // );
         $this->app->bind(ServiceRepositoryInterface::class, ServiceRepository::class);
         $this->app->bind(ServiceVariantRepositoryInterface::class, ServiceVariantRepository::class);
+        $this->app->bind(StaffRepositoryInterface::class, StaffRepository::class);
+        $this->app->bind(CustomerRepositoryInterface::class, CustomerRepository::class);
     }
 
     /**
