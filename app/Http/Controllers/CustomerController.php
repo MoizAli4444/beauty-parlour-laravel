@@ -3,68 +3,90 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Customer\StoreCustomerRequest;
+use App\Interfaces\CustomerRepositoryInterface;
 use App\Models\Customer;
 use App\Repositories\Customer\CustomerRepository;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected $customerRepo;
+
+    public function __construct(CustomerRepositoryInterface $customerRepo)
+    {
+        $this->customerRepo = $customerRepo;
+    }
+
     public function index()
     {
-        //
+        return view('admin.customer.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    public function getDatatableData()
+    {
+        return $this->customerRepo->getDatatableData();
+    }
+
     public function create()
     {
-        //
+        return view('admin.customer.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreCustomerRequest $request, CustomerRepository $repository)
+    public function store(Request $request)
     {
-        $repository->create($request->validated());
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:customers,email',
+            'phone' => 'nullable|string|max:15',
+        ]);
 
-        return redirect()->back()->with('success', 'Customer created successfully!');
+        $this->customerRepo->create($validated);
+
+        return redirect()->route('admin.customer.index')->with('success', 'Customer created successfully.');
     }
 
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Customer $customer)
+    public function edit($id)
     {
-        //
+        $customer = $this->customerRepo->find($id);
+        return view('admin.customer.edit', compact('customer'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Customer $customer)
+    public function update(Request $request, $id)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:customers,email,' . $id,
+            'phone' => 'nullable|string|max:15',
+        ]);
+
+        $this->customerRepo->update($id, $validated);
+
+        return redirect()->route('admin.customer.index')->with('success', 'Customer updated successfully.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Customer $customer)
+    public function destroy($id)
     {
-        //
+        $this->customerRepo->delete($id);
+
+        return response()->json(['message' => 'Customer deleted successfully.']);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Customer $customer)
+    public function toggleStatus($id)
     {
-        //
+        $customer = $this->customerRepo->toggleStatus($id);
+
+        return response()->json(['status' => $customer->status, 'message' => 'Status updated.']);
+    }
+
+    public function bulkDelete(Request $request)
+    {
+        $this->customerRepo->bulkDelete($request->ids);
+        return response()->json(['message' => 'Selected customers deleted.']);
+    }
+
+    public function bulkStatus(Request $request)
+    {
+        $this->customerRepo->bulkStatus($request->ids, $request->status);
+        return response()->json(['message' => 'Status updated for selected customers.']);
     }
 }
