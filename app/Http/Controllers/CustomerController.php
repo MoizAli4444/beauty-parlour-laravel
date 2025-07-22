@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Customer\StoreCustomerRequest;
+use App\Http\Requests\Customer\UpdateCustomerRequest;
 use App\Interfaces\CustomerRepositoryInterface;
 use App\Models\Customer;
 use App\Repositories\Customer\CustomerRepository;
@@ -77,7 +78,7 @@ class CustomerController extends Controller
         return view('admin.customer.edit', compact('customer'));
     }
 
-    public function update(UpdateServiceRequest $request, $id = null)
+    public function update(UpdateCustomerRequest $request, $id = null)
     {
         $validated = $request->validated();
 
