@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Staff\StoreStaffRequest;
+use App\Interfaces\StaffRepositoryInterface;
 use App\Models\Staff;
 use App\Models\User;
 use App\Repositories\Staff\StaffRepository;
@@ -10,78 +11,91 @@ use Illuminate\Http\Request;
 
 class StaffController extends Controller
 {
-    //     php artisan make:interface Repositories/StaffRepositoryInterface
-    // php artisan make:class Repositories/StaffRepository
+    protected $staffRepo;
 
-    // php artisan make:interface Repositories/CustomerRepositoryInterface
-    // php artisan make:class Repositories/CustomerRepository
+    public function __construct(StaffRepositoryInterface $staffRepo)
+    {
+        $this->staffRepo = $staffRepo;
+    }
 
+    // ✅ Show the datatable via AJAX
+    public function datatable(Request $request)
+    {
+        return $this->staffRepo->getDatatableData();
+    }
 
-    /**
-     * Display a listing of the resource.
-     */
+    // ✅ Show all staff
     public function index()
     {
-        //
+        $staff = $this->staffRepo->all();
+        return view('admin.staff.index', compact('staff'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // ✅ Show create form
     public function create()
     {
-        //
+        return view('admin.staff.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreStaffRequest $request, StaffRepository $repository)
+    // ✅ Store new staff
+    public function store(Request $request)
     {
-        $repository->create($request->validated());
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'status' => 'required|in:active,inactive',
+        ]);
 
-        return redirect()->back()->with('success', 'Staff created successfully!');
+        $this->staffRepo->create($validated);
+        return redirect()->route('admin.staff.index')->with('success', 'Staff created successfully.');
     }
 
-    // $user = User::create([
-    //     'name' => $request->name,
-    //     'email' => $request->email,
-    //     'password' => bcrypt($request->password),
-    // ]);
-
-    // $user->assignRole('receptionist'); // or 'admin', 'staff', 'customer'
-
-
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Staff $staff)
+    // ✅ Show edit form
+    public function edit($id)
     {
-        //
+        $staff = $this->staffRepo->find($id);
+        return view('admin.staff.edit', compact('staff'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Staff $staff)
+    // ✅ Update staff
+    public function update(Request $request, $id)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'status' => 'required|in:active,inactive',
+        ]);
+
+        $this->staffRepo->update($id, $validated);
+        return redirect()->route('admin.staff.index')->with('success', 'Staff updated successfully.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Staff $staff)
+    // ✅ Delete single staff
+    public function destroy($id)
     {
-        //
+        $this->staffRepo->delete($id);
+        return redirect()->back()->with('success', 'Staff deleted successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Staff $staff)
+    // ✅ Toggle status (active/inactive)
+    public function toggleStatus($id)
     {
-        //
+        $staff = $this->staffRepo->toggleStatus($id);
+        return response()->json(['status' => $staff->status]);
+    }
+
+    // ✅ Bulk delete
+    public function bulkDelete(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        $this->staffRepo->bulkDelete($ids);
+        return response()->json(['message' => 'Selected staff deleted successfully.']);
+    }
+
+    // ✅ Bulk update status
+    public function bulkStatus(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        $status = $request->input('status');
+        $this->staffRepo->bulkStatus($ids, $status);
+        return response()->json(['message' => 'Status updated successfully.']);
     }
 }
