@@ -23,10 +23,10 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
 
-            // RolesAndPermissionsSeeder::class,
+            RolesAndPermissionsSeeder::class,
 
-            // ServiceSeeder::class,
-            // ServiceVariantSeeder::class,
+            ServiceSeeder::class,
+            ServiceVariantSeeder::class,
             
             PaymentMethodSeeder::class,
             ShiftSeeder::class,
