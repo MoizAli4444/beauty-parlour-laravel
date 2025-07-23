@@ -40,7 +40,7 @@ class StaffController extends Controller
         $shifts =  Shift::get(); // get all active records
         $payment_methods = PaymentMethod::get(); // get active payment methods
         $staff_roles = Role::get(); //get active roles
-        // $slot = Slot
+        
         return view('admin.staff.create', compact('shifts', 'payment_methods', 'staff_roles'));
     }
 
