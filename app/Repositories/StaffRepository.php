@@ -2,13 +2,14 @@
 
 namespace App\Repositories;
 
+use App\Interfaces\StaffRepositoryInterface;
 use App\Models\Staff;
 use Illuminate\Support\Facades\Hash;
 use App\Traits\TracksUser;
 use Yajra\DataTables\Facades\DataTables;
 
 
-class StaffRepository
+class StaffRepository  implements StaffRepositoryInterface
 {
     use TracksUser;
 
@@ -46,6 +47,11 @@ class StaffRepository
     public function find($id)
     {
         return Staff::findOrFail($id);
+    }
+
+    public function findBySlug($slug)
+    {
+        return Staff::where('slug', $slug)->first();
     }
 
     public function create(array $data)

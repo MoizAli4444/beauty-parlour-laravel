@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Interfaces\CustomerRepositoryInterface;
 use App\Models\Customer;
 use App\Models\User;
 use App\Traits\TracksUser;
@@ -9,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
 
 
-class CustomerRepository
+class CustomerRepository  implements CustomerRepositoryInterface
 {
     use TracksUser;
 

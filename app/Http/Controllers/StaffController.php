@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Staff\StoreStaffRequest;
 use App\Interfaces\StaffRepositoryInterface;
+use App\Models\PaymentMethod;
+use App\Models\Shift;
 use App\Models\Staff;
 use App\Models\User;
 use App\Repositories\Staff\StaffRepository;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class StaffController extends Controller
 {
@@ -34,7 +37,11 @@ class StaffController extends Controller
     // ✅ Show create form
     public function create()
     {
-        return view('admin.staff.create');
+        $shifts =  Shift::get(); // get all active records
+        $payment_methods = PaymentMethod::get(); // get active payment methods
+        $staff_roles = Role::get(); //get active roles
+        // $slot = Slot
+        return view('admin.staff.create', compact('shifts', 'payment_methods', 'staff_roles'));
     }
 
     // ✅ Store new staff
