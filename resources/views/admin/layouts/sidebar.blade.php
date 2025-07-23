@@ -68,22 +68,27 @@
             </a>
         </li>
 
-         <li class="menu-item {{ request()->routeIs('staff.*') ? 'active' : '' }}">
+        <li class="menu-item {{ request()->routeIs('service-variants.*') ? 'active' : '' }}">
+            <a href="{{ route('service-variants.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-spa"></i>
+                <div class="text-truncate" data-i18n="Service Variants">Service Variants</div>
+            </a>
+        </li>
+
+        <li class="menu-item {{ request()->routeIs('staff.*') ? 'active' : '' }}">
             <a href="{{ route('staff.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-spa"></i>
-                <div class="text-truncate" data-i18n="Services">Staff</div>
+                <i class="menu-icon tf-icons bx bx-id-card"></i>
+
+                <div class="text-truncate" data-i18n="Staff">Staff</div>
             </a>
         </li>
 
-                 <li class="menu-item {{ request()->routeIs('customers.*') ? 'active' : '' }}">
+        <li class="menu-item {{ request()->routeIs('customers.*') ? 'active' : '' }}">
             <a href="{{ route('customers.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-spa"></i>
-                <div class="text-truncate" data-i18n="Services">Customers</div>
+                <i class="menu-icon tf-icons bx bx-user"></i>
+                <div class="text-truncate" data-i18n="Customers">Customers</div>
             </a>
         </li>
-
-
-        
 
 
         <!-- Dashboards -->
