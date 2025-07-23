@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ServiceVariantController;
+use App\Http\Controllers\StaffController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -71,6 +72,27 @@ Route::middleware('auth')->group(function () {
 
     // Resource Routes
     Route::resource('service-variants', ServiceVariantController::class);
+
+    // ==============================
+    // Staff Module Routes
+    // ==============================
+
+    // Custom Routes
+    Route::prefix('staff')->name('staff.')->group(function () {
+        // For DataTables AJAX loading
+        Route::get('datatable', [StaffController::class, 'datatable'])->name('datatable');
+
+        // For toggling status
+        Route::patch('{id}/toggle-status', [StaffController::class, 'toggleStatus'])->name('toggle-status');
+
+        // Bulk actions
+        Route::post('bulk-delete', [StaffController::class, 'bulkDelete'])->name('bulkDelete');
+        Route::post('bulk-status', [StaffController::class, 'bulkStatus'])->name('bulkStatus');
+    });
+
+    // Resource Routes
+    Route::resource('staff', StaffController::class);
+
 
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
