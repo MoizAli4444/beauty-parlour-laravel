@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
@@ -92,6 +93,27 @@ Route::middleware('auth')->group(function () {
 
     // Resource Routes
     Route::resource('staff', StaffController::class);
+
+    // ==============================
+    // Customers Module Routes
+    // ==============================
+
+    // Custom Routes
+    Route::prefix('customers')->name('customers.')->group(function () {
+        // For DataTables AJAX loading
+        Route::get('datatable', [CustomerController::class, 'datatable'])->name('datatable');
+
+        // For toggling status
+        Route::patch('{id}/toggle-status', [CustomerController::class, 'toggleStatus'])->name('toggle-status');
+
+        // Bulk actions
+        Route::post('bulk-delete', [CustomerController::class, 'bulkDelete'])->name('bulkDelete');
+        Route::post('bulk-status', [CustomerController::class, 'bulkStatus'])->name('bulkStatus');
+    });
+
+    // Resource Routes
+    Route::resource('customers', CustomerController::class);
+
 
 
 
