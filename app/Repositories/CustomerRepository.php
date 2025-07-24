@@ -6,7 +6,10 @@ use App\Interfaces\CustomerRepositoryInterface;
 use App\Models\Customer;
 use App\Models\User;
 use App\Traits\TracksUser;
+use Exception;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\Facades\DataTables;
 
 
@@ -71,8 +74,24 @@ class CustomerRepository  implements CustomerRepositoryInterface
 
     public function create(array $data)
     {
-        $data = $this->addCreatedBy($data);
-        return Customer::create($data);
+        try {
+            return DB::transaction(function () use ($data) {
+                $data = $this->addCreatedBy($data);
+
+                $user = User::create([
+                    'name'  => $data['name'],
+                    'email' => $data['email'],
+                    'password' => Hash::make('12345678'), // temporary till this feature not enable in customer
+                ]);
+
+                $data['user_id'] = $user->id;
+
+                return Customer::create($data);
+            });
+        } catch (Exception $e) {
+            Log::error('Failed to create user/customer: ' . $e->getMessage());
+            throw $e;
+        }
     }
 
     public function update($id, array $data)

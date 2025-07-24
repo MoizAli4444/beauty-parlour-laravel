@@ -50,7 +50,7 @@ class CustomerController extends Controller
 
         $this->customerRepo->create($validated);
 
-        return redirect()->route('admin.customer.index')->with('success', 'Customer created successfully.');
+        return redirect()->route('customers.index')->with('success', 'Customer created successfully.');
     }
 
      /**
