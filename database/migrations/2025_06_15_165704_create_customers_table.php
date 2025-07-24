@@ -23,7 +23,7 @@ return new class extends Migration
             $table->date('date_of_birth')->nullable(); // For birthday offers
             
             $table->enum('gender', ['male', 'female', 'other'])->nullable(); // Optional
-            $table->boolean('email_verified')->default(false); // Optional
+            $table->boolean('email_verified')->default(false); // Optional later remove it because it already in users
             // $table->boolean('sms_subscribed')->default(true); // Optional: For SMS marketing preferences
 
             $table->enum('status', ['active', 'inactive'])->default('active');

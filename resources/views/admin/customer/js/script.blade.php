@@ -4,7 +4,7 @@
         $('#indexPageDataTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '{{ route('services.datatable') }}',
+            ajax: '{{ route('customers.datatable') }}',
             columns: [{
                     data: 'checkbox',
                     name: 'checkbox',
@@ -18,6 +18,14 @@
                 {
                     data: 'name',
                     name: 'name'
+                },
+                {
+                    data: 'email',
+                    name: 'email'
+                },
+                {
+                    data: 'phone',
+                    name: 'phone'
                 },
                 {
                     data: 'status',
