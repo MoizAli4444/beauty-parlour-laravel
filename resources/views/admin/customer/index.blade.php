@@ -10,15 +10,15 @@
                 <div class="col-xl">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">All Services</h5>
-                            <a href="{{ route('services.create') }}" class="btn btn-warning">Create</a>
+                            <h5 class="mb-0">All customers</h5>
+                            <a href="{{ route('customers.create') }}" class="btn btn-warning">Create</a>
                         </div>
                         <div class="card-body">
 
                             @include('admin.pages-partials.bulk-actions', [
-                                'deleteUrl' => route('services.bulkDelete'),
-                                'statusUrl' => route('services.bulkStatus'),
-                                'itemType' => 'services', // optional
+                                'deleteUrl' => route('customers.bulkDelete'),
+                                'statusUrl' => route('customers.bulkStatus'),
+                                'itemType' => 'customers', // optional
                             ])
 
                             <table id="indexPageDataTable" class="table table-bordered">
@@ -50,5 +50,5 @@
 @endsection
 
 @push('scripts')
-    @include('admin.service.js.script')
+    @include('admin.customer.js.script')
 @endpush
