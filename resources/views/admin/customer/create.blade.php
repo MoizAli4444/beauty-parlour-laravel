@@ -9,7 +9,7 @@
 
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h5 class="mb-0">Create Customer</h5>
-                            <a href="{{ route('customers.index') }}" class="btn btn-primary">All Customers</a>
+                            <a href="{{ route('customers.index') }}" class="btn btn-warning">All Customers</a>
                         </div>
 
                         <div class="card-body">
@@ -18,7 +18,7 @@
 
                                 <div class="row">
 
-                                    <div class="mb-4 col-12 col-md-6">
+                                    <div class="mb-4 col-12 col-md-4">
                                         <label class="form-label" for="name">Customer Name</label>
                                         <input type="text" name="name" class="form-control" id="name"
                                             value="{{ old('name') }}" placeholder="Enter customer name">
@@ -27,7 +27,7 @@
                                         @enderror
                                     </div>
 
-                                    <div class="mb-4 col-12 col-md-6">
+                                    <div class="mb-4 col-12 col-md-4">
                                         <label class="form-label" for="email">Email</label>
                                         <input type="email" name="email" class="form-control" id="email"
                                             value="{{ old('email') }}" placeholder="Enter email">
@@ -36,7 +36,7 @@
                                         @enderror
                                     </div>
 
-                                    <div class="mb-4 col-12 col-md-6">
+                                    <div class="mb-4 col-12 col-md-4">
                                         <label class="form-label" for="phone">Phone</label>
                                         <input type="text" name="phone" class="form-control" id="phone"
                                             value="{{ old('phone') }}" placeholder="Enter phone number">
@@ -45,7 +45,7 @@
                                         @enderror
                                     </div>
 
-                                    <div class="mb-4 col-12 col-md-6">
+                                    <div class="mb-4 col-12 col-md-4">
                                         <label class="form-label" for="image">Profile Image</label>
                                         <input type="file" name="image" class="form-control" id="image">
                                         @error('image')
@@ -53,7 +53,7 @@
                                         @enderror
                                     </div>
 
-                                    <div class="mb-4 col-12 col-md-6">
+                                    <div class="mb-4 col-12 col-md-4">
                                         <label class="form-label" for="date_of_birth">Date of Birth</label>
                                         <input type="date" name="date_of_birth" class="form-control" id="date_of_birth"
                                             value="{{ old('date_of_birth') }}">
@@ -62,7 +62,7 @@
                                         @enderror
                                     </div>
 
-                                    <div class="mb-4 col-12 col-md-6">
+                                    <div class="mb-4 col-12 col-md-4">
                                         <label class="form-label" for="gender">Gender</label>
                                         <select name="gender" class="form-control" id="gender">
                                             <option value="">-- Select Gender --</option>
@@ -78,31 +78,28 @@
                                         @enderror
                                     </div>
 
-                                    <div class="mb-4 col-12 col-md-6">
-                                        <label for="address" class="form-label">Address</label>
-                                        <textarea name="address" class="form-control">{{ old('address') }}</textarea>
-                                    </div>
+                                  
 
-                                    <div class="mb-4 col-12 col-md-6">
+                                    <div class="mb-4 col-12 col-md-4">
                                         <label for="city" class="form-label">City</label>
                                         <input type="text" name="city" class="form-control"
                                             value="{{ old('city') }}">
                                     </div>
 
-                                    <div class="mb-4 col-12 col-md-6">
+                                    {{-- <div class="mb-4 col-12 col-md-4">
                                         <label for="country" class="form-label">Country</label>
                                         <input type="text" name="country" class="form-control"
                                             value="{{ old('country', 'Pakistan') }}">
-                                    </div>
+                                    </div> --}}
 
-                                    <div class="mb-4 col-12 col-md-6">
+                                    <div class="mb-4 col-12 col-md-4">
                                         <label for="postal_code" class="form-label">Postal Code</label>
                                         <input type="text" name="postal_code" class="form-control"
                                             value="{{ old('postal_code') }}">
                                     </div>
 
 
-                                    <div class="mb-4 col-12 col-md-6">
+                                    <div class="mb-4 col-12 col-md-4">
                                         <label class="form-label" for="status">Status</label>
                                         <select name="status" class="form-select" id="status">
                                             <option value="active">Active</option>
@@ -113,15 +110,22 @@
                                         @enderror
                                     </div>
 
-                                    <!-- Password Field (if applicable) -->
-                                    <div class="mb-4 col-12 col-md-6">
-                                        <label for="password" class="form-label">Password</label>
-                                        <input type="password" name="password" class="form-control" required>
+                                      <div class="mb-4 col-12 ">
+                                        <label for="address" class="form-label">Address</label>
+                                        <textarea name="address" class="form-control">{{ old('address') }}</textarea>
                                     </div>
 
+                                    <!-- Password Field (if applicable) -->
+                                    {{-- <div class="mb-4 col-12 col-md-6">
+                                        <label for="password" class="form-label">Password</label>
+                                        <input type="password" name="password" class="form-control" required>
+                                    </div> --}}
 
-                                    <button type="submit" class="btn btn-warning">Create Customer</button>
+
                                 </div>
+
+                                
+                                <button type="submit" class="btn btn-warning">Create Customer</button>
                             </form>
                         </div>
 
