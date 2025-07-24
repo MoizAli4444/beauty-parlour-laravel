@@ -40,7 +40,6 @@ class CustomerController extends Controller
 
     public function store(StoreCustomerRequest $request)
     {
-
         $validated = $request->validated();
 
         if ($request->hasFile('image')) {
