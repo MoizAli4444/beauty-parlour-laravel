@@ -69,12 +69,12 @@ class CustomerController extends Controller
 
     public function edit($slug)
     {
-        $customer = $this->customerRepo->findBySlug($slug);
+        $user = $this->customerRepo->findBySlug($slug);
         
-        if (!$customer) {
+        if (!$user) {
             return redirect()->route('customers.index')->with('error', 'Customer not found');
         }
-        return view('admin.customer.edit', compact('customer'));
+        return view('admin.customer.edit', compact('user'));
     }
 
     public function update(UpdateCustomerRequest $request, $id = null)

@@ -73,7 +73,7 @@ class CustomerRepository  implements CustomerRepositoryInterface
 
     public function findBySlug($slug)
     {
-        return Customer::where('slug', $slug)->first();
+        return User::where('slug', $slug)->first();
     }
 
     public function create(array $data)

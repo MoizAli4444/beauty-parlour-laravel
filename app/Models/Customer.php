@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Cviebrock\EloquentSluggable\Sluggable;
 
 class Customer extends Model
 {
@@ -12,7 +11,6 @@ class Customer extends Model
 
     protected $fillable = [
         'user_id',
-        'slug',
         'image',
         'phone',
         'address',
@@ -42,12 +40,16 @@ class Customer extends Model
 
     public function getEditButtonAttribute()
     {
-        return render_edit_button(route('customers.edit', $this->id));
+        return render_edit_button(
+            $this->user?->slug ? route('customers.edit', $this->user->slug) : '#'
+        );
     }
 
     public function getViewButtonAttribute()
     {
-        return render_view_button(route('customers.show', $this->id));
+        return render_view_button(
+            $this->user?->slug ? route('customers.show', $this->user->slug) : '#'
+        );
     }
 
 
