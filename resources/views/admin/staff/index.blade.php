@@ -11,14 +11,14 @@
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h5 class="mb-0">All Services</h5>
-                            <a href="{{ route('services.create') }}" class="btn btn-warning">Create</a>
+                            <a href="{{ route('staff.create') }}" class="btn btn-warning">Create</a>
                         </div>
                         <div class="card-body">
 
                             @include('admin.pages-partials.bulk-actions', [
-                                'deleteUrl' => route('services.bulkDelete'),
-                                'statusUrl' => route('services.bulkStatus'),
-                                'itemType' => 'services', // optional
+                                'deleteUrl' => route('staff.bulkDelete'),
+                                'statusUrl' => route('staff.bulkStatus'),
+                                'itemType' => 'staff', // optional
                             ])
 
                             <table id="indexPageDataTable" class="table table-bordered">
