@@ -27,6 +27,8 @@
                                         <th><input type="checkbox" id="select-all"></th> {{-- universal checkbox --}}
                                         <th>ID</th>
                                         <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
                                         <th>Status</th>
                                         <th>Created At</th>
                                         <th>Action</th>
