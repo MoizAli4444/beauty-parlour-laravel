@@ -7,6 +7,7 @@ use App\Models\Customer;
 use App\Models\User;
 use App\Traits\TracksUser;
 use Exception;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -19,10 +20,10 @@ class CustomerRepository  implements CustomerRepositoryInterface
 
     public function getDatatableData()
     {
-        
+
         try {
             // return DataTables::of(Customer::query()->latest())
-                    return DataTables::of(Customer::with('user')->latest())
+            return DataTables::of(Customer::with('user')->latest())
 
                 ->addColumn('checkbox', function ($row) {
                     return '<input type="checkbox" class="row-checkbox" value="' . $row->id . '">';
@@ -68,7 +69,7 @@ class CustomerRepository  implements CustomerRepositoryInterface
 
     public function find($id)
     {
-        return Customer::findOrFail($id);
+        return User::findOrFail($id);
     }
 
     public function findBySlug($slug)
@@ -98,13 +99,31 @@ class CustomerRepository  implements CustomerRepositoryInterface
         }
     }
 
+    // public function update($id, array $data)
+    // {
+    //     $customer = Customer::findOrFail($id);
+    //     $data = $this->addUpdatedBy($data);
+    //     $customer->update($data);
+    //     return $customer;
+    // }
+
     public function update($id, array $data)
     {
-        $customer = Customer::findOrFail($id);
-        $data = $this->addUpdatedBy($data);
-        $customer->update($data);
-        return $customer;
+        try {
+            return DB::transaction(function () use ($id, $data) {
+                $user = User::findOrFail($id);
+                $user->update(Arr::only($data, ['name', 'email']));
+
+                $user->customer?->update($this->addUpdatedBy(Arr::except($data, ['name', 'email'])));
+
+                return $user->customer;
+            });
+        } catch (Exception $e) {
+            Log::error('Failed to update user/customer: ' . $e->getMessage());
+            throw $e;
+        }
     }
+
 
     public function delete($id)
     {

@@ -97,7 +97,7 @@ class CustomerController extends Controller
 
         $this->customerRepo->update($id, $validated);
 
-        return redirect()->route('admin.customer.index')->with('success', 'Customer updated successfully.');
+        return redirect()->route('customers.index')->with('success', 'Customer updated successfully.');
     }
 
     public function destroy($id)
