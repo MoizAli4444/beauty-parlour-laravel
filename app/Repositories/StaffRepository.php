@@ -62,32 +62,55 @@ class StaffRepository  implements StaffRepositoryInterface
     {
         try {
             return DB::transaction(function () use ($data) {
-                $data = $this->addCreatedBy($data);
-
+                
                 $user = User::create([
                     'name'     => $data['name'],
                     'email'    => $data['email'],
-                    'password' => Hash::make('12345678'), // temporary password
+                    'password' => Hash::make($data['email']), // temp password
                 ]);
-
+                
+                $data = $this->addCreatedBy($data);
                 $data['user_id'] = $user->id;
+                unset($data['name'], $data['email']); // prevent duplicate columns
 
                 return Staff::create($data);
             });
         } catch (Exception $e) {
-            Log::error('Failed to create user/staff: ' . $e->getMessage());
+            Log::error('Failed to create staff/user: ' . $e->getMessage());
             throw $e;
         }
     }
 
 
+
     public function update($id, array $data)
     {
-        $staff = Staff::findOrFail($id);
-        $data = $this->addUpdatedBy($data);
-        $staff->update($data);
-        return $staff;
+        try {
+            return DB::transaction(function () use ($id, $data) {
+                $staff = Staff::where('user_id',$id)->first();
+                $user  = $staff->user;
+
+                // Update user table fields (name, email)
+                $user->update([
+                    'name'  => $data['name'],
+                    'email' => $data['email'],
+                ]);
+
+                // Remove user-only fields from data before updating staff
+                unset($data['name'], $data['email']);
+                
+                $data = $this->addUpdatedBy($data);
+
+                $staff->update($data);
+
+                return $staff;
+            });
+        } catch (Exception $e) {
+            Log::error('Failed to update staff/user: ' . $e->getMessage());
+            throw $e;
+        }
     }
+
 
     public function delete($id)
     {

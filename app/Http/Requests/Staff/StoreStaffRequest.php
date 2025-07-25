@@ -26,6 +26,7 @@ class StoreStaffRequest extends FormRequest
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6|confirmed',
+
             'phone' => 'nullable|string|max:20',
             'address' => 'nullable|string|max:255',
             'date_of_birth' => 'nullable|date',
@@ -33,14 +34,20 @@ class StoreStaffRequest extends FormRequest
             'leaving_date' => 'nullable|date|after_or_equal:joining_date',
             'cnic' => 'nullable|string|max:25',
             'emergency_contact' => 'nullable|string|max:20',
-            'image' => 'nullable|image|max:5120', // 5MB
+            'image'                 => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
             'shift_id' => 'nullable|exists:shifts,id',
-            'working_days' => 'nullable|array',
-            'salary' => 'nullable|numeric',
+            'working_days'          => 'nullable|array',
+            'working_days.*'        => 'in:mon,tue,wed,thu,fri,sat,sun',
+            'salary'                => 'nullable|numeric|min:0',
             'payment_schedule' => 'nullable|string|in:monthly,weekly,daily',
             'payment_method_id' => 'nullable|exists:payment_methods,id',
             'bank_account_number' => 'nullable|string|max:30',
-            'is_head' => 'nullable|boolean',
+            'is_head' => 'required|boolean',
+
+            // Staff fields
+            'staff_role_id'         => 'nullable|exists:staff_roles,id',
+            'is_verified'           => 'boolean',
+            'status'                => 'required|in:active,inactive',
         ];
     }
 }
