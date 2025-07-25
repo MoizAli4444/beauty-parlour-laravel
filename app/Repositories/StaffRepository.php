@@ -4,8 +4,12 @@ namespace App\Repositories;
 
 use App\Interfaces\StaffRepositoryInterface;
 use App\Models\Staff;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Traits\TracksUser;
+use Exception;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\Facades\DataTables;
 
 
@@ -56,9 +60,26 @@ class StaffRepository  implements StaffRepositoryInterface
 
     public function create(array $data)
     {
-        $data = $this->addCreatedBy($data);
-        return Staff::create($data);
+        try {
+            return DB::transaction(function () use ($data) {
+                $data = $this->addCreatedBy($data);
+
+                $user = User::create([
+                    'name'     => $data['name'],
+                    'email'    => $data['email'],
+                    'password' => Hash::make('12345678'), // temporary password
+                ]);
+
+                $data['user_id'] = $user->id;
+
+                return Staff::create($data);
+            });
+        } catch (Exception $e) {
+            Log::error('Failed to create user/staff: ' . $e->getMessage());
+            throw $e;
+        }
     }
+
 
     public function update($id, array $data)
     {
