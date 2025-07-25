@@ -12,6 +12,7 @@ class Customer extends Model
 
     protected $fillable = [
         'user_id',
+        'slug',
         'image',
         'phone',
         'address',
@@ -23,16 +24,6 @@ class Customer extends Model
         'email_verified',
         'status',
     ];
-
-     public function sluggable(): array
-    {
-        return [
-            'slug' => [
-                'source' => 'name',
-                'onUpdate' => true
-            ]
-        ];
-    }
 
     public function creator()
     {
