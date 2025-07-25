@@ -58,13 +58,13 @@ class CustomerController extends Controller
      */
     public function show($slug)
     {
-        $customer = $this->customerRepo->findBySlug($slug);
+        $user = $this->customerRepo->findBySlug($slug);
 
-        if (!$customer) {
+        if (!$user) {
             return redirect()->route('customers.index')->with('error', 'Customer not found.');
         }
 
-        return view('admin.customer.show', compact('customer'));
+        return view('admin.customer.show', compact('user'));
     }
 
     public function edit($slug)

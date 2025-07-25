@@ -99,14 +99,6 @@ class CustomerRepository  implements CustomerRepositoryInterface
         }
     }
 
-    // public function update($id, array $data)
-    // {
-    //     $customer = Customer::findOrFail($id);
-    //     $data = $this->addUpdatedBy($data);
-    //     $customer->update($data);
-    //     return $customer;
-    // }
-
     public function update($id, array $data)
     {
         try {
