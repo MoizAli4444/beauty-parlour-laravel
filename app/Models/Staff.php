@@ -32,9 +32,9 @@ class Staff extends Model
     ];
 
     protected $casts = [
-        'date_of_birth' => 'date',
-        'joining_date' => 'date',
-        'leaving_date' => 'date',
+        'date_of_birth' => 'date:Y-m-d',
+        'joining_date' => 'date:Y-m-d',
+        'leaving_date' => 'date:Y-m-d',
         'is_head' => 'boolean',
         'is_verified' => 'boolean',
         'working_days' => 'array',

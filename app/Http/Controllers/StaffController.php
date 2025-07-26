@@ -73,7 +73,7 @@ class StaffController extends Controller
         $payment_methods = PaymentMethod::get(); // get active payment methods
         $staff_roles = Role::get(); //get active roles
 
-        // return $user;
+        // return $user->staff;
 
         return view('admin.staff.edit', compact('user', 'shifts', 'payment_methods', 'staff_roles'));
         // return view('admin.staff.create', compact('user','shifts', 'payment_methods', 'staff_roles'));
