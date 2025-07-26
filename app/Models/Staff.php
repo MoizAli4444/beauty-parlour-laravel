@@ -69,14 +69,14 @@ class Staff extends Model
     public function getEditButtonAttribute()
     {
         return render_edit_button(
-            $this->user?->slug ? route('customers.edit', $this->user->slug) : '#'
+            $this->user?->slug ? route('staff.edit', $this->user->slug) : '#'
         );
     }
 
     public function getViewButtonAttribute()
     {
         return render_view_button(
-            $this->user?->slug ? route('customers.show', $this->user->slug) : '#'
+            $this->user?->slug ? route('staff.show', $this->user->slug) : '#'
         );
     }
 

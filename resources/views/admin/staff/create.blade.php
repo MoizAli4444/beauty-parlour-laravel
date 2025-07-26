@@ -81,7 +81,7 @@
                                     <div class="col-12 col-md-4 mb-3">
                                         <label for="phone">Phone</label>
                                         <input type="text" name="phone" class="form-control"
-                                            value="{{ old('phone', $staff->phone ?? '') }}">
+                                            value="{{ old('phone', $user->staff->phone ?? '') }}">
                                         @error('phone')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror

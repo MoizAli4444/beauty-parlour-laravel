@@ -79,7 +79,7 @@ class StaffRepository  implements StaffRepositoryInterface
 
     public function findBySlug($slug)
     {
-        return Staff::where('slug', $slug)->first();
+        return User::where('slug', $slug)->first();
     }
 
     public function create(array $data)

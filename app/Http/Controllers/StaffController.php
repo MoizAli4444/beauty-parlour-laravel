@@ -61,10 +61,22 @@ class StaffController extends Controller
     }
 
     // ✅ Show edit form
-    public function edit($id)
+    public function edit($slug)
     {
-        $staff = $this->staffRepo->find($id);
-        return view('admin.staff.edit', compact('staff'));
+        $user = $this->staffRepo->findBySlug($slug);
+
+        if (!$user) {
+            return redirect()->route('customers.index')->with('error', 'Customer not found');
+        }
+
+        $shifts =  Shift::get(); // get all active records
+        $payment_methods = PaymentMethod::get(); // get active payment methods
+        $staff_roles = Role::get(); //get active roles
+
+        // return $user;
+
+        return view('admin.staff.edit', compact('user', 'shifts', 'payment_methods', 'staff_roles'));
+        // return view('admin.staff.create', compact('user','shifts', 'payment_methods', 'staff_roles'));
     }
 
     // ✅ Update staff
