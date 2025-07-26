@@ -21,29 +21,30 @@
                                 'itemType' => 'staff', // optional
                             ])
 
-                            <table id="indexPageDataTable" class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th><input type="checkbox" id="select-all"></th> {{-- universal checkbox --}}
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Phone</th>
-                                        <th>CNIC</th>
-                                        <th>Role</th>
-                                        <th>Shift</th>
-                                        {{-- 
+                            <div class="table-responsive">
+                                <table id="indexPageDataTable" class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th><input type="checkbox" id="select-all"></th> {{-- universal checkbox --}}
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Phone</th>
+                                            <th>CNIC</th>
+                                            <th>Role</th>
+                                            <th>Shift</th>
+                                            {{-- 
                                         --}}
-                                        <th>Joining Date</th>
-                                        <th>Salary</th>
-                                        <th>Verified</th> 
-                                        <th>Is Head</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                            </table>
-
+                                            <th>Joining Date</th>
+                                            <th>Salary</th>
+                                            <th>Verified</th>
+                                            <th>Is Head</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
 
                         </div>
                     </div>
