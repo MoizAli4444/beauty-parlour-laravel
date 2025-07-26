@@ -68,12 +68,12 @@ class Staff extends Model
 
     public function getEditButtonAttribute()
     {
-        return render_edit_button(route('services.edit', $this->slug));
+        return render_edit_button(route('services.edit', $this->id));
     }
 
     public function getViewButtonAttribute()
     {
-        return render_view_button(route('services.show', $this->slug));
+        return render_view_button(route('services.show', $this->id));
     }
 
 
@@ -90,5 +90,20 @@ class Staff extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function staffRole()
+    {
+        return $this->belongsTo(StaffRole::class);
+    }
+
+    public function shift()
+    {
+        return $this->belongsTo(Shift::class);
+    }
+
+    public function paymentMethod()
+    {
+        return $this->belongsTo(PaymentMethod::class);
     }
 }

@@ -20,23 +20,47 @@ class StaffRepository  implements StaffRepositoryInterface
     public function getDatatableData()
     {
         try {
-            return DataTables::of(Staff::query()->latest())
+            // return DataTables::of(Staff::query()->latest())
+              return DataTables::of(Staff::with('user')->latest())
+
                 ->addColumn('checkbox', function ($row) {
                     return '<input type="checkbox" class="row-checkbox" value="' . $row->id . '">';
                 })
+               
                 ->editColumn('name', function ($row) {
-                    return strlen($row->name) > 20 ? substr($row->name, 0, 20) . '...' : $row->name;
+                    return strlen($row->user->name ?? '') > 20
+                        ? substr($row->user->name, 0, 20) . '...'
+                        : $row->user->name;
                 })
+
+                ->editColumn('email', function ($row) {
+                    return $row->user->email ?? '-';
+                })
+
+                 ->editColumn('staff_role', function ($row) {
+                       return $row->staffRole?->name ?? '-';
+                })
+
+                 ->editColumn('shift_name', function ($row) {
+                    return $row->shift?->name ?? '-';
+                })                
+
                 ->editColumn('status', function ($row) {
                     return $row->status_badge;
                 })
+
+                ->editColumn('joining_date', function ($row) {
+                    return $row->joining_date->format('d M Y');
+                })
+
                 ->editColumn('created_at', function ($row) {
                     return $row->created_at->format('d M Y');
                 })
+
                 ->addColumn('action', function ($row) {
                     return view('admin.staff.action', ['staff' => $row])->render();
                 })
-                ->rawColumns(['checkbox', 'action', 'status'])
+                ->rawColumns(['checkbox','staff_role','shift_name' ,'action', 'status'])
                 ->make(true);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
