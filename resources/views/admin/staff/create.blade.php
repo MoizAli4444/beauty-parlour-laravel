@@ -1,5 +1,10 @@
 @extends('admin.layouts.app')
 
+@push('scripts')
+    @include('admin.staff.js.css')
+@endpush
+
+
 @section('content')
     <!-- Content wrapper -->
     <div class="content-wrapper">
@@ -12,7 +17,7 @@
 
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h5 class="mb-0">Create Service</h5>
-                            <a href="{{ route('services.index') }}" class="btn btn-primary">All Services</a>
+                            <a href="{{ route('services.index') }}" class="btn btn-warning">All Services</a>
                         </div>
 
                         <div class="card-body">
@@ -118,7 +123,9 @@
 
                                     <div class="col-12 col-md-4 mb-3">
                                         <label for="working_days[]">Working Days</label>
-                                        <select name="working_days[]" class="form-control" multiple>
+                                        {{-- <select name="working_days[]" class="form-control" multiple> --}}
+                                        <select name="working_days[]" class="form-control select2-multiple" multiple
+                                            data-placeholder="Select working days">
                                             @php $days = ['mon','tue','wed','thu','fri','sat','sun']; @endphp
                                             @foreach ($days as $day)
                                                 <option value="{{ $day }}"
@@ -215,7 +222,7 @@
 
                                 <div class="mt-4">
                                     <button type="submit"
-                                        class="btn btn-primary">{{ isset($staff) ? 'Update' : 'Create' }}</button>
+                                        class="btn btn-warning">{{ isset($staff) ? 'Update' : 'Create' }}</button>
                                 </div>
                             </form>
 
@@ -231,3 +238,7 @@
     </div>
     <!-- Content wrapper -->
 @endsection
+
+@push('scripts')
+    @include('admin.staff.js.script')
+@endpush
