@@ -16,11 +16,22 @@
                     <div class="card">
 
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">Create Service</h5>
-                            <a href="{{ route('services.index') }}" class="btn btn-warning">All Services</a>
+                            <h5 class="mb-0">Create Staff</h5>
+                            <a href="{{ route('staff.index') }}" class="btn btn-warning">All Staff</a>
                         </div>
 
                         <div class="card-body">
+
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul class="mb-0">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
 
                             <form action="{{ isset($staff) ? route('staff.update', $staff->id) : route('staff.store') }}"
                                 method="POST" enctype="multipart/form-data">
@@ -35,74 +46,107 @@
                                         <label for="name">Name</label>
                                         <input type="text" name="name" class="form-control"
                                             value="{{ old('name', $staff->user->name ?? '') }}">
+                                        @error('name')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
 
                                     <div class="col-12 col-md-4 mb-3">
                                         <label for="email">Email</label>
                                         <input type="email" name="email" class="form-control"
                                             value="{{ old('email', $staff->user->email ?? '') }}">
+                                        @error('email')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
 
-                                    @if (!isset($staff))
-                                        <div class="col-12 col-md-4 mb-3">
-                                            <label for="password">Password</label>
-                                            <input type="password" name="password" class="form-control">
-                                        </div>
+                                    {{-- @if (!isset($staff)) --}}
+                                    <div class="col-12 col-md-4 mb-3">
+                                        <label for="password">Password</label>
+                                        <input type="password" name="password" class="form-control">
+                                        @error('password')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
 
-                                        <div class="col-12 col-md-4 mb-3">
-                                            <label for="password_confirmation">Confirm Password</label>
-                                            <input type="password" name="password_confirmation" class="form-control">
-                                        </div>
-                                    @endif
-                                    {{-- </div>
+                                    <div class="col-12 col-md-4 mb-3">
+                                        <label for="password_confirmation">Confirm Password</label>
+                                        <input type="password" name="password_confirmation" class="form-control">
+                                        @error('password_confirmation')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                    {{-- @endif --}}
 
-        <!-- Staff Info -->
-        <div class="row"> --}}
                                     <div class="col-12 col-md-4 mb-3">
                                         <label for="phone">Phone</label>
                                         <input type="text" name="phone" class="form-control"
                                             value="{{ old('phone', $staff->phone ?? '') }}">
+                                        @error('phone')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
 
                                     <div class="col-12 col-md-4 mb-3">
                                         <label for="address">Address</label>
                                         <input type="text" name="address" class="form-control"
                                             value="{{ old('address', $staff->address ?? '') }}">
+                                        @error('address')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
 
                                     <div class="col-12 col-md-4 mb-3">
                                         <label for="date_of_birth">Date of Birth</label>
                                         <input type="date" name="date_of_birth" class="form-control"
                                             value="{{ old('date_of_birth', $staff->date_of_birth ?? '') }}">
+                                        @error('date_of_birth')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
 
                                     <div class="col-12 col-md-4 mb-3">
                                         <label for="joining_date">Joining Date</label>
                                         <input type="date" name="joining_date" class="form-control"
                                             value="{{ old('joining_date', $staff->joining_date ?? '') }}">
+                                        @error('joining_date')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
 
                                     <div class="col-12 col-md-4 mb-3">
                                         <label for="leaving_date">Leaving Date</label>
                                         <input type="date" name="leaving_date" class="form-control"
                                             value="{{ old('leaving_date', $staff->leaving_date ?? '') }}">
+                                        @error('leaving_date')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
 
                                     <div class="col-12 col-md-4 mb-3">
                                         <label for="cnic">CNIC</label>
                                         <input type="text" name="cnic" class="form-control"
                                             value="{{ old('cnic', $staff->cnic ?? '') }}">
+                                        @error('cnic')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
 
                                     <div class="col-12 col-md-4 mb-3">
                                         <label for="emergency_contact">Emergency Contact</label>
                                         <input type="text" name="emergency_contact" class="form-control"
                                             value="{{ old('emergency_contact', $staff->emergency_contact ?? '') }}">
+                                        @error('emergency_contact')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
 
                                     <div class="col-12 col-md-4 mb-3">
                                         <label for="image">Image</label>
                                         <input type="file" name="image" class="form-control">
+                                        @error('image')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                         @if (isset($staff) && $staff->image)
                                             <img src="{{ asset('storage/' . $staff->image) }}" alt="Profile"
                                                 width="80">
@@ -119,6 +163,9 @@
                                                     {{ $shift->name }}</option>
                                             @endforeach
                                         </select>
+                                        @error('shift_id')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
 
                                     <div class="col-12 col-md-4 mb-3">
@@ -133,12 +180,18 @@
                                                     {{ ucfirst($day) }}</option>
                                             @endforeach
                                         </select>
+                                        @error('working_days')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
 
                                     <div class="col-12 col-md-4 mb-3">
                                         <label for="salary">Salary</label>
                                         <input type="number" step="0.01" name="salary" class="form-control"
                                             value="{{ old('salary', $staff->salary ?? '') }}">
+                                        @error('salary')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
 
                                     <div class="col-12 col-md-4 mb-3">
@@ -151,6 +204,9 @@
                                                 {{ old('payment_schedule', $staff->payment_schedule ?? '') == 'weekly' ? 'selected' : '' }}>
                                                 Weekly</option>
                                         </select>
+                                        @error('payment_schedule')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
 
                                     <div class="col-12 col-md-4 mb-3">
@@ -163,12 +219,18 @@
                                                     {{ $method->name }}</option>
                                             @endforeach
                                         </select>
+                                        @error('payment_method_id')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
 
                                     <div class="col-12 col-md-4 mb-3">
                                         <label for="bank_account_number">Bank Account #</label>
                                         <input type="text" name="bank_account_number" class="form-control"
                                             value="{{ old('bank_account_number', $staff->bank_account_number ?? '') }}">
+                                        @error('bank_account_number')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
 
                                     {{-- <div class="col-12 col-md-4 mb-3">
@@ -193,6 +255,9 @@
                                                 {{ old('status', $staff->status ?? '') == 'inactive' ? 'selected' : '' }}>
                                                 Inactive</option>
                                         </select>
+                                        @error('status')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
 
                                     <div class="col-12 col-md-4 mb-3">
@@ -205,6 +270,9 @@
                                                 {{ old('is_head', $staff->is_head ?? 0) == 1 ? 'selected' : '' }}>Yes
                                             </option>
                                         </select>
+                                        @error('is_head')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
 
                                     <div class="col-12 col-md-4 mb-3">
@@ -217,6 +285,9 @@
                                                     {{ $role->name }}</option>
                                             @endforeach
                                         </select>
+                                        @error('staff_role_id')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
                                 </div>
 

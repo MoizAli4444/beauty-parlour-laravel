@@ -40,20 +40,24 @@ class StaffController extends Controller
         $shifts =  Shift::get(); // get all active records
         $payment_methods = PaymentMethod::get(); // get active payment methods
         $staff_roles = Role::get(); //get active roles
-        
+
         return view('admin.staff.create', compact('shifts', 'payment_methods', 'staff_roles'));
     }
 
     // ✅ Store new staff
-    public function store(Request $request)
+    public function store(StoreStaffRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'status' => 'required|in:active,inactive',
-        ]);
+
+        $validated = $request->validated();
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $validated['image'] = $file->storeAs('customers', $filename, 'public');
+        }
 
         $this->staffRepo->create($validated);
-        return redirect()->route('admin.staff.index')->with('success', 'Staff created successfully.');
+        return redirect()->route('staff.index')->with('success', 'Staff created successfully.');
     }
 
     // ✅ Show edit form
