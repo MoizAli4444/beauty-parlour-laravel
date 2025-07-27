@@ -21,7 +21,9 @@ class UpdateStaffRequest extends FormRequest
      */
     public function rules(): array
     {
-        $userId = $this->route('staff')->user_id ?? null;
+        // $userId = $this->route('staff')->user_id ?? null;
+        $userId = $this->route('staff');
+        // dd($userId);
 
         return [
             // User fields

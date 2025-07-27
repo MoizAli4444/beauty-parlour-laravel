@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Staff\StoreStaffRequest;
+use App\Http\Requests\Staff\UpdateStaffRequest;
 use App\Interfaces\StaffRepositoryInterface;
 use App\Models\PaymentMethod;
 use App\Models\Shift;
@@ -10,6 +11,7 @@ use App\Models\Staff;
 use App\Models\User;
 use App\Repositories\Staff\StaffRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Role;
 
 class StaffController extends Controller
@@ -53,7 +55,7 @@ class StaffController extends Controller
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $filename = time() . '.' . $file->getClientOriginalExtension();
-            $validated['image'] = $file->storeAs('customers', $filename, 'public');
+            $validated['image'] = $file->storeAs('staff', $filename, 'public');
         }
 
         $this->staffRepo->create($validated);
@@ -66,7 +68,7 @@ class StaffController extends Controller
         $user = $this->staffRepo->findBySlug($slug);
 
         if (!$user) {
-            return redirect()->route('customers.index')->with('error', 'Customer not found');
+            return redirect()->route('staff.index')->with('error', 'Customer not found');
         }
 
         $shifts =  Shift::get(); // get all active records
@@ -80,15 +82,27 @@ class StaffController extends Controller
     }
 
     // ✅ Update staff
-    public function update(Request $request, $id)
+    public function update(UpdateStaffRequest $request, $id=null)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'status' => 'required|in:active,inactive',
-        ]);
+        $validated = $request->validated();
+        
+        $staff = $this->staffRepo->find($id);
+        // dd($id);
+
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            // Delete old image if exists
+            if ($staff->image && Storage::disk('public')->exists($staff->image)) {
+                Storage::disk('public')->delete($staff->image);
+            }
+
+            $file = $request->file('image');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $validated['image'] = $file->storeAs('staff', $filename, 'public');
+        }
 
         $this->staffRepo->update($id, $validated);
-        return redirect()->route('admin.staff.index')->with('success', 'Staff updated successfully.');
+        return redirect()->route('staff.index')->with('success', 'Staff updated successfully.');
     }
 
     // ✅ Delete single staff

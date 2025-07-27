@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Traits\TracksUser;
 use Exception;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\Facades\DataTables;
@@ -21,12 +22,12 @@ class StaffRepository  implements StaffRepositoryInterface
     {
         try {
             // return DataTables::of(Staff::query()->latest())
-              return DataTables::of(Staff::with('user')->latest())
+            return DataTables::of(Staff::with('user')->latest())
 
                 ->addColumn('checkbox', function ($row) {
                     return '<input type="checkbox" class="row-checkbox" value="' . $row->id . '">';
                 })
-               
+
                 ->editColumn('name', function ($row) {
                     return strlen($row->user->name ?? '') > 20
                         ? substr($row->user->name, 0, 20) . '...'
@@ -37,13 +38,13 @@ class StaffRepository  implements StaffRepositoryInterface
                     return $row->user->email ?? '-';
                 })
 
-                 ->editColumn('staff_role', function ($row) {
-                       return $row->staffRole?->name ?? '-';
+                ->editColumn('staff_role', function ($row) {
+                    return $row->staffRole?->name ?? '-';
                 })
 
-                 ->editColumn('shift_name', function ($row) {
+                ->editColumn('shift_name', function ($row) {
                     return $row->shift?->name ?? '-';
-                })                
+                })
 
                 ->editColumn('status', function ($row) {
                     return $row->status_badge;
@@ -60,7 +61,7 @@ class StaffRepository  implements StaffRepositoryInterface
                 ->addColumn('action', function ($row) {
                     return view('admin.staff.action', ['staff' => $row])->render();
                 })
-                ->rawColumns(['checkbox','staff_role','shift_name' ,'action', 'status'])
+                ->rawColumns(['checkbox', 'staff_role', 'shift_name', 'action', 'status'])
                 ->make(true);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -74,7 +75,7 @@ class StaffRepository  implements StaffRepositoryInterface
 
     public function find($id)
     {
-        return Staff::findOrFail($id);
+        return User::findOrFail($id);
     }
 
     public function findBySlug($slug)
@@ -86,13 +87,13 @@ class StaffRepository  implements StaffRepositoryInterface
     {
         try {
             return DB::transaction(function () use ($data) {
-                
+
                 $user = User::create([
                     'name'     => $data['name'],
                     'email'    => $data['email'],
                     'password' => Hash::make($data['email']), // temp password
                 ]);
-                
+
                 $data = $this->addCreatedBy($data);
                 $data['user_id'] = $user->id;
                 unset($data['name'], $data['email']); // prevent duplicate columns
@@ -110,24 +111,14 @@ class StaffRepository  implements StaffRepositoryInterface
     public function update($id, array $data)
     {
         try {
+            // dd("");
             return DB::transaction(function () use ($id, $data) {
-                $staff = Staff::where('user_id',$id)->first();
-                $user  = $staff->user;
 
-                // Update user table fields (name, email)
-                $user->update([
-                    'name'  => $data['name'],
-                    'email' => $data['email'],
-                ]);
+                $user = User::findOrFail($id);
+                $user->update(Arr::only($data, ['name', 'email']));
 
-                // Remove user-only fields from data before updating staff
-                unset($data['name'], $data['email']);
-                
-                $data = $this->addUpdatedBy($data);
-
-                $staff->update($data);
-
-                return $staff;
+                $user->staff?->update($this->addUpdatedBy(Arr::except($data, ['name', 'email'])));
+                return $user->staff;
             });
         } catch (Exception $e) {
             Log::error('Failed to update staff/user: ' . $e->getMessage());

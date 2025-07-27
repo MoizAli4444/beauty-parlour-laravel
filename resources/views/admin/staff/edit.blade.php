@@ -37,12 +37,12 @@
                             @endif
 
 
-                            <form action="{{ route('staff.update', $user->id)}}"
-                                method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('staff.update', $user->id) }}" method="POST"
+                                enctype="multipart/form-data">
                                 @csrf
-                                @if (isset($staff))
-                                    @method('PUT')
-                                @endif
+
+                                @method('PUT')
+
 
                                 <!-- User Info -->
                                 <div class="row">
@@ -64,7 +64,7 @@
                                         @enderror
                                     </div>
 
-                                    
+
                                     {{-- <div class="col-12 col-md-4 mb-3">
                                         <label for="password">Password</label>
                                         <input type="password" name="password" class="form-control">
@@ -80,7 +80,7 @@
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div> --}}
-                                    
+
 
                                     <div class="col-12 col-md-4 mb-3">
                                         <label for="phone">Phone</label>
@@ -101,11 +101,10 @@
                                     </div>
 
                                     <div class="col-12 col-md-4 mb-3">
-                                        
+
                                         <label for="date_of_birth">Date of Birth</label>
                                         <input type="date" name="date_of_birth" class="form-control"
-                                            value="{{ old('date_of_birth', $user->staff->date_of_birth?->format('Y-m-d')) }}"
->
+                                            value="{{ old('date_of_birth', $user->staff->date_of_birth?->format('Y-m-d')) }}">
                                         @error('date_of_birth')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -114,8 +113,7 @@
                                     <div class="col-12 col-md-4 mb-3">
                                         <label for="joining_date">Joining Date</label>
                                         <input type="date" name="joining_date" class="form-control"
-                                            value="{{ old('joining_date', $user->staff->joining_date?->format('Y-m-d')) }}"
->
+                                            value="{{ old('joining_date', $user->staff->joining_date?->format('Y-m-d')) }}">
                                         @error('joining_date')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -299,8 +297,7 @@
                                 </div>
 
                                 <div class="mt-4">
-                                    <button type="submit"
-                                        class="btn btn-warning">Update</button>
+                                    <button type="submit" class="btn btn-warning">Update</button>
                                 </div>
                             </form>
 
