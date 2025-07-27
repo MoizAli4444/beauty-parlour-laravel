@@ -39,7 +39,6 @@ class StaffRepository  implements StaffRepositoryInterface
                 //         $q->whereRaw('LOWER(name) LIKE ?', ["%" . strtolower($keyword) . "%"]);
                 //     });
                 // })
-                // ->filterColumn('shift_name', function ($query, $keyword) {
                 
                 
 
