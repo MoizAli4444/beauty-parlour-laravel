@@ -83,7 +83,7 @@ class Staff extends Model
 
     public function getDeleteButtonAttribute()
     {
-        return render_delete_button($this->id, route('staff.destroy', $this->id));
+        return render_delete_button($this->user->id,  $this->user?->id ? route('staff.destroy', $this->user->id) : '#');
     }
 
     // {!! render_delete_button($service->id, route('staff.destroy', $service->id)) !!}

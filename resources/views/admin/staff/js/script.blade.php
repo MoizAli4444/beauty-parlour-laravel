@@ -45,38 +45,10 @@
                     data: 'joining_date',
                     name: 'joining_date'
                 },
-                // {
-                //     data: 'leaving_date',
-                //     name: 'leaving_date'
-                // },
                 {
                     data: 'salary',
                     name: 'salary'
                 },
-                // {
-                //     data: 'payment_schedule',
-                //     name: 'payment_schedule'
-                // },
-                // {
-                //     data: 'payment_method',
-                //     name: 'payment_method.name' // payment_methods relation
-                // },
-                // {
-                //     data: 'bank_account_number',
-                //     name: 'bank_account_number'
-                // },
-                // {
-                //     data: 'working_days',
-                //     name: 'working_days'
-                // },
-                // {
-                //     data: 'date_of_birth',
-                //     name: 'date_of_birth'
-                // },
-                // {
-                //     data: 'emergency_contact',
-                //     name: 'emergency_contact'
-                // },
                 {
                     data: 'is_verified',
                     name: 'is_verified'

@@ -21,8 +21,31 @@ class StaffRepository  implements StaffRepositoryInterface
     public function getDatatableData()
     {
         try {
-            // return DataTables::of(Staff::query()->latest())
-            return DataTables::of(Staff::with('user')->latest())
+            // return DataTables::of(Staff::with('user')->latest())
+            return DataTables::of(Staff::with(['user', 'staffRole', 'shift'])->select('staff.*')->latest())
+
+                ////
+                ->filterColumn('name', function ($query, $keyword) {
+                    $query->whereHas('user', function ($q) use ($keyword) {
+                        $q->whereRaw('LOWER(name) LIKE ?', ["%" . strtolower($keyword) . "%"]);
+                    });
+                })
+                ->filterColumn('email', function ($query, $keyword) {
+                    $query->whereHas('user', function ($q) use ($keyword) {
+                        $q->whereRaw('LOWER(email) LIKE ?', ["%" . strtolower($keyword) . "%"]);
+                    });
+                })
+                ->filterColumn('staff_role', function ($query, $keyword) {
+                    $query->whereHas('staffRole', function ($q) use ($keyword) {
+                        $q->whereRaw('LOWER(name) LIKE ?', ["%" . strtolower($keyword) . "%"]);
+                    });
+                })
+                ->filterColumn('shift_name', function ($query, $keyword) {
+                    $query->whereHas('shift', function ($q) use ($keyword) {
+                        $q->whereRaw('LOWER(name) LIKE ?', ["%" . strtolower($keyword) . "%"]);
+                    });
+                })
+                ////
 
                 ->addColumn('checkbox', function ($row) {
                     return '<input type="checkbox" class="row-checkbox" value="' . $row->id . '">';
