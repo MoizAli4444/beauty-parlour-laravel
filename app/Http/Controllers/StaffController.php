@@ -62,6 +62,19 @@ class StaffController extends Controller
         return redirect()->route('staff.index')->with('success', 'Staff created successfully.');
     }
 
+    public function show($slug)
+    {
+        $user = $this->staffRepo->findBySlug($slug);
+
+        if (!$user) {
+            return redirect()->route('staff.index')->with('error', 'Customer not found.');
+        }
+
+        // return $user;
+
+        return view('admin.staff.show', compact('user'));
+    }
+
     // ✅ Show edit form
     public function edit($slug)
     {
@@ -82,10 +95,10 @@ class StaffController extends Controller
     }
 
     // ✅ Update staff
-    public function update(UpdateStaffRequest $request, $id=null)
+    public function update(UpdateStaffRequest $request, $id = null)
     {
         $validated = $request->validated();
-        
+
         $staff = $this->staffRepo->find($id);
         // dd($id);
 
