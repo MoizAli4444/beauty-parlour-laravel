@@ -35,7 +35,6 @@ class StaffRepository  implements StaffRepositoryInterface
                     });
                 })
                 // ->filterColumn('staff_role', function ($query, $keyword) {
-                //     $query->whereHas('staffRole', function ($q) use ($keyword) {
                 
                 
 
