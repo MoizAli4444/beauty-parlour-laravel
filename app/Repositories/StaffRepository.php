@@ -35,7 +35,6 @@ class StaffRepository  implements StaffRepositoryInterface
                     });
                 })
                 
-                
 
                 ->addColumn('checkbox', function ($row) {
                     return '<input type="checkbox" class="row-checkbox" value="' . $row->id . '">';
