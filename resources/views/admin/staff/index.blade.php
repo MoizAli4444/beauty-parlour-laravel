@@ -10,7 +10,7 @@
                 <div class="col-xl">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">All Services</h5>
+                            <h5 class="mb-0">All Staff</h5>
                             <a href="{{ route('staff.create') }}" class="btn btn-warning">Create</a>
                         </div>
                         <div class="card-body">
