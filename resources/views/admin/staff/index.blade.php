@@ -33,8 +33,7 @@
                                             <th>CNIC</th>
                                             <th>Role</th>
                                             <th>Shift</th>
-                                            {{-- 
-                                        --}}
+                                           
                                             <th>Joining Date</th>
                                             <th>Salary</th>
                                             <th>Verified</th>

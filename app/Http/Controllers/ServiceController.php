@@ -127,7 +127,7 @@ class ServiceController extends Controller
         $this->serviceRepository->delete($id);
         return response()->json([
             'status' => true,
-            'message' => 'Status updated successfully.',
+            'message' => 'Service deleted successfully.',
         ]);
     }
 

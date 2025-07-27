@@ -129,8 +129,9 @@ class StaffRepository  implements StaffRepositoryInterface
 
     public function delete($id)
     {
-        $staff = Staff::findOrFail($id);
-        return $staff->delete();
+        // dd($id);
+        $user = User::findOrFail($id);
+        return $user->delete();
     }
 
     public function toggleStatus($id)

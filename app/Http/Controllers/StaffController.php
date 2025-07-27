@@ -67,7 +67,7 @@ class StaffController extends Controller
         $user = $this->staffRepo->findBySlug($slug);
 
         if (!$user) {
-            return redirect()->route('staff.index')->with('error', 'Customer not found.');
+            return redirect()->route('staff.index')->with('error', 'Staff not found.');
         }
 
         // return $user;
@@ -81,7 +81,7 @@ class StaffController extends Controller
         $user = $this->staffRepo->findBySlug($slug);
 
         if (!$user) {
-            return redirect()->route('staff.index')->with('error', 'Customer not found');
+            return redirect()->route('staff.index')->with('error', 'Staff not found');
         }
 
         $shifts =  Shift::get(); // get all active records
@@ -122,7 +122,10 @@ class StaffController extends Controller
     public function destroy($id)
     {
         $this->staffRepo->delete($id);
-        return redirect()->back()->with('success', 'Staff deleted successfully.');
+        return response()->json([
+            'status' => true,
+            'message' => 'Staff deleted successfully.',
+        ]);
     }
 
     // ✅ Toggle status (active/inactive)
