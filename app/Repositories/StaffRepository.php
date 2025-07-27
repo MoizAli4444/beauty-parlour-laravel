@@ -24,7 +24,6 @@ class StaffRepository  implements StaffRepositoryInterface
             // return DataTables::of(Staff::with('user')->latest())
             return DataTables::of(Staff::with(['user', 'staffRole', 'shift'])->select('staff.*')->latest())
 
-                ////
                 ->filterColumn('name', function ($query, $keyword) {
                     $query->whereHas('user', function ($q) use ($keyword) {
                         $q->whereRaw('LOWER(name) LIKE ?', ["%" . strtolower($keyword) . "%"]);
