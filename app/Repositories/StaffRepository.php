@@ -43,7 +43,7 @@ class StaffRepository  implements StaffRepositoryInterface
                 //     $query->whereHas('shift', function ($q) use ($keyword) {
                 //         $q->whereRaw('LOWER(name) LIKE ?', ["%" . strtolower($keyword) . "%"]);
                 //     });
-                // })
+                
                 
 
                 ->addColumn('checkbox', function ($row) {
