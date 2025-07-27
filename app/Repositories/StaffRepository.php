@@ -34,7 +34,6 @@ class StaffRepository  implements StaffRepositoryInterface
                         $q->whereRaw('LOWER(email) LIKE ?', ["%" . strtolower($keyword) . "%"]);
                     });
                 })
-                // ->filterColumn('staff_role', function ($query, $keyword) {
                 
                 
 
