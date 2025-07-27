@@ -152,7 +152,7 @@
                                         @error('image')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
-                                        @if (isset($staff) && $user->staff->image)
+                                        @if (isset($user->staff) && $user->staff->image)
                                             <img src="{{ asset('storage/' . $user->staff->image) }}" alt="Profile"
                                                 width="80">
                                         @endif
