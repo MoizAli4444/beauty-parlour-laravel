@@ -39,11 +39,11 @@ class StaffRepository  implements StaffRepositoryInterface
                         $q->whereRaw('LOWER(name) LIKE ?', ["%" . strtolower($keyword) . "%"]);
                     });
                 })
-                ->filterColumn('shift_name', function ($query, $keyword) {
-                    $query->whereHas('shift', function ($q) use ($keyword) {
-                        $q->whereRaw('LOWER(name) LIKE ?', ["%" . strtolower($keyword) . "%"]);
-                    });
-                })
+                // ->filterColumn('shift_name', function ($query, $keyword) {
+                //     $query->whereHas('shift', function ($q) use ($keyword) {
+                //         $q->whereRaw('LOWER(name) LIKE ?', ["%" . strtolower($keyword) . "%"]);
+                //     });
+                // })
                 
 
                 ->addColumn('checkbox', function ($row) {
