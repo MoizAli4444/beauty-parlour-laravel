@@ -38,7 +38,6 @@ class StaffRepository  implements StaffRepositoryInterface
                 //     $query->whereHas('staffRole', function ($q) use ($keyword) {
                 //         $q->whereRaw('LOWER(name) LIKE ?', ["%" . strtolower($keyword) . "%"]);
                 //     });
-                // })
                 
                 
 
