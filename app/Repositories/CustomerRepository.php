@@ -29,13 +29,31 @@ class CustomerRepository  implements CustomerRepositoryInterface
                     return '<input type="checkbox" class="row-checkbox" value="' . $row->id . '">';
                 })
 
+                ->filterColumn('name', function ($query, $keyword) {
+                    $query->whereHas('user', function ($q) use ($keyword) {
+                        $q->where('name', 'LIKE', '%' . strtolower($keyword) . '%');
+                    });
+                })
+
+                ->filterColumn('email', function ($query, $keyword) {
+                    $query->whereHas('user', function ($q) use ($keyword) {
+                        $q->where('email', 'LIKE', '%' . strtolower($keyword) . '%');
+                    });
+                })
+
                 ->editColumn('name', function ($row) {
+                    if (!$row->user) {
+                        return '-';
+                    }
                     return strlen($row->user->name ?? '') > 20
                         ? substr($row->user->name, 0, 20) . '...'
                         : $row->user->name;
                 })
 
                 ->editColumn('email', function ($row) {
+                    if (!$row->user) {
+                        return '-';
+                    }
                     return $row->user->email ?? '-';
                 })
 
