@@ -37,7 +37,7 @@
                             @endif
 
 
-                            <form action="{{ isset($staff) ? route('staff.update', $staff->id) : route('staff.store') }}"
+                            <form action="{{ route('staff.update', $user->id)}}"
                                 method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @if (isset($staff))
