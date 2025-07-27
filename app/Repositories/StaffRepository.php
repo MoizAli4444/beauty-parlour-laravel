@@ -40,8 +40,6 @@ class StaffRepository  implements StaffRepositoryInterface
                 //     });
                 // })
                 // ->filterColumn('shift_name', function ($query, $keyword) {
-                //     $query->whereHas('shift', function ($q) use ($keyword) {
-                //         $q->whereRaw('LOWER(name) LIKE ?', ["%" . strtolower($keyword) . "%"]);
                 
                 
 
