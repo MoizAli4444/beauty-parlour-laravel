@@ -11,38 +11,41 @@
                     <div class="card">
 
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">Edit Service</h5>
+                            <h5 class="mb-0">Edit Addon</h5>
 
                             <div>
-                              {!! render_delete_button($service->id, route('services.destroy', $service->id), false) !!}
-                                {!! render_view_button(route('services.show', $service->slug), false) !!}
-                                {!! render_index_button(route('services.index'), 'All Services', false) !!}
+                                {!! render_delete_button($addon->id, route('addons.destroy', $addon->id), false) !!}
+                                {!! render_view_button(route('addons.show', $addon->slug), false) !!}
+                                {!! render_index_button(route('addons.index'), 'All Addons', false) !!}
 
                             </div>
                         </div>
 
                         <div class="card-body">
 
-                            <form action="{{ route('services.update', $service->id) }}" method="POST"
+                            <form action="{{ route('addons.update', $addon->id) }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
 
                                 <!-- Name -->
                                 <div class="mb-4">
-                                    <label class="form-label" for="name">Service Name</label>
-                                    <input type="text" name="name" class="form-control" id="name"
-                                        value="{{ old('name', $service->name) }}" placeholder="Enter service name">
+                                    <label class="form-label" for="name">Addon Name</label>
+                                    <input type="text" name="name" id="name" class="form-control"
+                                        value="{{ old('name', $addon->name) }}" placeholder="Enter addon name">
                                     @error('name')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
 
+                                <!-- Slug (Optional - Readonly or Hidden) -->
+                                <input type="hidden" name="slug" value="{{ old('slug', $addon->slug) }}">
+
                                 <!-- Description -->
                                 <div class="mb-4">
                                     <label class="form-label" for="description">Description</label>
                                     <textarea name="description" id="description" class="form-control" rows="4"
-                                        placeholder="Write a short description...">{{ old('description', $service->description) }}</textarea>
+                                        placeholder="Write a short description...">{{ old('description', $addon->description) }}</textarea>
                                     @error('description')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
@@ -50,47 +53,79 @@
 
                                 <!-- Image Upload -->
                                 <div class="mb-4">
-                                    <label class="form-label" for="image">Service Image</label>
+                                    <label class="form-label" for="image">Addon Image</label>
                                     <input type="file" name="image" id="image" class="form-control">
-
                                     @error('image')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
 
-                                    @if (!empty($service->image) && file_exists(public_path('storage/' . $service->image)))
+                                    @if ($addon->image)
                                         <div class="mt-2">
-                                            <img src="{{ asset('storage/' . $service->image) }}" alt="Service Image"
+                                            <img src="{{ asset('storage/' . $addon->image) }}" alt="Addon Image"
                                                 width="120">
                                         </div>
                                     @endif
+                                </div>
 
+                                <!-- Price -->
+                                <div class="mb-4">
+                                    <label class="form-label" for="price">Price (in PKR)</label>
+                                    <input type="number" step="0.01" name="price" id="price" class="form-control"
+                                        value="{{ old('price', $addon->price) }}" placeholder="Enter price">
+                                    @error('price')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
 
+                                <!-- Duration -->
+                                <div class="mb-4">
+                                    <label class="form-label" for="duration_minutes">Duration (in minutes)</label>
+                                    <input type="number" name="duration_minutes" id="duration_minutes" class="form-control"
+                                        value="{{ old('duration_minutes', $addon->duration_minutes) }}"
+                                        placeholder="e.g. 30">
+                                    @error('duration_minutes')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                                <!-- Gender -->
+                                <div class="mb-4">
+                                    <label class="form-label" for="gender">Gender</label>
+                                    <select name="gender" id="gender" class="form-select">
+                                        <option value="0" {{ old('gender', $addon->gender) == 0 ? 'selected' : '' }}>
+                                            Female</option>
+                                        <option value="1" {{ old('gender', $addon->gender) == 1 ? 'selected' : '' }}>
+                                            Male</option>
+                                        <option value="2" {{ old('gender', $addon->gender) == 2 ? 'selected' : '' }}>
+                                            Both</option>
+                                    </select>
+                                    @error('gender')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
 
                                 <!-- Status -->
                                 <div class="mb-4">
-                                    <label class="form-label" for="status">Status</label>
-                                    <select name="status" id="status" class="form-select">
-                                        <option value="active"
-                                            {{ old('status', $service->status) === 'active' ? 'selected' : '' }}>
-                                            Active
+                                    <label class="form-label" for="is_active">Status</label>
+                                    <select name="is_active" id="is_active" class="form-select">
+                                        <option value="1"
+                                            {{ old('is_active', $addon->is_active) == 1 ? 'selected' : '' }}>Active
                                         </option>
-                                        <option value="inactive"
-                                            {{ old('status', $service->status) === 'inactive' ? 'selected' : '' }}>
-                                            Inactive
+                                        <option value="0"
+                                            {{ old('is_active', $addon->is_active) == 0 ? 'selected' : '' }}>Inactive
                                         </option>
                                     </select>
-                                    @error('status')
+                                    @error('is_active')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
 
                                 <!-- Submit -->
-                                <button type="submit" class="btn btn-warning">
-                                    Update Service
+                                <button type="submit" class="btn btn-primary">
+                                    Update Addon
                                 </button>
-
                             </form>
+
 
                         </div>
                     </div>

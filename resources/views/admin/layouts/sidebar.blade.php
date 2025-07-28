@@ -60,37 +60,6 @@
     <div class="menu-inner-shadow"></div>
 
     <ul class="menu-inner py-1">
-
-        <li class="menu-item {{ request()->routeIs('services.*') ? 'active' : '' }}">
-            <a href="{{ route('services.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-spa"></i>
-                <div class="text-truncate" data-i18n="Services">Services</div>
-            </a>
-        </li>
-
-        <li class="menu-item {{ request()->routeIs('service-variants.*') ? 'active' : '' }}">
-            <a href="{{ route('service-variants.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-spa"></i>
-                <div class="text-truncate" data-i18n="Service Variants">Service Variants</div>
-            </a>
-        </li>
-
-        <li class="menu-item {{ request()->routeIs('staff.*') ? 'active' : '' }}">
-            <a href="{{ route('staff.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-id-card"></i>
-
-                <div class="text-truncate" data-i18n="Staff">Staff</div>
-            </a>
-        </li>
-
-        <li class="menu-item {{ request()->routeIs('customers.*') ? 'active' : '' }}">
-            <a href="{{ route('customers.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-user"></i>
-                <div class="text-truncate" data-i18n="Customers">Customers</div>
-            </a>
-        </li>
-
-
         <!-- Dashboards -->
         <li class="menu-item active open">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -134,6 +103,45 @@
                 </li>
             </ul>
         </li>
+
+        <li class="menu-item {{ request()->routeIs('services.*') ? 'active' : '' }}">
+            <a href="{{ route('services.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-spa"></i>
+                <div class="text-truncate" data-i18n="Services">Services</div>
+            </a>
+        </li>
+
+        <li class="menu-item {{ request()->routeIs('service-variants.*') ? 'active' : '' }}">
+            <a href="{{ route('service-variants.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-spa"></i>
+                <div class="text-truncate" data-i18n="Service Variants">Service Variants</div>
+            </a>
+        </li>
+
+        <li class="menu-item {{ request()->routeIs('staff.*') ? 'active' : '' }}">
+            <a href="{{ route('staff.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-id-card"></i>
+
+                <div class="text-truncate" data-i18n="Staff">Staff</div>
+            </a>
+        </li>
+
+        <li class="menu-item {{ request()->routeIs('customers.*') ? 'active' : '' }}">
+            <a href="{{ route('customers.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-user"></i>
+                <div class="text-truncate" data-i18n="Customers">Customers</div>
+            </a>
+        </li>
+
+        <li class="menu-item {{ request()->routeIs('addons.*') ? 'active' : '' }}">
+            <a href="{{ route('addons.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-user"></i>
+                <div class="text-truncate" data-i18n="addons">Addons</div>
+            </a>
+        </li>
+
+
+
 
         <!-- Layouts -->
         <li class="menu-item">

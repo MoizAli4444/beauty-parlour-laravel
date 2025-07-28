@@ -38,6 +38,38 @@ class Addon extends Model
         ];
     }
 
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function updater()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    public function getStatusBadgeAttribute()
+    {
+        return render_status_badge($this->status, $this->id, route('addons.toggle-status', $this->id));
+    }
+
+    public function getEditButtonAttribute()
+    {
+        return render_edit_button(route('addons.edit', $this->slug));
+    }
+
+    public function getViewButtonAttribute()
+    {
+        return render_view_button(route('addons.show', $this->slug));
+    }
+
+
+    public function getDeleteButtonAttribute()
+    {
+        return render_delete_button($this->id, route('addons.destroy', $this->id));
+    }
+
+    // {!! render_delete_button($addon->id, route('addons.destroy', $addon->id)) !!}
 
     public function bookingAddons()
     {
