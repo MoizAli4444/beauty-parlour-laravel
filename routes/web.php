@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddonController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
@@ -113,6 +114,27 @@ Route::middleware('auth')->group(function () {
 
     // Resource Routes
     Route::resource('customers', CustomerController::class);
+
+
+    // ==============================
+    // Addons Module Routes
+    // ==============================
+
+    Route::prefix('addons')->name('addons.')->group(function () {
+        // For DataTables AJAX loading
+        Route::get('datatable', [AddonController::class, 'datatable'])->name('datatable');
+
+        // For toggling status
+        Route::patch('{id}/toggle-status', [AddonController::class, 'toggleStatus'])->name('toggle-status');
+
+        // Bulk actions
+        Route::post('bulk-delete', [AddonController::class, 'bulkDelete'])->name('bulkDelete');
+        Route::post('bulk-status', [AddonController::class, 'bulkStatus'])->name('bulkStatus');
+    });
+
+    // Resource Routes
+    Route::resource('addons', AddonController::class);
+
 
 
 

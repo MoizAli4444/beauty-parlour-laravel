@@ -14,11 +14,19 @@ class Addon extends Model
     use SoftDeletes;
 
     protected $casts = [
+        'price' => 'decimal:2',
+        'status' => 'integer',
         'gender' => GenderType::class,
     ];
 
     // $user->gender === GenderType::Female
 
+    protected $fillable = [
+        'name',
+        'description',
+        'price',
+        'status', // e.g., 0 = inactive, 1 = active
+    ];
 
     public function sluggable(): array
     {
