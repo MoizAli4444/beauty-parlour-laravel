@@ -13,6 +13,16 @@ return new class extends Migration
     {
         Schema::create('addons', function (Blueprint $table) {
             $table->id();
+
+            $table->string('name');
+            $table->text('description')->nullable();
+            $table->decimal('price', 10, 2);
+            $table->integer('duration_minutes')->nullable();
+            $table->boolean('is_active')->default(1);
+            $table->string('image')->nullable();
+            $table->tinyInteger('gender')->default(0)->comment('0 = Female, 1 = Male, 2 = Both');
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }
