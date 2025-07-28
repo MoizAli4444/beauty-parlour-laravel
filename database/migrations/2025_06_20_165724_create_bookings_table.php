@@ -40,22 +40,6 @@ return new class extends Migration
     }
 
 
-    //     Schema::create('addons', function (Blueprint $table) {
-    //     $table->id();
-    //     $table->string('name');
-    //     $table->decimal('price', 10, 2);
-    //     $table->timestamps();
-    // });
-
-    // Schema::create('booking_addons', function (Blueprint $table) {
-    //     $table->id();
-    //     $table->foreignId('booking_id')->constrained()->cascadeOnDelete();
-    //     $table->foreignId('addon_id')->constrained()->cascadeOnDelete();
-    //     $table->decimal('price', 10, 2); // price at booking time
-    //     $table->timestamps();
-    // });
-
-
     /**
      * Reverse the migrations.
      */
