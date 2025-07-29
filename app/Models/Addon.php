@@ -15,7 +15,7 @@ class Addon extends Model
 
     protected $casts = [
         'price' => 'decimal:2',
-        'status' => 'integer',
+        'status' => 'string',
         'gender' => GenderType::class,
     ];
 
@@ -23,10 +23,15 @@ class Addon extends Model
 
     protected $fillable = [
         'name',
+        'slug',
         'description',
+        'image',
         'price',
-        'status', // e.g., 0 = inactive, 1 = active
+        'duration_minutes',
+        'status',
+        'gender',
     ];
+
 
     public function sluggable(): array
     {
@@ -70,6 +75,12 @@ class Addon extends Model
     }
 
     // {!! render_delete_button($addon->id, route('addons.destroy', $addon->id)) !!}
+
+    public function getGenderBadgeAttribute()
+    {
+        return render_gender_badge($this->gender);
+    }
+
 
     public function bookingAddons()
     {

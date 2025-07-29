@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->decimal('price', 10, 2);
             $table->integer('duration_minutes')->nullable();
-            $table->boolean('status')->default(1); // 1 = active, 0 = inactive
+            $table->enum('status', ['active', 'inactive'])->default('active');
             $table->tinyInteger('gender')->default(0)->comment('0 = Female, 1 = Male, 2 = Both');
 
             $table->softDeletes();

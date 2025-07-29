@@ -1,5 +1,7 @@
 <?php
 
+use App\GenderType;
+
 if (!function_exists('render_index_button')) {
     function render_index_button($route, $label = 'All Records', $isOutline = true): string
     {
@@ -63,6 +65,7 @@ if (!function_exists('render_delete_button')) {
 if (!function_exists('render_status_badge')) {
     function render_status_badge($status, $id = null, $route = null): string
     {
+
         $statuses = [
             'active'        => ['Active', 'success'],
             'inactive'      => ['Inactive', 'secondary'],
@@ -77,3 +80,19 @@ if (!function_exists('render_status_badge')) {
         return "<span class='badge rounded-pill text-bg-{$class}'>{$text}</span>";
     }
 }
+
+
+if (!function_exists('render_gender_badge')) {
+    function render_gender_badge(GenderType $gender): string
+    {
+        $text = $gender->label();
+        $color = match ($gender) {
+            GenderType::Female => 'info',
+            GenderType::Male => 'primary',
+            GenderType::Both => 'dark',
+        };
+
+        return "<span class='badge rounded-pill text-bg-{$color}'>{$text}</span>";
+    }
+}
+

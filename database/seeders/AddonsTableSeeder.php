@@ -22,7 +22,7 @@ class AddonsTableSeeder extends Seeder
                 'image' => null,
                 'price' => 10.00,
                 'duration_minutes' => 30,
-                'status' => 1,
+                'status' => 'active',
                 'gender' => 2, // Both
             ],
             [
@@ -32,7 +32,7 @@ class AddonsTableSeeder extends Seeder
                 'image' => null,
                 'price' => 5.00,
                 'duration_minutes' => 15,
-                'status' => 1,
+                'status' => 'active',
                 'gender' => 1, // Male
             ],
             [
@@ -42,7 +42,7 @@ class AddonsTableSeeder extends Seeder
                 'image' => null,
                 'price' => 7.50,
                 'duration_minutes' => 20,
-                'status' => 1,
+                'status' => 'active',
                 'gender' => 2, // Both
             ],
             [
@@ -52,7 +52,7 @@ class AddonsTableSeeder extends Seeder
                 'image' => null,
                 'price' => 15.00,
                 'duration_minutes' => 40,
-                'status' => 1,
+                'status' => 'active',
                 'gender' => 0,
             ],
             [
@@ -62,7 +62,7 @@ class AddonsTableSeeder extends Seeder
                 'image' => null,
                 'price' => 12.50,
                 'duration_minutes' => 30,
-                'status' => 1,
+                'status' => 'active',
                 'gender' => 0,
             ],
         ];

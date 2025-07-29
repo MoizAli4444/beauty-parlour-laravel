@@ -10,15 +10,15 @@
                 <div class="col-xl">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">All Services</h5>
-                            <a href="{{ route('services.create') }}" class="btn btn-warning">Create</a>
+                            <h5 class="mb-0">All Addons</h5>
+                            <a href="{{ route('addons.create') }}" class="btn btn-warning">Create</a>
                         </div>
                         <div class="card-body">
 
                             @include('admin.pages-partials.bulk-actions', [
-                                'deleteUrl' => route('services.bulkDelete'),
-                                'statusUrl' => route('services.bulkStatus'),
-                                'itemType' => 'services', // optional
+                                'deleteUrl' => route('addons.bulkDelete'),
+                                'statusUrl' => route('addons.bulkStatus'),
+                                'itemType' => 'addons', // optional
                             ])
 
                             <table id="indexPageDataTable" class="table table-bordered">
@@ -27,6 +27,9 @@
                                         <th><input type="checkbox" id="select-all"></th> {{-- universal checkbox --}}
                                         <th>ID</th>
                                         <th>Name</th>
+                                        <th>Price</th>
+                                        <th>Duration</th>
+                                        <th>Gender</th>
                                         <th>Status</th>
                                         <th>Created At</th>
                                         <th>Action</th>
@@ -50,5 +53,5 @@
 @endsection
 
 @push('scripts')
-    @include('admin.service.js.script')
+    @include('admin.addon.js.script')
 @endpush

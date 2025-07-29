@@ -37,6 +37,11 @@ class AddonRepository implements AddonRepositoryInterface
                 ->editColumn('status', function ($row) {
                     return $row->status_badge; // uses model accessor
                 })
+
+                 ->editColumn('gender', function ($row) {
+                    return $row->gender_badge ; // uses model accessor
+                })
+
                 ->editColumn('created_at', function ($row) {
                     return $row->created_at->format('d M Y'); // Example: 29 Jun 2025
                 })
@@ -44,7 +49,7 @@ class AddonRepository implements AddonRepositoryInterface
                 ->addColumn('action', function ($row) {
                     return view('admin.addon.action', ['addon' => $row])->render();
                 })
-                ->rawColumns(['checkbox', 'action', 'status']) // allow HTML rendering
+                ->rawColumns(['checkbox', 'action', 'status','gender']) // allow HTML rendering
                 ->make(true);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
