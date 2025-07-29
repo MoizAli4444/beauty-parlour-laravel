@@ -11,7 +11,7 @@ class StoreAddonRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,13 @@ class StoreAddonRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string|max:1000',
+            'image' => 'nullable|image|max:5120', // Max 5MB
+            'price' => 'required|numeric|min:0',
+            'duration_minutes' => 'nullable|integer|min:0',
+            'status' => 'required|boolean',
+            'gender' => 'required|in:0,1,2', // 0 = Female, 1 = Male, 2 = Both
         ];
     }
 }

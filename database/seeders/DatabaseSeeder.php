@@ -34,6 +34,7 @@ class DatabaseSeeder extends Seeder
             StaffSeeder::class,
             CustomerSeeder::class,
 
+            AddonsTableSeeder::class,
             
 
         ]);

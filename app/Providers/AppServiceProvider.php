@@ -2,12 +2,13 @@
 
 namespace App\Providers;
 
-use App\AddonRepository;
+
 use App\Interfaces\AddonRepositoryInterface;
 use App\Interfaces\CustomerRepositoryInterface;
 use App\Interfaces\ServiceRepositoryInterface;
 use App\Interfaces\ServiceVariantRepositoryInterface;
 use App\Interfaces\StaffRepositoryInterface;
+use App\Repositories\AddonRepository;
 use App\Repositories\CustomerRepository;
 use App\Repositories\ServiceRepository;
 use App\Repositories\ServiceVariantRepository;

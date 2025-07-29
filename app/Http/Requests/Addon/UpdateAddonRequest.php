@@ -11,7 +11,7 @@ class UpdateAddonRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,17 @@ class UpdateAddonRequest extends FormRequest
      */
     public function rules(): array
     {
+        $addonId = $this->route('addon'); // Assuming route model binding or id param
+
         return [
-            //
+            'name' => 'required|string|max:255|unique:addons,name,' . $addonId,
+            'description' => 'nullable|string|max:1000',
+            'price' => 'required|numeric|min:0',
+            'image' => 'nullable|image|max:5120',
+            'status' => 'required|boolean',
+            'duration_minutes' => 'nullable|integer|min:0',
+            'gender' => 'required|in:0,1,2',
+
         ];
     }
 }
