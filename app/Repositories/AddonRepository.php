@@ -42,6 +42,10 @@ class AddonRepository implements AddonRepositoryInterface
                     return $row->gender_badge ; // uses model accessor
                 })
 
+                 ->editColumn('price', function ($row) {
+                    return 'Rs ' . number_format($row->price, 2);
+                })
+
                 ->editColumn('created_at', function ($row) {
                     return $row->created_at->format('d M Y'); // Example: 29 Jun 2025
                 })
