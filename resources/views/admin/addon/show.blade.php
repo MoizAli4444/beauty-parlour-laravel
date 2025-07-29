@@ -42,7 +42,7 @@
                                         <div>Rs {{ number_format($addon->price, 2) }}</div>
                                     </div>
 
-                                    <!-- Duration -->
+                                    <!-  dd - Duration -->
                                     <div class="mb-4">
                                         <label class="form-label fw-bold">Duration (minutes):</label>
                                         <div>{{ $addon->duration ?? '-' }}</div>
