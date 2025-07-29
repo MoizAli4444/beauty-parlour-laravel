@@ -39,7 +39,7 @@
                                     <!-- Price -->
                                     <div class="mb-4">
                                         <label class="form-label fw-bold">Price (PKR):</label>
-                                        <div>PKR {{ number_format($addon->price, 2) }}</div>
+                                        <div>Rs {{ number_format($addon->price, 2) }}</div>
                                     </div>
 
                                     <!-- Duration -->
