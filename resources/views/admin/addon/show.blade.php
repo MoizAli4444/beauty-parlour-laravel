@@ -10,12 +10,12 @@
                     <div class="card">
 
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">View Service</h5>
+                            <h5 class="mb-0">View Addon</h5>
                             <div>
 
-                                {!! render_delete_button($service->id, route('services.destroy', $service->id), false) !!}
-                                {!! render_edit_button(route('services.edit', $service->slug), false) !!}
-                                {!! render_index_button(route('services.index'), 'All Services', false) !!}
+                                {!! render_delete_button($addon->id, route('addons.destroy', $addon->id), false) !!}
+                                {!! render_edit_button(route('addons.edit', $addon->slug), false) !!}
+                                {!! render_index_button(route('addons.index'), 'All Addons', false) !!}
                             </div>
                         </div>
 
@@ -23,80 +23,58 @@
                             <div class="row">
                                 <!-- Left Column -->
                                 <div class="col-md-8">
+
                                     <!-- Addon Name -->
                                     <div class="mb-4">
-                                        <label class="form-label fw-bold">Addon Name</label>
-                                        <input type="text" name="name" class="form-control"
-                                            value="{{ old('name', $addon->name) }}" required>
+                                        <label class="form-label fw-bold">Addon Name:</label>
+                                        <div>{{ $addon->name }}</div>
                                     </div>
 
                                     <!-- Description -->
                                     <div class="mb-4">
-                                        <label class="form-label fw-bold">Description</label>
-                                        <textarea name="description" class="form-control" rows="3">{{ old('description', $addon->description) }}</textarea>
+                                        <label class="form-label fw-bold">Description:</label>
+                                        <div>{{ $addon->description ?? '-' }}</div>
                                     </div>
 
                                     <!-- Price -->
                                     <div class="mb-4">
-                                        <label class="form-label fw-bold">Price (PKR)</label>
-                                        <input type="number" step="0.01" name="price" class="form-control"
-                                            value="{{ old('price', $addon->price) }}" required>
+                                        <label class="form-label fw-bold">Price (PKR):</label>
+                                        <div>PKR {{ number_format($addon->price, 2) }}</div>
                                     </div>
 
                                     <!-- Duration -->
                                     <div class="mb-4">
-                                        <label class="form-label fw-bold">Duration (minutes)</label>
-                                        <input type="number" name="duration" class="form-control"
-                                            value="{{ old('duration', $addon->duration) }}" required>
-                                    </div>
-
-                                    <!-- Sort Order -->
-                                    <div class="mb-4">
-                                        <label class="form-label fw-bold">Sort Order</label>
-                                        <input type="number" name="sort_order" class="form-control"
-                                            value="{{ old('sort_order', $addon->sort_order) }}">
+                                        <label class="form-label fw-bold">Duration (minutes):</label>
+                                        <div>{{ $addon->duration ?? '-' }}</div>
                                     </div>
 
                                     <!-- Gender -->
                                     <div class="mb-4">
-                                        <label class="form-label fw-bold">Gender</label>
-                                        <select name="gender" class="form-select">
-                                            <option value="0" {{ $addon->gender == 0 ? 'selected' : '' }}>Female
-                                            </option>
-                                            <option value="1" {{ $addon->gender == 1 ? 'selected' : '' }}>Male</option>
-                                            <option value="2" {{ $addon->gender == 2 ? 'selected' : '' }}>Both</option>
-                                        </select>
+                                        <label class="form-label fw-bold">Gender:</label>
+                                        <div>{{ $addon->gender->label() ?? '-' }}</div>
                                     </div>
 
                                     <!-- Status -->
                                     <div class="mb-4">
-                                        <label class="form-label fw-bold">Status</label>
-                                        <select name="status" class="form-select">
-                                            <option value="1" {{ $addon->status == 1 ? 'selected' : '' }}>Active
-                                            </option>
-                                            <option value="0" {{ $addon->status == 0 ? 'selected' : '' }}>Inactive
-                                            </option>
-                                        </select>
+                                        <label class="form-label fw-bold">Status:</label>
+                                        <div>{!! $addon->status_badge !!}</div>
                                     </div>
                                 </div>
 
                                 <!-- Right Column -->
                                 <div class="col-md-4">
-                                    <label class="form-label fw-bold">Addon Image</label><br>
+                                    <label class="form-label fw-bold">Addon Image:</label><br>
 
                                     @if (!empty($addon->image) && file_exists(public_path('storage/' . $addon->image)))
                                         <img src="{{ asset('storage/' . $addon->image) }}" alt="Addon Image"
-                                            class="rounded shadow-sm mb-2" style="width: 250px; object-fit: cover;">
+                                            class="rounded shadow-sm" style="width: 250px; object-fit: cover;">
                                     @else
-                                        <div class="text-muted mb-2">No image uploaded</div>
+                                        <div class="text-muted">No image uploaded</div>
                                     @endif
-
-                                    <input type="file" name="image" class="form-control">
-                                    <small class="text-muted">Max size: 5MB</small>
                                 </div>
                             </div>
-
                         </div>
+
 
 
 

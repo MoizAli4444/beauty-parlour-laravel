@@ -27,7 +27,7 @@ class Addon extends Model
         'description',
         'image',
         'price',
-        'duration_minutes',
+        'duration',
         'status',
         'gender',
     ];

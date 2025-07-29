@@ -100,6 +100,8 @@ class AddonController extends Controller
     {
         $validated = $request->validated();
 
+        dd("");
+
         $addon = $this->addonRepository->find($id);
 
         // Handle image upload

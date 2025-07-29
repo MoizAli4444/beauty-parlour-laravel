@@ -62,11 +62,11 @@
 
                                 <!-- Duration Minutes -->
                                 <div class="mb-4">
-                                    <label class="form-label" for="duration_minutes">Duration (in minutes)</label>
-                                    <input type="number" name="duration_minutes" class="form-control" id="duration_minutes"
-                                        value="{{ old('duration_minutes', $addon->duration_minutes ?? '') }}"
+                                    <label class="form-label" for="duration">Duration (in minutes)</label>
+                                    <input type="number" name="duration" class="form-control" id="duration"
+                                        value="{{ old('duration', $addon->duration ?? '') }}"
                                         placeholder="e.g. 30">
-                                    @error('duration_minutes')
+                                    @error('duration')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
@@ -90,16 +90,16 @@
 
                                 <!-- Status -->
                                 <div class="mb-4">
-                                    <label class="form-label" for="is_active">Status</label>
-                                    <select name="is_active" id="is_active" class="form-select">
+                                    <label class="form-label" for="status">Status</label>
+                                    <select name="status" id="status" class="form-select">
                                         <option value="1"
-                                            {{ old('is_active', $addon->is_active ?? '') == 1 ? 'selected' : '' }}>Active
+                                            {{ old('status', $addon->status ?? '') == 1 ? 'selected' : '' }}>Active
                                         </option>
                                         <option value="0"
-                                            {{ old('is_active', $addon->is_active ?? '') == 0 ? 'selected' : '' }}>Inactive
+                                            {{ old('status', $addon->status ?? '') == 0 ? 'selected' : '' }}>Inactive
                                         </option>
                                     </select>
-                                    @error('is_active')
+                                    @error('status')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>

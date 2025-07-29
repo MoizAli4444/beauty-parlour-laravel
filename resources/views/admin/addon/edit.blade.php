@@ -22,6 +22,15 @@
                         </div>
 
                         <div class="card-body">
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 
                             <form action="{{ route('addons.update', $addon->id) }}" method="POST"
                                 enctype="multipart/form-data">
@@ -37,9 +46,6 @@
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
-
-                                <!-- Slug (Optional - Readonly or Hidden) -->
-                                <input type="hidden" name="slug" value="{{ old('slug', $addon->slug) }}">
 
                                 <!-- Description -->
                                 <div class="mb-4">
@@ -79,11 +85,11 @@
 
                                 <!-- Duration -->
                                 <div class="mb-4">
-                                    <label class="form-label" for="duration_minutes">Duration (in minutes)</label>
-                                    <input type="number" name="duration_minutes" id="duration_minutes" class="form-control"
-                                        value="{{ old('duration_minutes', $addon->duration_minutes) }}"
+                                    <label class="form-label" for="duration">Duration (in minutes)</label>
+                                    <input type="number" name="duration" id="duration" class="form-control"
+                                        value="{{ old('duration', $addon->duration) }}"
                                         placeholder="e.g. 30">
-                                    @error('duration_minutes')
+                                    @error('duration')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
@@ -106,16 +112,16 @@
 
                                 <!-- Status -->
                                 <div class="mb-4">
-                                    <label class="form-label" for="is_active">Status</label>
-                                    <select name="is_active" id="is_active" class="form-select">
+                                    <label class="form-label" for="status">Status</label>
+                                    <select name="status" id="status" class="form-select">
                                         <option value="1"
-                                            {{ old('is_active', $addon->is_active) == 1 ? 'selected' : '' }}>Active
+                                            {{ old('status', $addon->status) == 1 ? 'selected' : '' }}>Active
                                         </option>
                                         <option value="0"
-                                            {{ old('is_active', $addon->is_active) == 0 ? 'selected' : '' }}>Inactive
+                                            {{ old('status', $addon->status) == 0 ? 'selected' : '' }}>Inactive
                                         </option>
                                     </select>
-                                    @error('is_active')
+                                    @error('status')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>

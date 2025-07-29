@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('image')->nullable();
             $table->decimal('price', 10, 2);
-            $table->integer('duration_minutes')->nullable();
+            $table->integer('duration')->nullable(); // duration in minutes
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->tinyInteger('gender')->default(0)->comment('0 = Female, 1 = Male, 2 = Both');
 

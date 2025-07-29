@@ -24,8 +24,8 @@
                     name: 'price'
                 },
                 {
-                    data: 'duration_minutes',
-                    name: 'duration_minutes'
+                    data: 'duration',
+                    name: 'duration'
                 },
                 {
                     data: 'gender',

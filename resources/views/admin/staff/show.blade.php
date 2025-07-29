@@ -37,7 +37,7 @@
 
                                     <!-- Left Column: Staff Details -->
                                     <div class="row mb-4">
-                                        
+
                                         <!-- Address -->
                                         <div class="col-md-6">
                                             <label class="form-label fw-bold">Address:</label>
@@ -57,10 +57,10 @@
                                             <label class="form-label fw-bold">Date of Birth:</label>
                                             <div>{{ $user->staff->date_of_birth?->format('d M Y') ?? '-' }}</div>
                                         </div>
-                                        
+
                                     </div>
 
-                                    
+
 
                                     <!-- CNIC & Emergency Contact -->
                                     <div class="row mb-4">
@@ -107,7 +107,7 @@
                                             <div>{{ ucfirst($user->staff->payment_schedule) }}</div>
                                         </div>
                                     </div>
-                                
+
 
                                 </div>
 
@@ -124,47 +124,47 @@
                             </div>
 
 
-                                    <div class="row mb-4">
-                                        <div class="col-md-3">
-                                            <label class="form-label fw-bold">Payment Method:</label>
-                                            <div>{{ $user->staff->paymentMethod?->name ?? '-' }}</div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label class="form-label fw-bold">Bank Account #:</label>
-                                            <div>{{ $user->staff->bank_account_number ?? '-' }}</div>
-                                        </div>
-                                   
-                                        <div class="col-md-3">
-                                            <label class="form-label fw-bold">Is Head:</label>
-                                            <div>{{ $user->staff->is_head ? 'Yes' : 'No' }}</div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label class="form-label fw-bold">Verified:</label>
-                                            <div>{{ $user->staff->is_verified ? 'Yes' : 'No' }}</div>
-                                        </div>
-                                    </div>
+                            <div class="row mb-4">
+                                <div class="col-md-3">
+                                    <label class="form-label fw-bold">Payment Method:</label>
+                                    <div>{{ $user->staff->paymentMethod?->name ?? '-' }}</div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label fw-bold">Bank Account #:</label>
+                                    <div>{{ $user->staff->bank_account_number ?? '-' }}</div>
+                                </div>
 
-                              <div class="row mb-4">
-                                        <div class="col-md-3">
-                                            <label class="form-label fw-bold">Joining Date:</label>
-                                            <div>{{ $user->staff->joining_date?->format('d M Y') ?? '-' }}</div>
-                                        </div>
+                                <div class="col-md-3">
+                                    <label class="form-label fw-bold">Is Head:</label>
+                                    <div>{{ $user->staff->is_head ? 'Yes' : 'No' }}</div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label fw-bold">Verified:</label>
+                                    <div>{{ $user->staff->is_verified ? 'Yes' : 'No' }}</div>
+                                </div>
+                            </div>
 
-                                        <div class="col-md-3">
-                                            <label class="form-label fw-bold">Leaving Date:</label>
-                                            <div>{{ $user->staff->leaving_date?->format('d M Y') ?? '-' }}</div>
-                                        </div>
-                                    
-                                        <div class="col-md-3">
-                                            <label class="form-label fw-bold">Status:</label>
-                                            <div>{{ ucfirst($user->staff->status) }}</div>
-                                        </div>
+                            <div class="row mb-4">
+                                <div class="col-md-3">
+                                    <label class="form-label fw-bold">Joining Date:</label>
+                                    <div>{{ $user->staff->joining_date?->format('d M Y') ?? '-' }}</div>
+                                </div>
 
-                                        <div class="col-md-3">
-                                            <label class="form-label fw-bold">Created At:</label>
-                                            <div>{{ $user->staff->created_at->format('d M Y') }}</div>
-                                        </div>
-                                    </div>
+                                <div class="col-md-3">
+                                    <label class="form-label fw-bold">Leaving Date:</label>
+                                    <div>{{ $user->staff->leaving_date?->format('d M Y') ?? '-' }}</div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="form-label fw-bold">Status:</label>
+                                    <div>{{ ucfirst($user->staff->status) }}</div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="form-label fw-bold">Created At:</label>
+                                    <div>{{ $user->staff->created_at->format('d M Y') }}</div>
+                                </div>
+                            </div>
                         </div>
 
 
