@@ -27,15 +27,17 @@ class DatabaseSeeder extends Seeder
 
             ServiceSeeder::class,
             ServiceVariantSeeder::class,
-            
+
             PaymentMethodSeeder::class,
             ShiftSeeder::class,
             StaffRoleSeeder::class,
             StaffSeeder::class,
             CustomerSeeder::class,
 
+            OfferSeeder::class,
+
             AddonsTableSeeder::class,
-            
+
 
         ]);
     }

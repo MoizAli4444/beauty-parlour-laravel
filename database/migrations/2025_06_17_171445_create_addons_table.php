@@ -23,6 +23,10 @@ return new class extends Migration
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->tinyInteger('gender')->default(0)->comment('0 = Female, 1 = Male, 2 = Both');
 
+            $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('updated_by')->nullable()->constrained('users')->nullOnDelete();
+
+
             $table->softDeletes();
             $table->timestamps();
         });

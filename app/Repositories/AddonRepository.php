@@ -19,7 +19,7 @@ class AddonRepository implements AddonRepositoryInterface
         //
     }
 
-        use TracksUser;
+    use TracksUser;
 
     public function getDatatableData()
     {
@@ -38,11 +38,11 @@ class AddonRepository implements AddonRepositoryInterface
                     return $row->status_badge; // uses model accessor
                 })
 
-                 ->editColumn('gender', function ($row) {
-                    return $row->gender_badge ; // uses model accessor
+                ->editColumn('gender', function ($row) {
+                    return $row->gender_badge; // uses model accessor
                 })
 
-                 ->editColumn('price', function ($row) {
+                ->editColumn('price', function ($row) {
                     return 'Rs ' . number_format($row->price, 2);
                 })
 
@@ -53,7 +53,7 @@ class AddonRepository implements AddonRepositoryInterface
                 ->addColumn('action', function ($row) {
                     return view('admin.addon.action', ['addon' => $row])->render();
                 })
-                ->rawColumns(['checkbox', 'action', 'status','gender']) // allow HTML rendering
+                ->rawColumns(['checkbox', 'action', 'status', 'gender']) // allow HTML rendering
                 ->make(true);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);

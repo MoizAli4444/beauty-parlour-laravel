@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\OfferLog;
+use App\Models\OfferUser;
 use Illuminate\Http\Request;
 
-class OfferLogController extends Controller
+class OfferUserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class OfferLogController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(OfferLog $offerLog)
+    public function show(OfferUser $offer_User)
     {
         //
     }
@@ -42,7 +42,7 @@ class OfferLogController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(OfferLog $offerLog)
+    public function edit(OfferUser $offer_User)
     {
         //
     }
@@ -50,7 +50,7 @@ class OfferLogController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, OfferLog $offerLog)
+    public function update(Request $request, OfferUser $offer_User)
     {
         //
     }
@@ -58,7 +58,7 @@ class OfferLogController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(OfferLog $offerLog)
+    public function destroy(OfferUser $offer_User)
     {
         //
     }

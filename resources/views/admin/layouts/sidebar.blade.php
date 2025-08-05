@@ -140,6 +140,13 @@
             </a>
         </li>
 
+         <li class="menu-item {{ request()->routeIs('offers.*') ? 'active' : '' }}">
+            <a href="{{ route('offers.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-user"></i>
+                <div class="text-truncate" data-i18n="offers">Offers</div>
+            </a>
+        </li>
+
 
 
 

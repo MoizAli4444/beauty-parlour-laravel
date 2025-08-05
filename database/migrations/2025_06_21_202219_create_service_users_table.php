@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('offer_logs', function (Blueprint $table) {
+        Schema::create('service_users', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('offer_id')->constrained()->onDelete('cascade');
+            
+            $table->foreignId('service_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->enum('status', ['used', 'revoked'])->default('used');
-            $table->softDeletes();
+
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('offer_logs');
+        Schema::dropIfExists('service_users');
     }
 };

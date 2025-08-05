@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\AddonController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\OfferController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
@@ -116,6 +118,27 @@ Route::middleware('auth')->group(function () {
     Route::resource('customers', CustomerController::class);
 
 
+    /// ==============================
+    // Offer Module Routes
+    // ==============================
+
+    Route::prefix('offers')->name('offers.')->group(function () {
+        // For DataTables AJAX loading
+        Route::get('datatable', [OfferController::class, 'datatable'])->name('datatable');
+
+        // For toggling status
+        Route::patch('{id}/toggle-status', [OfferController::class, 'toggleStatus'])->name('toggle-status');
+
+        // Bulk actions
+        Route::post('bulk-delete', [OfferController::class, 'bulkDelete'])->name('bulkDelete');
+        Route::post('bulk-status', [OfferController::class, 'bulkStatus'])->name('bulkStatus');
+    });
+
+    // Resource Routes
+    Route::resource('offers', OfferController::class);
+
+
+
     // ==============================
     // Addons Module Routes
     // ==============================
@@ -134,6 +157,27 @@ Route::middleware('auth')->group(function () {
 
     // Resource Routes
     Route::resource('addons', AddonController::class);
+
+
+    /// ==============================
+    // Booking Module Routes
+    // ==============================
+
+    Route::prefix('bookings')->name('bookings.')->group(function () {
+        // For DataTables AJAX loading
+        Route::get('datatable', [BookingController::class, 'datatable'])->name('datatable');
+
+        // For toggling status
+        Route::patch('{id}/toggle-status', [BookingController::class, 'toggleStatus'])->name('toggle-status');
+
+        // Bulk actions
+        Route::post('bulk-delete', [BookingController::class, 'bulkDelete'])->name('bulkDelete');
+        Route::post('bulk-status', [BookingController::class, 'bulkStatus'])->name('bulkStatus');
+    });
+
+    // Resource Routes
+    Route::resource('bookings', BookingController::class);
+
 
 
 
