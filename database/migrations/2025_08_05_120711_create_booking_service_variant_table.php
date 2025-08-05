@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('booking_addons', function (Blueprint $table) {
+        Schema::create('booking_service_variant', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('booking_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('addon_id')->constrained()->cascadeOnDelete();
+
+            $table->foreignId('booking_id')->constrained()->onDelete('cascade');
+            $table->foreignId('service_variant_id')->constrained()->onDelete('cascade');
+
             $table->decimal('price', 10, 2); // price of this variant at time of booking
 
             $table->foreignId('staff_id')->nullable()->constrained()->nullOnDelete();
@@ -30,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('booking_addons');
+        Schema::dropIfExists('booking_service_variant');
     }
 };

@@ -72,5 +72,11 @@ class ServiceVariant extends Model
     // {!! render_delete_button($service->id, route('service-variants.destroy', $service->id)) !!}
 
 
-
+    //////////////////////////////////////
+    public function bookings()
+    {
+        return $this->belongsToMany(Booking::class, 'booking_service_variant')
+            ->withPivot('price')
+            ->withTimestamps();
+    }
 }
