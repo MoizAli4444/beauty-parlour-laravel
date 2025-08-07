@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Addon;
 use App\Models\Booking;
+use App\Models\Offer;
 use App\Models\ServiceVariant;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
 {
@@ -23,74 +25,99 @@ class BookingController extends Controller
      */
     public function create()
     {
-        $users = User::where('role','customer')->get();
-        $variants = ServiceVariant::get();
+        // get active records with their related models
+        $users = User::where('role', 'customer')->get();
+        $staff = User::where('role', 'staff')->get();
+        $serviceVariants = $variants = ServiceVariant::get();
+
         $addons = Addon::get();
-        return view('admin.booking.create',compact('users','variants','addons'));
+        $offers = Offer::get();
+        return view('admin.booking.create', compact('users', 'variants', 'addons', 'offers', 'serviceVariants', 'staff'));
+    }
+
+    public function create_old()
+    {
+        // get active records with their related models
+        $users = User::where('role', 'customer')->get();
+        $staff = User::where('role', 'staff')->get();
+        $serviceVariants = $variants = ServiceVariant::get();
+
+        $addons = Addon::get();
+        $offers = Offer::get();
+        return view('admin.booking.create_old', compact('users', 'variants', 'addons', 'offers', 'serviceVariants', 'staff'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
 
-     public function store(Request $request)
+    public function store_old(Request $request)
     {
         return $request;
     }
 
-//     use App\Models\Service;
-// use App\Models\Addon;
-// use Illuminate\Http\Request;
+    public function store(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'appointment_time' => 'required|date',
+            'payment_method' => 'required',
+        ]);
 
-// public function createBooking(Request $request)
-// {
-//     // Validate request
-//     $request->validate([
-//         'service_id' => 'required|exists:services,id',
-//         'addon_ids' => 'array',
-//         'addon_ids.*' => 'exists:addons,id',
-//         'tip_amount' => 'nullable|numeric|min:0',
-//     ]);
+        DB::beginTransaction();
 
-//     // Step 1: Get base values
-//     $service        = Service::findOrFail($request->service_id);
-//     $servicePrice   = $service->price;
-//     $tipAmount      = $request->input('tip_amount', 0);
+        try {
+            $booking = Booking::create([
+                'user_id' => $request->user_id,
+                'offer_id' => $request->offer_id,
+                'appointment_time' => $request->appointment_time,
+                'note' => $request->note,
+                'payment_method' => $request->payment_method,
+                'status' => 'active',
+                'booking_status' => 'booked',
+                'payment_status' => 0,
+            ]);
 
-//     // Step 2: Fixed 5% discount on service price
-//     $discountPercent = 5;
-//     $discount        = ($discountPercent / 100) * $servicePrice;
+            $totalAmount = 0;
+            $addonAmount = 0;
 
-//     // Step 3: Tax (e.g. 13%)
-//     $taxRate = 13; // Could also fetch from config
-//     $tax     = ($taxRate / 100) * $servicePrice;
+            // Service Variants
+            foreach ($request->services as $service) {
+                $totalAmount += $service['price'];
 
-//     // Step 4: Addons (sum of prices of selected addons)
-//     $addonAmount = Addon::whereIn('id', $request->addon_ids ?? [])->sum('price');
+                $booking->serviceVariants()->create([
+                    'service_variant_id' => $service['service_variant_id'],
+                    'price' => $service['price'],
+                    'staff_id' => $service['staff_id'] ?? null,
+                ]);
+            }
 
-//     // Step 5: Calculate payable and total
-//     $payableAmount = ($servicePrice - $discount) + $tax;
-//     $totalAmount   = $payableAmount + $addonAmount + $tipAmount;
+            // Addons
+            if ($request->has('addons')) {
+                foreach ($request->addons as $addon) {
+                    $addonAmount += $addon['price'];
 
-//     // Optional: Store booking in DB (replace `Booking` with your model)
-//     $booking = Booking::create([
-//         'user_id'        => auth()->id(),
-//         'service_id'     => $service->id,
-//         'service_price'  => $servicePrice,
-//         'discount'       => $discount,
-//         'tax'            => $tax,
-//         'addon_amount'   => $addonAmount,
-//         'tip_amount'     => $tipAmount,
-//         'payable_amount' => $payableAmount,
-//         'total_amount'   => $totalAmount,
-//     ]);
+                    $booking->addons()->create([
+                        'addon_id' => $addon['addon_id'],
+                        'price' => $addon['price'],
+                        'staff_id' => $addon['staff_id'] ?? null,
+                    ]);
+                }
+            }
 
-//     return response()->json([
-//         'message' => 'Booking created successfully',
-//         'data'    => $booking
-//     ]);
-// }
+            $booking->update([
+                'addon_amount' => $addonAmount,
+                'total_amount' => $totalAmount + $addonAmount, // apply discounts/tax if needed
+            ]);
 
+            DB::commit();
+
+            return redirect()->route('bookings.index')->with('success', 'Booking created successfully.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Something went wrong: ' . $e->getMessage());
+        }
+    }
 
     /**
      * Display the specified resource.

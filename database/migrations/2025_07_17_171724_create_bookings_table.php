@@ -23,11 +23,18 @@ return new class extends Migration
             $table->decimal('discount', 10, 2)->default(0);
             $table->decimal('addon_amount', 10, 2)->default(0);
 
-            $table->decimal('tax_amount', 10, 2)->default(0);
+            // $table->decimal('tax_amount', 10, 2)->default(0);
             $table->decimal('total_amount', 10, 2)->nullable(); // Final amount to be charged
 
-            $table->enum('status', ['active', 'inactive'])->default('active');
-            $table->enum('booking_status', ['pending', 'booked', 'in_progress', 'completed', 'cancelled'])->default('pending'); // More detailed status
+            $table->enum('status', [
+                'pending',     // Submitted but not yet processed
+                'confirmed',   // Admin/user has confirmed booking
+                'in_progress', // Currently happening
+                'completed',   // Successfully finished
+                'cancelled',   // Cancelled by user or admin
+                'rejected',    // Rejected by admin
+            ])->default('pending');
+
             $table->tinyInteger('payment_status')->default(0); // 0 = unpaid, 1 = paid, etc.
 
             $table->enum('payment_method', ['cash', 'card', 'wallet', 'online'])->nullable(); // Useful for analytics
