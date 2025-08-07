@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Offer;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateOfferRequest extends FormRequest
 {
@@ -26,8 +27,13 @@ class UpdateOfferRequest extends FormRequest
         return [
             'name' => 'required|string|max:255|unique:offers,name,' . $offerId,
             'description' => 'nullable|string',
-            'type' => 'required|in:percentage,flat',
-            'value' => 'required|numeric|min:0',
+            'type' => ['required', Rule::in(['percentage', 'flat'])],
+            'value' => [
+                'required',
+                'numeric',
+                'min:0',
+                Rule::when($this->type === 'percentage', ['max:100']),
+            ],
             'starts_at' => 'nullable|date',
             'ends_at' => 'nullable|date|after_or_equal:starts_at',
             'max_total_uses' => 'nullable|integer|min:0',
