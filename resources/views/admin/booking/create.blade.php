@@ -16,6 +16,17 @@
                         </div>
 
                         <div class="card-body">
+
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul class="mb-0">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
                             <form action="{{ route('bookings.store') }}" method="POST">
                                 @csrf
 
@@ -42,10 +53,6 @@
                                         <select name="offer_id" class="form-control">
                                             <option value="">-- None --</option>
                                             @foreach ($offers as $offer)
-                                                {{-- <option value="{{ $offer->id }}" data-discount="{{ $offer->discount }}">
-                                                {{ $offer->name }} ({{ $offer->offer_code }}) - Discount:
-                                                ${{ $offer->discount }}
-                                            </option> --}}
                                                 <option value="{{ $offer->id }}" data-discount="{{ $offer->value }}"
                                                     data-type="{{ $offer->type }}">
                                                     {{ $offer->name }} ({{ $offer->offer_code }})
@@ -75,7 +82,7 @@
                                                     </select>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <input type="number" readonly disabled name="services[0][price]"
+                                                    <input type="number" readonly name="services[0][price]"
                                                         placeholder="Price" class="form-control" step="0.01" required>
                                                 </div>
                                                 <div class="col-md-2">
@@ -121,7 +128,7 @@
                                                     <div class="col-md-4">
                                                         <input type="number" name="addons[{{ $index }}][price]"
                                                             placeholder="Custom Price (optional)" class="form-control"
-                                                            step="0.01" value="{{ $addon->price }}" readonly disabled>
+                                                            step="0.01" value="{{ $addon->price }}" readonly >
 
                                                     </div>
 
@@ -186,27 +193,7 @@
 
 
 
-                                    <div class="col-12 mt-4 border-top pt-3">
-                                        {{-- <div id="discount-info" class="mt-2 text-success"></div>
-                                        <div id="error-message" class="text-danger mt-2"></div>
 
-                                        <h5>Booking Summary</h5>
-                                        <p><strong>Services Total:</strong> $<span id="services-total">0.00</span></p>
-                                        <p><strong>Addons Total:</strong> $<span id="addons-total">0.00</span></p>
-                                        <p><strong>Subtotal:</strong> $<span id="subtotal">0.00</span></p>
-                                        <p><strong>Offer Discount:</strong> -$<span id="offer-discount">0.00</span></p>
-                                        <hr>
-                                        <p><strong>Total After Discount:</strong> $<span id="final-total">0.00</span></p> --}}
-
-                                        {{-- <div>Services Total: $<span id="services-total">0.00</span></div>
-                                        <div>Addons Total: $<span id="addons-total">0.00</span></div>
-                                        <div>Subtotal: $<span id="subtotal">0.00</span></div>
-                                        <div id="discount-info"></div>
-                                        <div>Discount: $<span id="offer-discount">0.00</span></div>
-                                        <div id="error-message" class="text-danger"></div>
-                                        <div>Total After Discount: $<span id="final-total">0.00</span></div> --}}
-
-                                    </div>
 
                                     <div class="col-12 mt-4 border-top pt-3">
                                         {{-- Discount Alert/Error Section --}}

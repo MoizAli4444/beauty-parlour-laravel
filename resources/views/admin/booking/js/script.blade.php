@@ -72,7 +72,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-3">
-                                    <input type="number"  readonly disabled  name="services[${serviceIndex}][price]" placeholder="Price" class="form-control" step="0.01" required>
+                                    <input type="number"  readonly  name="services[${serviceIndex}][price]" placeholder="Price" class="form-control" step="0.01" required>
                                 </div>
                                 <div class="col-md-2">
                                     <select name="services[${serviceIndex}][staff_id]" class="form-control">

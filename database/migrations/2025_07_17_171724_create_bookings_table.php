@@ -15,15 +15,15 @@ return new class extends Migration
 
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignId('service_variant_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('offer_id')->nullable()->constrained()->nullOnDelete();
 
             $table->dateTime('appointment_time');
 
-            $table->decimal('discount', 10, 2)->default(0);
+            $table->decimal('service_variant_amount', 10, 2)->default(0);
             $table->decimal('addon_amount', 10, 2)->default(0);
 
-            // $table->decimal('tax_amount', 10, 2)->default(0);
+            $table->decimal('subtotal', 10, 2)->nullable(); // Final amount to be charged
+            $table->decimal('discount', 10, 2)->default(0);
             $table->decimal('total_amount', 10, 2)->nullable(); // Final amount to be charged
 
             $table->enum('status', [
