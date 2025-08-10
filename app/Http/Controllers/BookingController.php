@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Booking\StoreBookingRequest;
 use App\Interfaces\BookingRepositoryInterface;
 use App\Models\Addon;
 use App\Models\Booking;
@@ -53,28 +54,30 @@ class BookingController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreBookingRequest  $request)
     {
 
-        $validated = $request->validate([
-            'customer_id' => 'required|exists:customers,id',
-            'appointment_time' => 'required|date',
-            'offer_id' => 'nullable|exists:offers,id',
-            'note' => 'nullable|string|max:1000',
-            'status' => 'required|in:0,1',
-            'payment_status' => 'required|in:0,1',
-            'payment_method' => 'required|in:cash,card,wallet,online',
+        // $validated = $request->validate([
+        //     'customer_id' => 'required|exists:customers,id',
+        //     'appointment_time' => 'required|date',
+        //     'offer_id' => 'nullable|exists:offers,id',
+        //     'note' => 'nullable|string|max:1000',
+        //     'status' => 'required|in:0,1',
+        //     'payment_status' => 'required|in:0,1',
+        //     'payment_method' => 'required|in:cash,card,wallet,online',
 
-            'services' => 'required|array|min:1',
-            'services.*.service_variant_id' => 'required|exists:service_variants,id',
-            'services.*.price' => 'required|numeric|min:0',
-            'services.*.staff_id' => 'nullable|exists:staff,id',
+        //     'services' => 'required|array|min:1',
+        //     'services.*.service_variant_id' => 'required|exists:service_variants,id',
+        //     'services.*.price' => 'required|numeric|min:0',
+        //     'services.*.staff_id' => 'nullable|exists:staff,id',
 
-            'addons' => 'nullable|array',
-            'addons.*.addon_id' => 'nullable|exists:addons,id',
-            'addons.*.price' => 'nullable|numeric|min:0',
-            'addons.*.staff_id' => 'nullable|exists:staff,id',
-        ]);
+        //     'addons' => 'nullable|array',
+        //     'addons.*.addon_id' => 'nullable|exists:addons,id',
+        //     'addons.*.price' => 'nullable|numeric|min:0',
+        //     'addons.*.staff_id' => 'nullable|exists:staff,id',
+        // ]);
+
+        $validated = $request->validated();
 
         $result = $this->bookingRepository->create($validated);
 
