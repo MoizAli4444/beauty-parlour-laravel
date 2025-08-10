@@ -30,9 +30,9 @@ class StoreBookingRequest extends FormRequest
             'payment_status' => 'required|in:0,1',
             'payment_method' => 'required|in:cash,card,wallet,online',
 
-            'services' => 'required|array|min:1',
-            'services.*.service_variant_id' => 'required|exists:service_variants,id',
-            'services.*.price' => 'required|numeric|min:0',
+            'services' => 'nullable|array|min:1',
+            'services.*.service_variant_id' => 'nullable|exists:service_variants,id',
+            'services.*.price' => 'nullable|numeric|min:0',
             'services.*.staff_id' => 'nullable|exists:staff,id',
 
             'addons' => 'nullable|array',

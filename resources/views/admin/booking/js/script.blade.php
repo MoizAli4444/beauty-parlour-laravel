@@ -97,11 +97,17 @@
         $(document).on('click', '.remove-service-btn', function() {
             const $allRows = $('.service-row');
 
-            if ($allRows.length > 1) {
-                $(this).closest('.service-row').remove();
-            } else {
-                alert("At least one service is required.");
-            }
+            // if ($allRows.length > 1) {
+            //     $(this).closest('.service-row').remove();
+            // } else {
+            //     alert("At least one service is required.");
+            // }
+
+
+
+            $(this).closest('.service-row').remove();
+            calculateTotals();
+
         });
 
 

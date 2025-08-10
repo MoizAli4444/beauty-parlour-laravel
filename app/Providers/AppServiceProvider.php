@@ -4,12 +4,14 @@ namespace App\Providers;
 
 
 use App\Interfaces\AddonRepositoryInterface;
+use App\Interfaces\BookingRepositoryInterface;
 use App\Interfaces\CustomerRepositoryInterface;
 use App\Interfaces\OfferRepositoryInterface;
 use App\Interfaces\ServiceRepositoryInterface;
 use App\Interfaces\ServiceVariantRepositoryInterface;
 use App\Interfaces\StaffRepositoryInterface;
 use App\Repositories\AddonRepository;
+use App\Repositories\BookingRepository;
 use App\Repositories\CustomerRepository;
 use App\Repositories\OfferRepository;
 use App\Repositories\ServiceRepository;
@@ -35,6 +37,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(AddonRepositoryInterface::class, AddonRepository::class);
 
         $this->app->bind(OfferRepositoryInterface::class, OfferRepository::class);
+        $this->app->bind(
+            BookingRepositoryInterface::class,
+            BookingRepository::class
+        );
     }
 
     /**
