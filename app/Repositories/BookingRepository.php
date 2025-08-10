@@ -6,6 +6,9 @@ namespace App\Repositories;
 
 use App\Models\Booking;
 use App\Interfaces\BookingRepositoryInterface;
+use App\Models\Addon;
+use App\Models\Offer;
+use App\Models\ServiceVariant;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\View;
 use App\Traits\TracksUser;
@@ -70,8 +73,124 @@ class BookingRepository implements BookingRepositoryInterface
 
     public function create(array $data)
     {
+
+        // Fetch related models in batch
+        $variantIds = collect($data['services'])->pluck('service_variant_id');
+        $variants = ServiceVariant::whereIn('id', $variantIds)->get()->keyBy('id');
+
+        $addonTotal = 0;
+        $serviceTotal = 0;
+        $serviceData = [];
+
+        foreach ($data['services'] as $service) {
+            $variant = $variants[$service['service_variant_id']];
+            $price = $variant->price;
+            $serviceTotal += $price;
+
+            $serviceData[] = [
+                'service_variant_id' => $variant->id,
+                'price' => $price,
+                'staff_id' => $service['staff_id'] ?? null,
+            ];
+        }
+
+        $addonData = [];
+        if (!empty($data['addons'])) {
+            $addonIds = collect($data['addons'])->pluck('addon_id');
+            $addons = Addon::whereIn('id', $addonIds)->get()->keyBy('id');
+
+            foreach ($data['addons'] as $addon) {
+                if (!empty($addon['addon_id'])) {
+                    $addonModel = $addons[$addon['addon_id']];
+                    $price = $addonModel->price;
+                    $addonTotal += $price;
+
+                    $addonData[] = [
+                        'addon_id' => $addonModel->id,
+                        'price' => $price,
+                        'staff_id' => $addon['staff_id'] ?? null,
+                    ];
+                }
+            }
+        }
+
+        $subtotal = $serviceTotal + $addonTotal;
+        $discount = 0;
+        $validZero = false;
+        $finalTotal = $subtotal;
+
+        if (!empty($data['offer_id'])) {
+            $offer = Offer::find($data['offer_id']);
+            if ($offer) {
+                if ($offer->type === 'percentage') {
+                    $discount = $subtotal * ($offer->value / 100);
+                } elseif ($offer->type === 'flat') {
+                    $discount = $offer->value;
+                }
+
+                $finalTotal = $subtotal - $discount;
+
+                if ($finalTotal <= 0 && $subtotal > 0) {
+                    if (
+                        ($offer->type === 'percentage' && $offer->value == 100) ||
+                        ($offer->type === 'flat' && $offer->value == $subtotal)
+                    ) {
+                        $validZero = true;
+                    }
+
+                    if (!$validZero) {
+                        return ['error' => '⚠️ Discount too high! Total is $0.00. Please review the offer.'];
+                    }
+
+                    $finalTotal = 0;
+                }
+            }
+        }
+
+        // Create booking
+
         $data = $this->addCreatedBy($data);
-        return Booking::create($data);
+
+        $booking = Booking::create([
+            'customer_id' => $data['customer_id'],
+            'appointment_time' => $data['appointment_time'],
+            'offer_id' => $data['offer_id'] ?? null,
+            'note' => $data['note'] ?? null,
+            'status' => $data['status'],
+            'payment_status' => $data['payment_status'],
+            'payment_method' => $data['payment_method'],
+            'subtotal' => $subtotal,
+            'discount' => $discount,
+            'total_amount' => $finalTotal,
+            'addon_amount' => $addonTotal,
+            'service_variant_amount' => $serviceTotal,
+        ]);
+
+        // Attach services
+        foreach ($serviceData as $service) {
+            $booking->serviceVariants()->attach(
+                $service['service_variant_id'],
+                [
+                    'price' => $service['price'],
+                    'staff_id' => $service['staff_id'] ?? null,
+                    // 'status' => 'pending',
+                ]
+            );
+        }
+
+        // Attach addons
+        foreach ($addonData as $addon) {
+            $booking->addons()->attach(
+                $addon['addon_id'],
+                [
+                    'price' => $addon['price'],
+                    'staff_id' => $addon['staff_id'] ?? null,
+                    // 'status' => 'pending'
+                ]
+            );
+        }
+
+        return $booking;
     }
 
     public function update($id, array $data)

@@ -109,8 +109,6 @@ class BookingController extends Controller
             }
         }
 
-        // return $addonData;
-
         $subtotal = $serviceTotal + $addonTotal;
 
         // ✅ Calculate discount securely
@@ -159,15 +157,14 @@ class BookingController extends Controller
             'subtotal' => $subtotal,
             'discount' => $discount,
             'total_amount' => $finalTotal,
-
             'addon_amount' => $addonTotal,
             'service_variant_amount' => $serviceTotal,
         ]);
 
         // ✅ Save related services
         foreach ($serviceData as $service) {
-            // $booking->serviceVariants()->create($service);
 
+            // booking id automatically add here
             $booking->serviceVariants()->attach(
                 $service['service_variant_id'], // This is the related model's ID
                 [
@@ -181,48 +178,19 @@ class BookingController extends Controller
 
         }
 
-        // ✅ Save related addons
-        // foreach ($addonData as $addon) {
-        //     // $booking->addons()->create($addon);
-        //     $booking->addons()->create($addon);
-        // }
-
         foreach ($addonData as $addon) {
-
-            // $staff_id = $request->staff_id ?: null;
-            // $staffId = null;
-
-            // if (!empty($addon['staff_id']) && is_numeric($addon['staff_id'])) {
-            //     $staffRecord = Staff::where('user_id', $addon['staff_id'])->first();
-            //     $staffId = $staffRecord ? (int) $staffRecord->id : null;
-            // }
-
-            // dd($staffId);
 
             // booking id automatically add here
             $booking->addons()->attach(
                 $addon['addon_id'], // ID from addons table
                 [
                     'price'    => $addon['price'],
-                    // 'staff_id' => $staff_id,
                     'staff_id' => $addon['staff_id'] ?? null,
-                    // 'staff_id' => $staffId,
-
                     'status'   => 'pending'
                 ]
             );
 
-
-            // BookingAddon::create([
-            //     'addon_id'  => $addon['addon_id'],
-            //     'booking_id' => $booking->id,
-            //     'price'     => $price,
-            //     'staff_id'  => $staff_id, // null if none
-            //     'status'    => 'pending'
-            // ]);
         }
-
-
 
         return redirect()->back()->with('success', 'Booking created successfully.');
     }
