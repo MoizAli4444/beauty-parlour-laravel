@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Booking\StoreBookingRequest;
+use App\Http\Requests\Booking\UpdateBookingRequest;
 use App\Interfaces\BookingRepositoryInterface;
 use App\Models\Addon;
 use App\Models\Booking;
@@ -236,9 +237,17 @@ class BookingController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Booking $booking)
+    public function update(UpdateBookingRequest $request, $id)
     {
-        //
+        $validated = $request->validated();
+
+        $result = $this->bookingRepository->update($id, $validated);
+
+        if (isset($result['error'])) {
+            return back()->withErrors(['offer_id' => $result['error']]);
+        }
+
+        return redirect()->back()->with('success', 'Booking updated successfully.');
     }
 
     /**

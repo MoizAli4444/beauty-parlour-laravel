@@ -11,7 +11,7 @@ class UpdateBookingRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,23 @@ class UpdateBookingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'customer_id' => 'required|exists:customers,id',
+            'appointment_time' => 'required|date',
+            'offer_id' => 'nullable|exists:offers,id',
+            'note' => 'nullable|string|max:1000',
+            'status' => 'required|in:0,1',
+            'payment_status' => 'required|in:0,1',
+            'payment_method' => 'required|in:cash,card,wallet,online',
+
+            'services' => 'required|array|min:1',
+            'services.*.service_variant_id' => 'required|exists:service_variants,id',
+            'services.*.price' => 'required|numeric|min:0',
+            'services.*.staff_id' => 'nullable|exists:staff,id',
+
+            'addons' => 'nullable|array',
+            'addons.*.addon_id' => 'nullable|exists:addons,id',
+            'addons.*.price' => 'nullable|numeric|min:0',
+            'addons.*.staff_id' => 'nullable|exists:staff,id',
         ];
     }
 }
