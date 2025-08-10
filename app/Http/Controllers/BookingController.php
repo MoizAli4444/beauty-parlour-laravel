@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Interfaces\BookingRepositoryInterface;
 use App\Models\Addon;
 use App\Models\Booking;
 use App\Models\BookingAddon;
@@ -16,6 +17,15 @@ use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
 {
+
+    protected $bookingRepository;
+
+    public function __construct(BookingRepositoryInterface $bookingRepository)
+    {
+        $this->bookingRepository = $bookingRepository;
+    }
+
+
     /**
      * Display a listing of the resource.
      */
@@ -43,8 +53,6 @@ class BookingController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-
-
     public function store(Request $request)
     {
 
@@ -67,6 +75,17 @@ class BookingController extends Controller
             'addons.*.price' => 'nullable|numeric|min:0',
             'addons.*.staff_id' => 'nullable|exists:staff,id',
         ]);
+
+        $result = $this->bookingRepository->create($validated);
+
+        if (isset($result['error'])) {
+            return back()->withErrors(['offer_id' => $result['error']]);
+        }
+
+        return redirect()->back()->with('success', 'Booking created successfully.');
+
+
+
 
         // ✅ Fetch all related models in batch to reduce DB queries
         $variantIds = collect($validated['services'])->pluck('service_variant_id');
@@ -175,7 +194,6 @@ class BookingController extends Controller
                     'updated_at' => now()
                 ]
             );
-
         }
 
         foreach ($addonData as $addon) {
@@ -189,7 +207,6 @@ class BookingController extends Controller
                     'status'   => 'pending'
                 ]
             );
-
         }
 
         return redirect()->back()->with('success', 'Booking created successfully.');
