@@ -209,23 +209,23 @@
                                         <ul class="list-group">
                                             <li class="list-group-item d-flex justify-content-between">
                                                 <strong>Services Total:</strong>
-                                                <span>$<span id="services-total">0.00</span></span>
+                                                <span>Rs <span id="services-total">0.00</span></span>
                                             </li>
                                             <li class="list-group-item d-flex justify-content-between">
                                                 <strong>Addons Total:</strong>
-                                                <span>$<span id="addons-total">0.00</span></span>
+                                                <span>Rs <span id="addons-total">0.00</span></span>
                                             </li>
                                             <li class="list-group-item d-flex justify-content-between">
                                                 <strong>Subtotal:</strong>
-                                                <span>$<span id="subtotal">0.00</span></span>
+                                                <span>Rs <span id="subtotal">0.00</span></span>
                                             </li>
                                             <li class="list-group-item d-flex justify-content-between text-success">
                                                 <strong>Offer Discount:</strong>
-                                                <span>-$<span id="offer-discount">0.00</span></span>
+                                                <span>Rs <span id="offer-discount">0.00</span></span>
                                             </li>
                                             <li class="list-group-item d-flex justify-content-between border-top mt-2">
                                                 <strong>Total After Discount:</strong>
-                                                <strong>$<span id="final-total">0.00</span></strong>
+                                                <strong>Rs <span id="final-total">0.00</span></strong>
                                             </li>
                                         </ul>
                                     </div>
