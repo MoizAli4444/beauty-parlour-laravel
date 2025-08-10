@@ -60,6 +60,11 @@ class Customer extends Model
 
     // {!! render_delete_button($service->id, route('customers.destroy', $service->id)) !!}
 
+    public function scopeActive($query)
+    {
+        return $query->where('status', 'active');
+    }
+
     /**
      * Relationship: Customer belongs to a User
      */

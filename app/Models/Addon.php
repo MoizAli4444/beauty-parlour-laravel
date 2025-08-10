@@ -81,6 +81,11 @@ class Addon extends Model
         return render_gender_badge($this->gender);
     }
 
+    public function scopeActive($query)
+    {
+        return $query->where('status', 'active');
+    }
+
 
     public function bookingAddons()
     {

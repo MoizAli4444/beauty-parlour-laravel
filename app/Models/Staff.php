@@ -88,6 +88,11 @@ class Staff extends Model
 
     // {!! render_delete_button($service->id, route('staff.destroy', $service->id)) !!}
 
+    public function scopeActive($query)
+    {
+        return $query->where('status', 'active');
+    }
+
     /**
      * Relationship: Staff belongs to a User
      */

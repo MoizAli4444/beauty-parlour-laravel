@@ -77,9 +77,10 @@
                                 <div class="col-md-2">
                                     <select name="services[${serviceIndex}][staff_id]" class="form-control">
                                         <option value="">Select Staff</option>
-                                        @foreach ($staff as $employee)
-                                            <option value="{{ $employee->id }}">{{ $employee->name }}</option>
-                                        @endforeach
+                                            @foreach ($staffMembers as $staff)
+                                                <option value="{{ $staff->id }}"> {{ $staff->user?->name ?? 'Unknown' }}
+                                                </option>
+                                            @endforeach
                                     </select>
                                 </div>
                                 <div class="col-md-1 d-flex align-items-center">
@@ -127,7 +128,7 @@
     function calculateTotals() {
         let serviceTotal = 0;
         let addonTotal = 0;
-        
+
         // Sum service prices
         $('input[name^="services"][name$="[price]"]').each(function() {
             const val = parseFloat($(this).val());
@@ -180,7 +181,8 @@
 
             if (!validZero) {
                 // errorMsg = "Discount is too high. Total cannot be zero or negative.";
-                errorMsg = "⚠️ Discount too high! Total is $0.00. Please review the offer. Are you sure you want to proceed with a free booking?";
+                errorMsg =
+                    "⚠️ Discount too high! Total is $0.00. Please review the offer. Are you sure you want to proceed with a free booking?";
 
                 alert(errorMsg); // Optional: show alert
                 finalTotal = 0;

@@ -82,6 +82,11 @@ class Offer extends Model
 
     // {!! render_delete_button($addon->id, route('offers.destroy', $addon->id)) !!}
 
+    public function scopeActive($query)
+    {
+        return $query->where('status', 'active');
+    }
+
     public function getOfferCodeBadgeAttribute()
     {
         if ($this->offer_code) {
@@ -119,10 +124,10 @@ class Offer extends Model
     /**
      * Scope: Only active offers
      */
-    public function scopeActive($query)
-    {
-        return $query->where('status', 'active')->where('lifecycle', 'active');
-    }
+    // public function scopeActive($query)
+    // {
+    //     return $query->where('status', 'active')->where('lifecycle', 'active');
+    // }
 
     /**
      * Get the status label

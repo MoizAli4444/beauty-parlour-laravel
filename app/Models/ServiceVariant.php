@@ -71,6 +71,11 @@ class ServiceVariant extends Model
 
     // {!! render_delete_button($service->id, route('service-variants.destroy', $service->id)) !!}
 
+    public function scopeActive($query)
+    {
+        return $query->where('status', 'active');
+    }
+
 
     //////////////////////////////////////
     public function bookings()
@@ -79,4 +84,7 @@ class ServiceVariant extends Model
             ->withPivot('price')
             ->withTimestamps();
     }
+
+    
+    
 }

@@ -33,10 +33,12 @@
                                 <div class="row">
                                     <!-- Customer -->
                                     <div class="mb-3 col-md-4">
-                                        <label for="user_id">Customer</label>
-                                        <select name="user_id" class="form-control" required>
-                                            @foreach ($users as $user)
-                                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                        <label for="customer_id">Customer</label>
+                                        <select name="customer_id" class="form-control" required>
+                                            <option value="">Select Customer</option>
+                                            @foreach ($customers as $customer)
+                                                <option value="{{ $customer->id }}">
+                                                    {{ $customer->user?->name ?? 'Unknown' }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -88,8 +90,9 @@
                                                 <div class="col-md-2">
                                                     <select name="services[0][staff_id]" class="form-control">
                                                         <option value="">Select Staff</option>
-                                                        @foreach ($staff as $employee)
-                                                            <option value="{{ $employee->id }}">{{ $employee->name }}
+                                                        @foreach ($staffMembers as $staff)
+                                                            <option value="{{ $staff->id }}">
+                                                                {{ $staff->user?->name ?? 'Unknown' }}
                                                             </option>
                                                         @endforeach
                                                     </select>
@@ -128,7 +131,7 @@
                                                     <div class="col-md-4">
                                                         <input type="number" name="addons[{{ $index }}][price]"
                                                             placeholder="Custom Price (optional)" class="form-control"
-                                                            step="0.01" value="{{ $addon->price }}" readonly >
+                                                            step="0.01" value="{{ $addon->price }}" readonly>
 
                                                     </div>
 
@@ -136,8 +139,9 @@
                                                         <select name="addons[{{ $index }}][staff_id]"
                                                             class="form-control">
                                                             <option value="">Select Staff</option>
-                                                            @foreach ($staff as $employee)
-                                                                <option value="{{ $employee->id }}">{{ $employee->name }}
+                                                            @foreach ($staffMembers as $staff)
+                                                                <option value="{{ $staff->id }}">
+                                                                    {{ $staff->user?->name ?? 'Unknown' }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
