@@ -71,8 +71,7 @@
                                         <div id="service-container">
                                             <div class="row mb-2 service-row">
                                                 <div class="col-md-6">
-                                                    <select name="services[0][service_variant_id]" class="form-control"
-                                                        >
+                                                    <select name="services[0][service_variant_id]" class="form-control">
                                                         <option value="">Select Service</option>
                                                         @foreach ($serviceVariants as $variant)
                                                             {{-- <option value="{{ $variant->id }}">{{ $variant->name }}
@@ -85,7 +84,7 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <input type="number" readonly name="services[0][price]"
-                                                        placeholder="Price" class="form-control" step="0.01" >
+                                                        placeholder="Price" class="form-control" step="0.01">
                                                 </div>
                                                 <div class="col-md-2">
                                                     <select name="services[0][staff_id]" class="form-control">
@@ -164,9 +163,10 @@
                                     <div class="mb-3 col-12 col-md-4">
                                         <label class="form-label" for="status">Booking Status</label>
                                         <select name="status" id="status" class="form-select">
-                                            <option value="0" {{ old('status') == 0 ? 'selected' : '' }}>Pending
+                                            <option value="pending" {{ old('status') == 'pending' ? 'selected' : '' }}>Pending
                                             </option>
-                                            <option value="1" {{ old('status') == 1 ? 'selected' : '' }}>Confirmed
+                                            <option value="confirmed" {{ old('status') == 'confirmed' ? 'selected' : '' }}>
+                                                Confirmed
                                             </option>
                                         </select>
                                     </div>

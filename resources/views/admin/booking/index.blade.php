@@ -26,12 +26,12 @@
                                     <tr>
                                         <th><input type="checkbox" id="select-all"></th> {{-- universal checkbox --}}
                                         <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Price</th>
-                                        <th>Duration</th>
-                                        <th>Gender</th>
+                                        <th>Customer Name</th>
+                                        <th>Appointment Time</th>
+                                        <th>Total</th>
                                         <th>Status</th>
-                                        <th>Created At</th>
+                                        <th>Payment Status</th>
+                                        <th>Payment Method</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -53,5 +53,5 @@
 @endsection
 
 @push('scripts')
-    @include('admin.addon.js.script')
+    @include('admin.booking.js.index')
 @endpush

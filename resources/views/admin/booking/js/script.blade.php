@@ -4,7 +4,7 @@
         $('#indexPageDataTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '{{ route('addons.datatable') }}',
+            ajax: '{{ route('bookings.datatable') }}',
             columns: [{
                     data: 'checkbox',
                     name: 'checkbox',
@@ -16,26 +16,26 @@
                     name: 'id'
                 },
                 {
-                    data: 'name',
-                    name: 'name'
+                    data: 'customer_user_name',
+                    name: 'customer_user_name'
                 },
                 {
-                    data: 'price',
-                    name: 'price'
+                    data: 'offer_name',
+                    name: 'offer_name'
                 },
-                {
-                    data: 'duration',
-                    name: 'duration'
-                },
-                {
-                    data: 'gender',
-                    name: 'gender'
-                },
+                // {
+                //     data: 'duration',
+                //     name: 'duration'
+                // },
+                // {
+                //     data: 'gender',
+                //     name: 'gender'
+                // },
 
-                {
-                    data: 'status',
-                    name: 'status'
-                },
+                // {
+                //     data: 'status',
+                //     name: 'status'
+                // },
                 {
                     data: 'created_at',
                     name: 'created_at'
@@ -59,7 +59,6 @@
         $('#addServiceBtn').on('click', function() {
             const $container = $('#service-container');
 
-            // <option value="{{ $variant->id }}">{{ $variant->name }}</option>
             const $row = $(`
                             <div class="row mb-2 service-row">
                                 <div class="col-md-6">

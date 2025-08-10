@@ -11,7 +11,7 @@ class Booking extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'user_id',
+        'customer_id',
 
         'offer_id',
         'appointment_time',
@@ -32,7 +32,7 @@ class Booking extends Model
 
     protected $casts = [
         'appointment_time' => 'datetime',
-        'status' => 'integer',
+        // 'status' => 'integer',
         'payment_status' => 'integer',
         'service_price' => 'decimal:2',
         'discount' => 'decimal:2',
@@ -45,23 +45,81 @@ class Booking extends Model
     ];
 
 
-    // public function bookingAddons()
+    public function getStatusBadgeAttribute()
+{
+    $colors = [
+        'pending'     => 'badge bg-warning',
+        'confirmed'   => 'badge bg-primary',
+        'in_progress' => 'badge bg-info',
+        'completed'   => 'badge bg-success',
+        'cancelled'   => 'badge bg-secondary',
+        'rejected'    => 'badge bg-danger',
+    ];
+
+    $color = $colors[$this->status] ?? 'badge bg-dark';
+    return '<span class="'.$color.'">'.ucwords(str_replace('_', ' ', $this->status)).'</span>';
+}
+
+
+
+    
+    ///////////// fixed model functions //////////////
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'name',
+                'onUpdate' => true
+            ]
+        ];
+    }
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function updater()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    // public function getStatusBadgeAttribute()
     // {
-    //     return $this->hasMany(BookingAddon::class);
+    //     return render_status_badge($this->status, $this->id, route('bookings.toggle-status', $this->id));
     // }
 
-    // public function addons()
-    // {
-    //     return $this->belongsToMany(Addon::class, 'booking_addons')->withTimestamps();
-    // }
+    public function getEditButtonAttribute()
+    {
+        return render_edit_button(route('bookings.edit', $this->id));
+    }
+
+    public function getViewButtonAttribute()
+    {
+        return render_view_button(route('bookings.show', $this->id));
+    }
 
 
-    // public function serviceVariants()
-    // {
-    //     return $this->belongsToMany(ServiceVariant::class, 'booking_service_variant')
-    //         ->withPivot('price')
-    //         ->withTimestamps();
-    // }
+    public function getDeleteButtonAttribute()
+    {
+        return render_delete_button($this->id, route('bookings.destroy', $this->id));
+    }
+
+    // {!! render_delete_button($service->id, route('bookings.destroy', $service->id)) !!}
+    ///////////// fixed model functions //////////////
+
+
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
+
+    public function offer()
+    {
+        return $this->belongsTo(Offer::class);
+    }
+
 
     /////////
     // Relationship with booking_addons table (pivot + extra fields)
@@ -69,14 +127,6 @@ class Booking extends Model
     {
         return $this->hasMany(BookingAddon::class);
     }
-
-    // Access related addons (many-to-many through pivot table with extra fields like price, staff_id, status)
-    // public function addons()
-    // {
-    //     return $this->belongsToMany(Addon::class, 'booking_addons')
-    //         ->withPivot('price', 'staff_id', 'status')
-    //         ->withTimestamps();
-    // }
 
     public function addons()
     {
@@ -101,5 +151,6 @@ class Booking extends Model
             ->withTimestamps();
     }
 
-    /////////
+
+
 }

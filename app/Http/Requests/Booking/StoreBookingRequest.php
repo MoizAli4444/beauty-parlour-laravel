@@ -26,7 +26,7 @@ class StoreBookingRequest extends FormRequest
             'appointment_time' => 'required|date',
             'offer_id' => 'nullable|exists:offers,id',
             'note' => 'nullable|string|max:1000',
-            'status' => 'required|in:0,1',
+            'status' => 'required|in:pending,confirmed,in_progress,completed,cancelled,rejected',
             'payment_status' => 'required|in:0,1',
             'payment_method' => 'required|in:cash,card,wallet,online',
 
