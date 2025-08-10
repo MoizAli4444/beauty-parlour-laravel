@@ -63,7 +63,7 @@
             const $row = $(`
                             <div class="row mb-2 service-row">
                                 <div class="col-md-6">
-                                    <select name="services[${serviceIndex}][service_variant_id]" class="form-control" required>
+                                    <select name="services[${serviceIndex}][service_variant_id]" class="form-control" >
                                          <option value="">Select Service</option>
                                         @foreach ($serviceVariants as $variant)
                                             <option value="{{ $variant->id }}" data-price="{{ $variant->price }}">{{ $variant->name }}</option>
@@ -72,7 +72,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-3">
-                                    <input type="number"  readonly  name="services[${serviceIndex}][price]" placeholder="Price" class="form-control" step="0.01" required>
+                                    <input type="number"  readonly  name="services[${serviceIndex}][price]" placeholder="Price" class="form-control" step="0.01" >
                                 </div>
                                 <div class="col-md-2">
                                     <select name="services[${serviceIndex}][staff_id]" class="form-control">
@@ -97,15 +97,15 @@
         $(document).on('click', '.remove-service-btn', function() {
             const $allRows = $('.service-row');
 
-            // if ($allRows.length > 1) {
-            //     $(this).closest('.service-row').remove();
-            // } else {
-            //     alert("At least one service is required.");
-            // }
+            if ($allRows.length > 1) {
+                $(this).closest('.service-row').remove();
+            } else {
+                alert("At least one service must be present.");
+            }
 
 
 
-            $(this).closest('.service-row').remove();
+            // $(this).closest('.service-row').remove();
             calculateTotals();
 
         });
@@ -190,7 +190,7 @@
                 errorMsg =
                     "⚠️ Discount too high! Total is $0.00. Please review the offer. Are you sure you want to proceed with a free booking?";
 
-                alert(errorMsg); // Optional: show alert
+                // alert(errorMsg); // Optional: show alert
                 finalTotal = 0;
             }
         }

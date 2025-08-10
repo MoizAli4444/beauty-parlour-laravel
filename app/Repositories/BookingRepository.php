@@ -75,23 +75,29 @@ class BookingRepository implements BookingRepositoryInterface
     {
 
         // Fetch related models in batch
+        // if (!empty($data['services'])) {
         $variantIds = collect($data['services'])->pluck('service_variant_id');
         $variants = ServiceVariant::whereIn('id', $variantIds)->get()->keyBy('id');
+
 
         $addonTotal = 0;
         $serviceTotal = 0;
         $serviceData = [];
 
-        foreach ($data['services'] as $service) {
-            $variant = $variants[$service['service_variant_id']];
-            $price = $variant->price;
-            $serviceTotal += $price;
+        if (!empty($variants)) {
+            foreach ($data['services'] as $service) {
+                if (isset($variants[$service['service_variant_id']])) {
+                    $variant = $variants[$service['service_variant_id']];
+                    $price = $variant->price;
+                    $serviceTotal += $price;
 
-            $serviceData[] = [
-                'service_variant_id' => $variant->id,
-                'price' => $price,
-                'staff_id' => $service['staff_id'] ?? null,
-            ];
+                    $serviceData[] = [
+                        'service_variant_id' => $variant->id,
+                        'price' => $price,
+                        'staff_id' => $service['staff_id'] ?? null,
+                    ];
+                }
+            }
         }
 
         $addonData = [];
@@ -213,16 +219,20 @@ class BookingRepository implements BookingRepositoryInterface
         $serviceTotal = 0;
         $serviceData = [];
 
-        foreach ($data['services'] as $service) {
-            $variant = $variants[$service['service_variant_id']];
-            $price = $variant->price;
-            $serviceTotal += $price;
+        if (!empty($variants)) {
+            foreach ($data['services'] as $service) {
+                if (isset($variants[$service['service_variant_id']])) {
+                    $variant = $variants[$service['service_variant_id']];
+                    $price = $variant->price;
+                    $serviceTotal += $price;
 
-            $serviceData[] = [
-                'service_variant_id' => $variant->id,
-                'price' => $price,
-                'staff_id' => $service['staff_id'] ?? null,
-            ];
+                    $serviceData[] = [
+                        'service_variant_id' => $variant->id,
+                        'price' => $price,
+                        'staff_id' => $service['staff_id'] ?? null,
+                    ];
+                }
+            }
         }
 
         $addonData = [];
@@ -279,7 +289,7 @@ class BookingRepository implements BookingRepositoryInterface
         }
 
         // Update booking
-        
+
         $data = $this->addUpdatedBy($data);
 
         $booking->update([

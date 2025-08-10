@@ -72,7 +72,7 @@
                                             <div class="row mb-2 service-row">
                                                 <div class="col-md-6">
                                                     <select name="services[0][service_variant_id]" class="form-control"
-                                                        required>
+                                                        >
                                                         <option value="">Select Service</option>
                                                         @foreach ($serviceVariants as $variant)
                                                             {{-- <option value="{{ $variant->id }}">{{ $variant->name }}
@@ -85,7 +85,7 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <input type="number" readonly name="services[0][price]"
-                                                        placeholder="Price" class="form-control" step="0.01" required>
+                                                        placeholder="Price" class="form-control" step="0.01" >
                                                 </div>
                                                 <div class="col-md-2">
                                                     <select name="services[0][staff_id]" class="form-control">

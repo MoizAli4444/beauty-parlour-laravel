@@ -57,6 +57,17 @@ class BookingController extends Controller
      */
     public function store(StoreBookingRequest  $request)
     {
+        // return $request;
+
+        // $data = $request->all();  // Get all input as array
+
+        // foreach ($data as $key => $value) {
+        //     if ($key === '') {
+        //         dd('Empty key found!', $data);
+        //     }
+        // }
+
+
 
         $validated = $request->validated();
 
@@ -67,8 +78,6 @@ class BookingController extends Controller
         }
 
         return redirect()->back()->with('success', 'Booking created successfully.');
-
-
     }
 
 
