@@ -213,4 +213,26 @@ class BookingController extends Controller
 
         return back()->with('success', 'Booking status updated to ' . ucfirst($status));
     }
+
+    // booking cancel function
+    public function cancel(Request $request, $id)
+    {
+        $booking = Booking::findOrFail($id);
+
+        $request->validate([
+            'cancel_reason' => 'required|string|min:5'
+        ]);
+
+        $booking->update([
+            'status' => 'cancelled',
+            'cancel_reason' => $request->cancel_reason
+        ]);
+
+        // Optional refund logic
+        if ($booking->payment_method === 'online' && $booking->payment_status == 1) {
+            // refund logic here...
+        }
+
+        return back()->with('success', 'Booking cancelled successfully.');
+    }
 }

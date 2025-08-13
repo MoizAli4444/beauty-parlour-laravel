@@ -166,7 +166,9 @@ Route::middleware('auth')->group(function () {
     Route::prefix('bookings')->name('bookings.')->group(function () {
         // For DataTables AJAX loading
         Route::get('datatable', [BookingController::class, 'datatable'])->name('datatable');
-        Route::get('create_old', [BookingController::class, 'create_old'])->name('create_old');
+        Route::patch('/{id}/status/{status}', [BookingController::class, 'changeStatus'])->name('bookings.changeStatus');
+        Route::post('/{id}/cancel', [BookingController::class, 'cancel'])->name('bookings.cancel');
+
 
         // For toggling status
         Route::patch('{id}/toggle-status', [BookingController::class, 'toggleStatus'])->name('toggle-status');
