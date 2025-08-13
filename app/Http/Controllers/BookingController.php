@@ -193,4 +193,24 @@ class BookingController extends Controller
     //     return redirect()->route('bookings.index')->with('success', 'Booking updated successfully.');
     // }
 
+    // make function for booking status , payment status and etc if other status are present
+    public function changeStatus($id, $status)
+    {
+        $booking = Booking::findOrFail($id);
+
+        // Restrict flow if needed
+        if ($booking->status === 'completed' || $booking->status === 'cancelled') {
+            return back()->with('error', 'Cannot change status for completed or cancelled bookings.');
+        }
+
+        // Mark payment as paid if completed
+        if ($status === 'completed' && $booking->payment_status == 0) {
+            $booking->payment_status = 1;
+        }
+
+        $booking->status = $status;
+        $booking->save();
+
+        return back()->with('success', 'Booking status updated to ' . ucfirst($status));
+    }
 }
