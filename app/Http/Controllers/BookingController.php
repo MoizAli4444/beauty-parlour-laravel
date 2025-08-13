@@ -127,10 +127,19 @@ class BookingController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Booking $booking)
+    public function destroy($id)
     {
-        //
+        $booking = Booking::findOrFail($id);
+
+        if (in_array($booking->status, ['in_progress', 'completed'])) {
+            return back()->with('error', 'Cannot delete bookings in progress or completed.');
+        }
+
+        $booking->delete();
+
+        return back()->with('success', 'Booking deleted successfully.');
     }
+
 
     // BookingController.php
     public function indexFilter(Request $request)
