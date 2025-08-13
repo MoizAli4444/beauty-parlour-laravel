@@ -15,6 +15,30 @@
                         </div>
                         <div class="card-body">
 
+                            <form method="GET" class="mb-3">
+                                <input type="text" name="customer_name" placeholder="Customer"
+                                    value="{{ request('customer_name') }}">
+                                <select name="status">
+                                    <option value="">All Status</option>
+                                    @foreach (['pending', 'confirmed', 'in_progress', 'completed', 'cancelled', 'rejected'] as $status)
+                                        <option value="{{ $status }}"
+                                            {{ request('status') == $status ? 'selected' : '' }}>{{ ucfirst($status) }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <select name="payment_status">
+                                    <option value="">All Payments</option>
+                                    <option value="0" {{ request('payment_status') === '0' ? 'selected' : '' }}>Unpaid
+                                    </option>
+                                    <option value="1" {{ request('payment_status') === '1' ? 'selected' : '' }}>Paid
+                                    </option>
+                                </select>
+                                <input type="date" name="date_from" value="{{ request('date_from') }}">
+                                <input type="date" name="date_to" value="{{ request('date_to') }}">
+                                <button type="submit">Filter</button>
+                            </form>
+
+
                             @include('admin.pages-partials.bulk-actions', [
                                 'deleteUrl' => route('addons.bulkDelete'),
                                 'statusUrl' => route('addons.bulkStatus'),
