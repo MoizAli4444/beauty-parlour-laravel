@@ -128,4 +128,40 @@ class BookingController extends Controller
     {
         //
     }
+
+    // BookingController.php
+    public function indexFilter(Request $request)
+    {
+        $query = Booking::with(['customer.user'])
+            ->orderBy('appointment_time', 'desc');
+
+        // Status filter
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Payment status filter
+        if ($request->filled('payment_status')) {
+            $query->where('payment_status', $request->payment_status);
+        }
+
+        // Date range filter
+        if ($request->filled('date_from') && $request->filled('date_to')) {
+            $query->whereBetween('appointment_time', [
+                $request->date_from . ' 00:00:00',
+                $request->date_to . ' 23:59:59'
+            ]);
+        }
+
+        // Customer filter
+        if ($request->filled('customer_name')) {
+            $query->whereHas('customer.user', function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->customer_name . '%');
+            });
+        }
+
+        $bookings = $query->paginate(10);
+
+        return view('bookings.index', compact('bookings'));
+    }
 }
