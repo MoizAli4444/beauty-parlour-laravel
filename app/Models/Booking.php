@@ -44,25 +44,33 @@ class Booking extends Model
         'deleted_at' => 'datetime', // handled by SoftDeletes
     ];
 
-
-    public function getStatusBadgeAttribute()
-{
-    $colors = [
-        'pending'     => 'badge bg-warning',
-        'confirmed'   => 'badge bg-primary',
-        'in_progress' => 'badge bg-info',
-        'completed'   => 'badge bg-success',
-        'cancelled'   => 'badge bg-secondary',
-        'rejected'    => 'badge bg-danger',
+    const STATUSES = [
+        'pending' => 'Pending',
+        'confirmed' => 'Confirmed',
+        'in_progress' => 'In Progress',
+        'completed' => 'Completed',
+        'cancelled' => 'Cancelled',
+        'rejected' => 'Rejected',
     ];
 
-    $color = $colors[$this->status] ?? 'badge bg-dark';
-    return '<span class="'.$color.'">'.ucwords(str_replace('_', ' ', $this->status)).'</span>';
-}
+    public function getStatusBadgeAttribute()
+    {
+        $colors = [
+            'pending'     => 'badge bg-warning',
+            'confirmed'   => 'badge bg-primary',
+            'in_progress' => 'badge bg-info',
+            'completed'   => 'badge bg-success',
+            'cancelled'   => 'badge bg-secondary',
+            'rejected'    => 'badge bg-danger',
+        ];
+
+        $color = $colors[$this->status] ?? 'badge bg-dark';
+        return '<span class="' . $color . '">' . ucwords(str_replace('_', ' ', $this->status)) . '</span>';
+    }
 
 
 
-    
+
     ///////////// fixed model functions //////////////
     public function sluggable(): array
     {
@@ -150,7 +158,4 @@ class Booking extends Model
             ->withPivot('price', 'staff_id', 'status')
             ->withTimestamps();
     }
-
-
-
 }

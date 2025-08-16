@@ -40,7 +40,9 @@ class BookingController extends Controller
      */
     public function index()
     {
-        return view('admin.booking.index');
+        $booking_statuses = Booking::STATUSES;
+        $customers = Customer::active()->with('user:id,name')->get(['id', 'user_id']);
+        return view('admin.booking.index',compact('customers','booking_statuses'));
     }
 
     /**
@@ -64,18 +66,7 @@ class BookingController extends Controller
      */
     public function store(StoreBookingRequest  $request)
     {
-        // return $request;
-
-        // $data = $request->all();  // Get all input as array
-
-        // foreach ($data as $key => $value) {
-        //     if ($key === '') {
-        //         dd('Empty key found!', $data);
-        //     }
-        // }
-
-
-
+        
         $validated = $request->validated();
 
         $result = $this->bookingRepository->create($validated);

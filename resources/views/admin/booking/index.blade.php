@@ -16,16 +16,24 @@
                         <div class="card-body">
 
                             <form method="GET" class="mb-3">
-                                <input type="text" name="customer_name" placeholder="Customer"
-                                    value="{{ request('customer_name') }}">
+                                <select name="customer_id" class="form-control" required>
+                                    <option value="">Select Customer</option>
+                                    @foreach ($customers as $customer)
+                                        <option value="{{ $customer->id }}">
+                                            {{ $customer->user?->name ?? 'Unknown' }}</option>
+                                    @endforeach
+                                </select>
                                 <select name="status">
                                     <option value="">All Status</option>
-                                    @foreach (['pending', 'confirmed', 'in_progress', 'completed', 'cancelled', 'rejected'] as $status)
-                                        <option value="{{ $status }}"
-                                            {{ request('status') == $status ? 'selected' : '' }}>{{ ucfirst($status) }}
+                                    @foreach ($booking_statuses as $value => $label)
+                                        <option value="{{ $value }}"
+                                            {{ request('status') == $value ? 'selected' : '' }}>
+                                            {{ $label }}
                                         </option>
                                     @endforeach
                                 </select>
+
+
                                 <select name="payment_status">
                                     <option value="">All Payments</option>
                                     <option value="0" {{ request('payment_status') === '0' ? 'selected' : '' }}>Unpaid
