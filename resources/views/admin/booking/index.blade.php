@@ -15,36 +15,78 @@
                         </div>
                         <div class="card-body">
 
-                            <form method="GET" class="mb-3">
-                                <select name="customer_id" class="form-control" required>
-                                    <option value="">Select Customer</option>
-                                    @foreach ($customers as $customer)
-                                        <option value="{{ $customer->id }}">
-                                            {{ $customer->user?->name ?? 'Unknown' }}</option>
-                                    @endforeach
-                                </select>
-                                <select name="status">
-                                    <option value="">All Status</option>
-                                    @foreach ($booking_statuses as $value => $label)
-                                        <option value="{{ $value }}"
-                                            {{ request('status') == $value ? 'selected' : '' }}>
-                                            {{ $label }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                            <div class="card mb-4 shadow-sm">
+                                <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                    <h6 class="mb-0"><i class="bi bi-funnel me-2"></i> Booking Filters</h6>
+                                    <button class="btn btn-sm btn-outline-secondary" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#filterCollapse" aria-expanded="true">
+                                        <i class="bi bi-funnel"></i> Toggle Filters
+                                    </button>
 
+                                </div>
 
-                                <select name="payment_status">
-                                    <option value="">All Payments</option>
-                                    <option value="0" {{ request('payment_status') === '0' ? 'selected' : '' }}>Unpaid
-                                    </option>
-                                    <option value="1" {{ request('payment_status') === '1' ? 'selected' : '' }}>Paid
-                                    </option>
-                                </select>
-                                <input type="date" name="date_from" value="{{ request('date_from') }}">
-                                <input type="date" name="date_to" value="{{ request('date_to') }}">
-                                <button type="submit">Filter</button>
-                            </form>
+                                <div class="collapse " id="filterCollapse">
+                                    <div class="card-body">
+                                        <form id="filterForm" class="row g-3">
+                                            <!-- Customer -->
+                                            <div class="col-md-3">
+                                                <label class="form-label">Customer</label>
+                                                <select name="customer_id" class="form-select">
+                                                    <option value="">All Customers</option>
+                                                    @foreach ($customers as $customer)
+                                                        <option value="{{ $customer->id }}">
+                                                            {{ $customer->user?->name ?? 'Unknown' }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+                                            <!-- Status -->
+                                            <div class="col-md-2">
+                                                <label class="form-label">Status</label>
+                                                <select name="status" class="form-select">
+                                                    <option value="">All</option>
+                                                    @foreach ($booking_statuses as $value => $label)
+                                                        <option value="{{ $value }}">{{ $label }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+                                            <!-- Payment Status -->
+                                            <div class="col-md-2">
+                                                <label class="form-label">Payment</label>
+                                                <select name="payment_status" class="form-select">
+                                                    <option value="">All</option>
+                                                    <option value="0">Unpaid</option>
+                                                    <option value="1">Paid</option>
+                                                </select>
+                                            </div>
+
+                                            <!-- Date From -->
+                                            <div class="col-md-2">
+                                                <label class="form-label">From</label>
+                                                <input type="date" name="date_from" class="form-control">
+                                            </div>
+
+                                            <!-- Date To -->
+                                            <div class="col-md-2">
+                                                <label class="form-label">To</label>
+                                                <input type="date" name="date_to" class="form-control">
+                                            </div>
+
+                                            <!-- Buttons -->
+                                            <div class="col-md-12 d-flex justify-content-end mt-3">
+                                                <button type="submit" class="btn btn-primary me-2">
+                                                    <i class="bi bi-search"></i> Apply
+                                                </button>
+                                                <button type="button" id="resetFilter" class="btn btn-outline-secondary">
+                                                    <i class="bi bi-arrow-repeat"></i> Reset
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
 
 
                             @include('admin.pages-partials.bulk-actions', [

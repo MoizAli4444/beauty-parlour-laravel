@@ -27,14 +27,25 @@ class BookingController extends Controller
         $this->bookingRepository = $bookingRepository;
     }
 
+    // public function datatable(Request $request)
+    // {
+    //     if ($request->ajax()) {
+    //         return $this->bookingRepository->getDatatableData($request);
+    //     }
+
+    //     return abort(403);
+    // }
+
     public function datatable(Request $request)
     {
         if ($request->ajax()) {
-            return $this->bookingRepository->getDatatableData();
+            $filters = $request->only(['customer_id', 'status', 'payment_status', 'date_from', 'date_to']);
+            return $this->bookingRepository->getDatatableData($filters);
         }
 
         return abort(403);
     }
+
     /**
      * Display a listing of the resource.
      */
@@ -42,7 +53,7 @@ class BookingController extends Controller
     {
         $booking_statuses = Booking::STATUSES;
         $customers = Customer::active()->with('user:id,name')->get(['id', 'user_id']);
-        return view('admin.booking.index',compact('customers','booking_statuses'));
+        return view('admin.booking.index', compact('customers', 'booking_statuses'));
     }
 
     /**
@@ -66,7 +77,7 @@ class BookingController extends Controller
      */
     public function store(StoreBookingRequest  $request)
     {
-        
+
         $validated = $request->validated();
 
         $result = $this->bookingRepository->create($validated);

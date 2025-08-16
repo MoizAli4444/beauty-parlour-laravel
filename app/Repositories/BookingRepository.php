@@ -13,63 +13,13 @@ use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\View;
 use App\Traits\TracksUser;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class BookingRepository implements BookingRepositoryInterface
 {
     use TracksUser;
 
     public function getDatatableData_old()
-    {
-        try {
-            return DataTables::of(Booking::with(['customer.user', 'offer'])->latest())
-
-                ->addColumn('checkbox', function ($row) {
-                    return '<input type="checkbox" class="row-checkbox" value="' . $row->id . '">';
-                })
-
-                ->addColumn('customer_user_name', function ($row) {
-                    if (!$row->customer) {
-                        return 'No customer assigned';
-                    }
-                    if (!$row->customer->user) {
-                        return 'No user for customer';
-                    }
-                    return $row->customer->user->name;
-                })
-
-
-
-                ->addColumn('offer_name', function ($row) {
-                    return $row->offer ? $row->offer->name : 'N/A';
-                })
-
-                // ->editColumn('name', function ($row) {
-                //     return strlen($row->name) > 20 ? substr($row->name, 0, 20) . '...' : $row->name;
-                // })
-
-                // ->editColumn('status', function ($row) {
-                //     return $row->status_badge; // uses model accessor
-                // })
-
-                // ->editColumn('price', function ($row) {
-                //     return 'Rs ' . number_format($row->price, 2);
-                // })
-
-                ->editColumn('created_at', function ($row) {
-                    return $row->created_at->format('d M Y'); // Example: 29 Jun 2025
-                })
-
-                ->addColumn('action', function ($row) {
-                    return view('admin.booking.action', ['booking' => $row])->render();
-                })
-                ->rawColumns(['checkbox', 'action', 'offer_name', 'customer_user_name']) // allow HTML rendering
-                ->make(true);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
-    }
-
-    public function getDatatableData()
     {
         try {
             return DataTables::of(
@@ -144,6 +94,77 @@ class BookingRepository implements BookingRepositoryInterface
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+    public function getDatatableData(array $filters)
+    {
+        try {
+            $query = Booking::with(['customer.user', 'offer'])->latest();
+
+            // ✅ Filters
+            // Apply filters dynamically
+            if (!empty($filters['customer_id'])) {
+                $query->where('customer_id', $filters['customer_id']);
+            }
+
+            if (!empty($filters['status'])) {
+                $query->where('status', $filters['status']);
+            }
+
+            if ($filters['payment_status'] !== null && $filters['payment_status'] !== '') {
+                $query->where('payment_status', $filters['payment_status']);
+            }
+
+            if (!empty($filters['date_from'])) {
+                $query->whereDate('created_at', '>=', $filters['date_from']);
+            }
+
+            if (!empty($filters['date_to'])) {
+                $query->whereDate('created_at', '<=', $filters['date_to']);
+            }
+
+            return DataTables::of($query)
+
+                ->addColumn('checkbox', function ($row) {
+                    return '<input type="checkbox" class="row-checkbox" value="' . $row->id . '">';
+                })
+
+                ->addColumn('id', fn($row) => $row->id)
+
+                ->addColumn('customer_user_name', function ($row) {
+                    return $row->customer && $row->customer->user
+                        ? $row->customer->user->name
+                        : 'N/A';
+                })
+
+                ->addColumn('appointment_time', function ($row) {
+                    return $row->appointment_time
+                        ? Carbon::parse($row->appointment_time)->format('d M Y H:i')
+                        : 'N/A';
+                })
+
+                ->addColumn('total_amount', fn($row) => 'Rs ' . number_format($row->total_amount, 2))
+
+                ->editColumn('status', fn($row) => $row->status_badge)
+
+                ->addColumn('payment_status_badge', function ($row) {
+                    return $row->payment_status == 1
+                        ? '<span class="badge bg-success">Paid</span>'
+                        : '<span class="badge bg-danger">Unpaid</span>';
+                })
+
+                ->addColumn('payment_method', fn($row) => $row->payment_method ? ucfirst($row->payment_method) : 'N/A')
+
+                ->editColumn('created_at', fn($row) => $row->created_at->format('d M Y'))
+
+                ->addColumn('action', fn($row) => view('admin.booking.action', ['booking' => $row])->render())
+
+                ->rawColumns(['checkbox', 'payment_status_badge', 'action', 'status'])
+                ->make(true);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
 
 
     public function all()
