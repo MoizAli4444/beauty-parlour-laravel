@@ -15,17 +15,20 @@
                         </div>
                         <div class="card-body">
 
-                            <div class="card mb-4 shadow-sm">
-                                <div class="card-header bg-light d-flex justify-content-between align-items-center">
-                                    <h6 class="mb-0"><i class="bi bi-funnel me-2"></i> Booking Filters</h6>
-                                    <button class="btn btn-sm btn-outline-secondary" type="button"
-                                        data-bs-toggle="collapse" data-bs-target="#filterCollapse" aria-expanded="true">
-                                        <i class="bi bi-funnel"></i> Toggle Filters
-                                    </button>
+                          <div class="card mb-4 border-0 shadow-lg rounded-3">
+    <div class="card-header bg-gradient text-white d-flex justify-content-between align-items-center rounded-top border-bottom" 
+         style="background: linear-gradient(135deg, #4e73df, #224abe);">
+        <h6 class="mb-0 fw-bold">
+            <i class="bi bi-funnel me-2"></i> Booking Filters
+        </h6>
+        <button class="btn btn-sm btn-light text-primary fw-semibold shadow-sm" type="button"
+            data-bs-toggle="collapse" data-bs-target="#filterCollapse" aria-expanded="true">
+            <i class="bi bi-sliders me-1"></i> Toggle Filters
+        </button>
+    </div>
 
-                                </div>
 
-                                <div class="collapse " id="filterCollapse">
+                                <div class="collapse mt-2" id="filterCollapse">
                                     <div class="card-body">
                                         <form id="filterForm" class="row g-3">
                                             <!-- Customer -->
