@@ -27,14 +27,6 @@ class BookingController extends Controller
         $this->bookingRepository = $bookingRepository;
     }
 
-    // public function datatable(Request $request)
-    // {
-    //     if ($request->ajax()) {
-    //         return $this->bookingRepository->getDatatableData($request);
-    //     }
-
-    //     return abort(403);
-    // }
 
     public function datatable(Request $request)
     {
