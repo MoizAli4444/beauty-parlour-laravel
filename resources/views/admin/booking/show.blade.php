@@ -26,7 +26,7 @@
                                 <div class="col-12 col-lg-8">
                                     <div class="card shadow-sm rounded-3">
                                         <div class="card-header bg-light text-white py-2">
-                                            <h5 class="mb-0">Booking Details #{{ $booking->id }}</h5>
+                                            <h5 class="mb-0 ">Booking Details #{{ $booking->id }}</h5>
                                         </div>
                                         <div class="card-body py-2">
 

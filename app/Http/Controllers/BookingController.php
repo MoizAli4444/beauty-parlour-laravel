@@ -86,10 +86,72 @@ class BookingController extends Controller
     /**
      * Display the specified resource.
      */
+
     public function show($id)
     {
-        $booking = Booking::with('serviceVariants','addons','offer','customer')->find($id);
+        $booking = Booking::with([
+            'serviceVariants' => function ($q) {
+                $q->select('service_variants.id', 'service_variants.service_id', 'service_variants.name', 'service_variants.price', 'service_variants.duration');
+            },
+            'addons' => function ($q) {
+                $q->select('addons.id', 'addons.name', 'addons.price');
+            },
+            'offer' => function ($q) {
+                $q->select('offers.id', 'offers.name', 'offers.type', 'offers.value', 'offers.starts_at', 'offers.ends_at', 'offers.max_total_uses');
+            },
+            // 'customer' // you can also trim this if needed
+        ])->findOrFail($id);
 
+        // return $booking;
+        if (!$booking) {
+            return redirect()->route('bookings.index')->with('error', 'Booking not found.');
+        }
+
+        return view('admin.booking.show', compact('booking'));
+    }
+
+
+    public function showold($id)
+    {
+
+        $booking = Booking::with([
+            'serviceVariants.pivot.staff.user',
+            'addons.pivot.staff.user',
+            'offer',
+            'customer'
+        ])->findOrFail($id);
+
+        return $booking;
+
+        $booking = Booking::with('serviceVariants', 'addons', 'offer', 'customer')->find($id);
+
+        foreach ($booking->serviceVariants as $sv) {
+            $staffId = $sv->pivot->staff_id ?? null;
+            if ($staffId) {
+
+                $staff = Staff::with('user')->find($staffId);
+
+                $sv->pivot->staff_name = $staff->user->name ?? null;
+            } else {
+
+                $sv->pivot->staff_name = null;
+            }
+        }
+
+
+        foreach ($booking->addons as $ad) {
+            $staffId = $ad->pivot->staff_id ?? null;
+            if ($staffId) {
+
+                $staff = Staff::with('user')->find($staffId);
+
+                $ad->pivot->staff_name = $staff->user->name ?? null;
+            } else {
+
+                $ad->pivot->staff_name = null;
+            }
+        }
+        // return $booking;
         if (!$booking) {
             return redirect()->route('bookings.index')->with('error', 'Booking not found.');
         }

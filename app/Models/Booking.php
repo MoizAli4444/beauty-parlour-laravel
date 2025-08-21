@@ -139,6 +139,7 @@ class Booking extends Model
     public function addons()
     {
         return $this->belongsToMany(Addon::class, 'booking_addons')
+            ->using(BookingAddon::class)
             ->withPivot('price', 'staff_id', 'status')
             ->withTimestamps();
     }
@@ -155,6 +156,7 @@ class Booking extends Model
     public function serviceVariants()
     {
         return $this->belongsToMany(ServiceVariant::class, 'booking_service_variant', 'booking_id', 'service_variant_id')
+            ->using(BookingServiceVariant::class)
             ->withPivot('price', 'staff_id', 'status')
             ->withTimestamps();
     }

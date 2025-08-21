@@ -85,6 +85,15 @@ class ServiceVariant extends Model
             ->withTimestamps();
     }
 
+    public function customer()
+    {
+        return $this->hasOne(Customer::class);
+    }
+
+    public function staff()
+    {
+        return $this->belongsTo(Staff::class);
+    }
     
     
 }
