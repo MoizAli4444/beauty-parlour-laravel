@@ -14,9 +14,9 @@
                             <h5 class="mb-0">Edit Addon</h5>
 
                             <div>
-                                {!! render_delete_button($addon->id, route('addons.destroy', $addon->id), false) !!}
-                                {!! render_view_button(route('addons.show', $addon->slug), false) !!}
-                                {!! render_index_button(route('addons.index'), 'All Addons', false) !!}
+                                {{-- {!! render_delete_button($booking->id, route('bookings.destroy', $booking->id), false) !!} --}}
+                                {!! render_view_button(route('bookings.show', $booking->id), false) !!}
+                                {!! render_index_button(route('bookings.index'), 'All Bookings', false) !!}
 
                             </div>
                         </div>
@@ -32,9 +32,10 @@
                                 </div>
                             @endif
 
-                            <form action="{{ route('bookings.update') }}" method="POST">
+                            <form action="{{ route('bookings.update', $booking->id) }}" method="POST">
 
                                 @csrf
+                                @method('PUT')
 
                                 <div class="row">
                                     <!-- Customer -->
@@ -208,6 +209,7 @@
                                             <option value="1"
                                                 {{ old('payment_status', $booking->payment_status) == 1 ? 'selected' : '' }}>
                                                 Paid</option>
+                                                
                                         </select>
 
                                     </div>
@@ -215,8 +217,8 @@
 
                                     <!-- Payment Method -->
                                     <div class="mb-3 col-12 col-md-4">
-                                        <label for="payment_method">Payment Method</label>
-                                        <select name="payment_method" class="form-control" required>
+                                        <label class="form-label"  for="payment_method">Payment Method</label>
+                                        <select name="payment_method" class="form-control" required class="form-select">
                                             <option value="cash"
                                                 {{ old('payment_method', $booking->payment_method) == 'cash' ? 'selected' : '' }}>
                                                 Cash</option>
@@ -270,8 +272,8 @@
 
 
                                     <!-- Submit -->
-                                    <div class="mb-3 col-12">
-                                        <button type="submit" class="btn btn-success">Create Booking</button>
+                                    <div class="mb-3 col-12 mt-3">
+                                        <button type="submit" class="btn btn-warning">Update Booking</button>
                                     </div>
                                 </div>
                             </form>
@@ -288,3 +290,7 @@
     </div>
     <!-- Content wrapper -->
 @endsection
+
+@push('scripts')
+    @include('admin.booking.js.edit-script')
+@endpush

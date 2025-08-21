@@ -164,10 +164,35 @@ class BookingController extends Controller
      */
     public function edit($id)
     {
-        $booking = Booking::with('customer.user')->findOrFail($id);
-        $services = ServiceVariant::all();
-        $addons = Addon::all();
-        return view('bookings.edit', compact('booking', 'services', 'addons'));
+        
+         $booking = Booking::with([
+            'serviceVariants' => function ($q) {
+                $q->select('service_variants.id', 'service_variants.service_id', 'service_variants.name', 'service_variants.price', 'service_variants.duration');
+            },
+            'addons' => function ($q) {
+                $q->select('addons.id', 'addons.name', 'addons.price');
+            },
+            'offer' => function ($q) {
+                $q->select('offers.id', 'offers.name', 'offers.type', 'offers.value', 'offers.starts_at', 'offers.ends_at', 'offers.max_total_uses');
+            },
+            // 'customer' // you can also trim this if needed
+        ])->findOrFail($id);
+
+        // return $booking;
+        if (!$booking) {
+            return redirect()->route('bookings.index')->with('error', 'Booking not found.');
+        }
+        
+
+        $customers = Customer::active()->with('user:id,name')->get(['id', 'user_id']);
+        $staffMembers = Staff::active()->with('user:id,name')->get(['id', 'user_id']);
+
+        $serviceVariants = ServiceVariant::active()->get();
+
+        $addons = Addon::active()->get();
+        $offers = Offer::active()->get();
+
+        return view('admin.booking.edit', compact('booking', 'customers', 'addons', 'offers', 'serviceVariants', 'staffMembers'));
     }
 
     /**
