@@ -86,9 +86,15 @@ class BookingController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Booking $booking)
+    public function show($id)
     {
-        //
+        $booking = Booking::with('serviceVariants','addons','offer','customer')->find($id);
+
+        if (!$booking) {
+            return redirect()->route('bookings.index')->with('error', 'Booking not found.');
+        }
+
+        return view('admin.booking.show', compact('booking'));
     }
 
     /**

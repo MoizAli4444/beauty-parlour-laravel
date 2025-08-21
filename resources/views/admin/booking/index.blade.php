@@ -10,8 +10,8 @@
                 <div class="col-xl">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">All Addons</h5>
-                            <a href="{{ route('addons.create') }}" class="btn btn-warning">Create</a>
+                            <h5 class="mb-0">All Bookings</h5>
+                            <a href="{{ route('bookings.create') }}" class="btn btn-warning">Create</a>
                         </div>
                         <div class="card-body">
 
@@ -20,9 +20,9 @@
 
 
                             @include('admin.pages-partials.bulk-actions', [
-                                'deleteUrl' => route('addons.bulkDelete'),
-                                'statusUrl' => route('addons.bulkStatus'),
-                                'itemType' => 'addons', // optional
+                                'deleteUrl' => route('bookings.bulkDelete'),
+                                'statusUrl' => route('bookings.bulkStatus'),
+                                'itemType' => 'bookings', // optional
                             ])
 
                             <table id="indexPageDataTable" class="table table-bordered">

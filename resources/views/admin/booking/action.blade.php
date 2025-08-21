@@ -2,7 +2,7 @@
 
     {!! $booking->edit_button !!}
     {!! $booking->view_button !!}
-    {!! $booking->delete_button !!}
+    {{-- {!! $booking->delete_button !!} --}}
 
 </div>
 
