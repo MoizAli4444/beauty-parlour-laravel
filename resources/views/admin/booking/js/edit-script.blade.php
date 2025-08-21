@@ -54,9 +54,6 @@
                 alert("At least one service must be present.");
             }
 
-
-
-            // $(this).closest('.service-row').remove();
             calculateTotals();
 
         });
@@ -137,11 +134,8 @@
             }
 
             if (!validZero) {
-                // errorMsg = "Discount is too high. Total cannot be zero or negative.";
                 errorMsg =
                     "⚠️ Discount too high! Total is $0.00. Please review the offer. Are you sure you want to proceed with a free booking?";
-
-                // alert(errorMsg); // Optional: show alert
                 finalTotal = 0;
             }
         }
@@ -175,7 +169,7 @@
         calculateTotals);
 
     $(document).on('click', '#addServiceBtn', function() {
-        setTimeout(calculateTotals, 200); // slight delay to allow DOM update
+        setTimeout(calculateTotals, 200);
     });
     
 </script>
