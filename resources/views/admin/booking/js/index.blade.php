@@ -1,11 +1,9 @@
 <script>
     $(document).ready(function() {
 
-        // $('#indexPageDataTable').DataTable({
         var table = $('#indexPageDataTable').DataTable({
             processing: true,
             serverSide: true,
-            // ajax: '{{ route('bookings.datatable') }}',
             ajax: {
                 url: "{{ route('bookings.datatable') }}",
                 data: function(d) {
@@ -50,10 +48,6 @@
                     data: 'payment_method',
                     name: 'payment_method'
                 },
-                // {
-                //     data: 'created_at',
-                //     name: 'created_at'
-                // },
                 {
                     data: 'action',
                     name: 'action',
