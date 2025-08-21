@@ -1,56 +1,4 @@
 <script>
-    $(document).ready(function() {
-
-        $('#indexPageDataTable').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: '{{ route('bookings.datatable') }}',
-            columns: [{
-                    data: 'checkbox',
-                    name: 'checkbox',
-                    orderable: false,
-                    searchable: false
-                },
-                {
-                    data: 'id',
-                    name: 'id'
-                },
-                {
-                    data: 'customer_user_name',
-                    name: 'customer_user_name'
-                },
-                {
-                    data: 'offer_name',
-                    name: 'offer_name'
-                },
-                // {
-                //     data: 'duration',
-                //     name: 'duration'
-                // },
-                // {
-                //     data: 'gender',
-                //     name: 'gender'
-                // },
-
-                // {
-                //     data: 'status',
-                //     name: 'status'
-                // },
-                {
-                    data: 'created_at',
-                    name: 'created_at'
-                },
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false
-                }
-            ]
-
-        });
-    });
-
 
     ///////// create page code
     $(document).ready(function() {
@@ -102,9 +50,6 @@
                 alert("At least one service must be present.");
             }
 
-
-
-            // $(this).closest('.service-row').remove();
             calculateTotals();
 
         });
@@ -117,15 +62,13 @@
 
             console.log('change', price);
 
-            // Set price input value
             $row.find('input[name*="[price]"]').val(price);
 
-            // Reset staff dropdown if no service selected
             if (!selectedOption.val()) {
                 $row.find('select[name*="[staff_id]"]').val('');
             }
 
-            calculateTotals(); // <-- Call this to ensure totals are recalculated on first change too
+            calculateTotals();
         });
 
     });
@@ -185,11 +128,9 @@
             }
 
             if (!validZero) {
-                // errorMsg = "Discount is too high. Total cannot be zero or negative.";
                 errorMsg =
                     "⚠️ Discount too high! Total is $0.00. Please review the offer. Are you sure you want to proceed with a free booking?";
 
-                // alert(errorMsg); // Optional: show alert
                 finalTotal = 0;
             }
         }
@@ -222,6 +163,6 @@
         calculateTotals);
 
     $(document).on('click', '#addServiceBtn', function() {
-        setTimeout(calculateTotals, 200); // slight delay to allow DOM update
+        setTimeout(calculateTotals, 200);
     });
 </script>
