@@ -47,8 +47,13 @@
                                                 <div class="row mb-3">
                                                     <div class="col-md-6">
                                                         <strong>Offer Applied:</strong>
-                                                        <p class="mb-0">{{ $booking->offer->name }}
-                                                            ({{ $booking->offer->offer_code }})</p>
+                                                        @if ($booking->offer)
+                                                            <p class="mb-0">
+                                                                {{ $booking->offer->name }}
+                                                                ({{ $booking->offer->offer_code ?? '-' }})
+                                                            </p>
+                                                        @endif
+
                                                     </div>
                                                     <div class="col-md-6">
                                                         <strong>Discount:</strong>
