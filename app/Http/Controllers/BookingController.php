@@ -264,31 +264,6 @@ class BookingController extends Controller
         return view('bookings.index', compact('bookings'));
     }
 
-
-
-    // public function update(Request $request, $id)
-    // {
-    //     $booking = Booking::findOrFail($id);
-
-    //     $validated = $request->validate([
-    //         'appointment_time' => 'required|date',
-    //         'status'           => 'required|in:pending,confirmed,in_progress,completed,cancelled,rejected',
-    //         'payment_status'   => 'required|in:0,1',
-    //         'payment_method'   => 'nullable|in:cash,card,wallet,online',
-    //         'note'             => 'nullable|string',
-    //         'service_variant_amount' => 'required|numeric|min:0',
-    //         'addon_amount'     => 'required|numeric|min:0',
-    //         'discount'         => 'nullable|numeric|min:0'
-    //     ]);
-
-    //     $validated['subtotal'] = $validated['service_variant_amount'] + $validated['addon_amount'];
-    //     $validated['total_amount'] = $validated['subtotal'] - $validated['discount'];
-
-    //     $booking->update($validated);
-
-    //     return redirect()->route('bookings.index')->with('success', 'Booking updated successfully.');
-    // }
-
     // make function for booking status , payment status and etc if other status are present
     public function changeStatus($id, $status)
     {
