@@ -50,6 +50,8 @@
         </div>
         <!-- / Content -->
 
+        @include('admin.booking.partials.changestatus_modal')
+
 
         <div class="content-backdrop fade"></div>
     </div>

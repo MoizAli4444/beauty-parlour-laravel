@@ -164,8 +164,8 @@ class BookingController extends Controller
      */
     public function edit($id)
     {
-        
-         $booking = Booking::with([
+
+        $booking = Booking::with([
             'serviceVariants' => function ($q) {
                 $q->select('service_variants.id', 'service_variants.service_id', 'service_variants.name', 'service_variants.price', 'service_variants.duration');
             },
@@ -182,7 +182,7 @@ class BookingController extends Controller
         if (!$booking) {
             return redirect()->route('bookings.index')->with('error', 'Booking not found.');
         }
-        
+
 
         $customers = Customer::active()->with('user:id,name')->get(['id', 'user_id']);
         $staffMembers = Staff::active()->with('user:id,name')->get(['id', 'user_id']);
@@ -265,25 +265,25 @@ class BookingController extends Controller
     }
 
     // make function for booking status , payment status and etc if other status are present
-    public function changeStatus($id, $status)
+    public function changeStatus(Request $request, $id)
     {
+        $request->validate([
+            'status' => 'required|in:pending,confirmed,in_progress,completed,cancelled,rejected'
+        ]);
+
         $booking = Booking::findOrFail($id);
+        $booking->status = $request->status;
 
-        // Restrict flow if needed
-        if ($booking->status === 'completed' || $booking->status === 'cancelled') {
-            return back()->with('error', 'Cannot change status for completed or cancelled bookings.');
+        if ($request->status === 'cancelled') {
+            $booking->cancel_reason = $request->cancel_reason ?? 'Cancelled by admin';
         }
 
-        // Mark payment as paid if completed
-        if ($status === 'completed' && $booking->payment_status == 0) {
-            $booking->payment_status = 1;
-        }
-
-        $booking->status = $status;
+        $booking->updated_by = auth()->id();
         $booking->save();
 
-        return back()->with('success', 'Booking status updated to ' . ucfirst($status));
+        return response()->json(['success' => true, 'status' => $booking->status]);
     }
+
 
     // booking cancel function
     public function cancel(Request $request, $id)

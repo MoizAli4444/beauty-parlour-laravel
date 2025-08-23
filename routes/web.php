@@ -161,7 +161,7 @@ Route::middleware('auth')->group(function () {
 
     /// ==============================
     // Booking Module Routes
-    // ==============================
+    /// ==============================
 
     Route::prefix('bookings')->name('bookings.')->group(function () {
         // For DataTables AJAX loading
@@ -172,6 +172,9 @@ Route::middleware('auth')->group(function () {
 
         // For toggling status
         Route::patch('{id}/toggle-status', [BookingController::class, 'toggleStatus'])->name('toggle-status');
+
+        Route::post('/{id}/status', [BookingController::class, 'changeStatus'])->name('changeStatus');
+
 
         // Bulk actions
         Route::post('bulk-delete', [BookingController::class, 'bulkDelete'])->name('bulkDelete');

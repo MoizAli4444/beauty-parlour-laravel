@@ -70,4 +70,36 @@
             table.ajax.reload(); // Reload table with no filters
         });
     });
+
+    $(document).on("click", ".change-status-btn", function() {
+        let bookingId = $(this).data("id");
+        let currentStatus = $(this).data("status");
+
+        $("#booking_id").val(bookingId);
+        $("#status_select").val(currentStatus);
+        $("#statusModal").modal("show");
+    });
+
+    // change status modal script
+    $("#statusForm").submit(function(e) {
+        e.preventDefault();
+
+        let bookingId = $("#booking_id").val();
+        let status = $("#status_select").val();
+
+        $.ajax({
+            url: "/bookings/" + bookingId + "/status",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+                status: status,
+            },
+            success: function(response) {
+                location.reload(); // refresh table
+            },
+            error: function(xhr) {
+                alert("Something went wrong!");
+            },
+        });
+    });
 </script>
