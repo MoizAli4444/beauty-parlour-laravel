@@ -102,4 +102,16 @@
             },
         });
     });
+
+    // Show reason field only if status is cancelled or rejected
+    $("#status_select").on("change", function() {
+        let status = $(this).val();
+        if (status === "cancelled" || status === "rejected") {
+            $("#reasonBox").removeClass("d-none");
+            $("#cancel_reason").attr("required", true);
+        } else {
+            $("#reasonBox").addClass("d-none");
+            $("#cancel_reason").removeAttr("required").val("");
+        }
+    });
 </script>

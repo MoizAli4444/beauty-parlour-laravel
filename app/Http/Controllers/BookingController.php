@@ -268,14 +268,17 @@ class BookingController extends Controller
     public function changeStatus(Request $request, $id)
     {
         $request->validate([
-            'status' => 'required|in:pending,confirmed,in_progress,completed,cancelled,rejected'
+            'status' => 'required|in:pending,confirmed,in_progress,completed,cancelled,rejected',
+            'cancel_reason' => 'nullable|string|max:500'
         ]);
 
         $booking = Booking::findOrFail($id);
         $booking->status = $request->status;
 
-        if ($request->status === 'cancelled') {
-            $booking->cancel_reason = $request->cancel_reason ?? 'Cancelled by admin';
+        if (in_array($request->status, ['cancelled', 'rejected'])) {
+            $booking->cancel_reason = $request->cancel_reason ?? 'No reason provided';
+        } else {
+            $booking->cancel_reason = null; // clear if status changes back
         }
 
         $booking->updated_by = auth()->id();
@@ -283,6 +286,7 @@ class BookingController extends Controller
 
         return response()->json(['success' => true, 'status' => $booking->status]);
     }
+
 
 
     // booking cancel function

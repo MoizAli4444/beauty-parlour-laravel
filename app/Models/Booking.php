@@ -68,6 +68,27 @@ class Booking extends Model
         return '<span class="' . $color . '">' . ucwords(str_replace('_', ' ', $this->status)) . '</span>';
     }
 
+    public function getPaymentStatusBadgeAttribute()
+    {
+        $statuses = [
+            0 => 'Unpaid',
+            1 => 'Paid',
+            2 => 'Refunded',
+        ];
+
+        $colors = [
+            0 => 'badge bg-danger',   // Unpaid
+            1 => 'badge bg-success',  // Paid
+            2 => 'badge bg-warning',  // Refunded
+        ];
+
+        $status = $statuses[$this->payment_status] ?? 'Unknown';
+        $color  = $colors[$this->payment_status] ?? 'badge bg-dark';
+
+        return '<span class="' . $color . '">' . $status . '</span>';
+    }
+
+
 
 
 

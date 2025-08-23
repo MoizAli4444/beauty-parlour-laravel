@@ -146,7 +146,13 @@ class BookingRepository implements BookingRepositoryInterface
 
                 ->editColumn('status', fn($row) => $row->status_badge)
 
-                ->addColumn('payment_status_badge', function ($row) {
+                // ->addColumn('payment_status_badge', function ($row) {
+                //     return $row->payment_status == 1
+                //         ? '<span class="badge bg-success">Paid</span>'
+                //         : '<span class="badge bg-danger">Unpaid</span>';
+                // })
+
+                ->addColumn('payment_status', function ($row) {
                     return $row->payment_status == 1
                         ? '<span class="badge bg-success">Paid</span>'
                         : '<span class="badge bg-danger">Unpaid</span>';
@@ -158,7 +164,7 @@ class BookingRepository implements BookingRepositoryInterface
 
                 ->addColumn('action', fn($row) => view('admin.booking.action', ['booking' => $row])->render())
 
-                ->rawColumns(['checkbox', 'payment_status_badge', 'action', 'status'])
+                ->rawColumns(['checkbox', 'payment_status', 'action', 'status'])
                 ->make(true);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
