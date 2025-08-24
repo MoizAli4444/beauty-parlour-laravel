@@ -152,11 +152,7 @@ class BookingRepository implements BookingRepositoryInterface
                 //         : '<span class="badge bg-danger">Unpaid</span>';
                 // })
 
-                ->addColumn('payment_status', function ($row) {
-                    return $row->payment_status == 1
-                        ? '<span class="badge bg-success">Paid</span>'
-                        : '<span class="badge bg-danger">Unpaid</span>';
-                })
+                ->editColumn('payment_status', fn($row) => $row->payment_status_badge)
 
                 ->addColumn('payment_method', fn($row) => $row->payment_method ? ucfirst($row->payment_method) : 'N/A')
 

@@ -41,8 +41,8 @@
                     name: 'status'
                 },
                 {
-                    data: 'payment_status_badge',
-                    name: 'payment_status_badge'
+                    data: 'payment_status',
+                    name: 'payment_status'
                 },
                 {
                     data: 'payment_method',

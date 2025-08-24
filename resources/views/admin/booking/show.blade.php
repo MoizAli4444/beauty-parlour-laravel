@@ -187,10 +187,9 @@
 
                                             <div class="d-flex justify-content-between mb-2">
                                                 <strong>Payment Status:</strong>
+
                                                 <span
-                                                    class="badge {{ $booking->payment_status ? 'bg-success' : 'bg-danger' }}">
-                                                    {{ $booking->payment_status ? 'Paid' : 'Unpaid' }}
-                                                </span>
+                                                    >{!! ucfirst($booking->payment_status_badge)  !!}</span>
                                             </div>
 
                                             <div class="d-flex justify-content-between mb-2">
