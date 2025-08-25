@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booking;
 use App\Models\BookingReview;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,8 @@ class BookingReviewController extends Controller
      */
     public function index()
     {
-        //
+        $reviews = BookingReview::with('booking', 'user')->latest()->paginate(10);
+        return view('booking_reviews.index', compact('reviews'));
     }
 
     /**
@@ -20,7 +22,8 @@ class BookingReviewController extends Controller
      */
     public function create()
     {
-        //
+        $bookings = Booking::all(); // you might filter only completed bookings
+        return view('booking_reviews.create', compact('bookings'));
     }
 
     /**
@@ -28,7 +31,21 @@ class BookingReviewController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'booking_id' => 'required|exists:bookings,id',
+            'rating'     => 'required|integer|min:1|max:5',
+            'review'     => 'required|string',
+        ]);
+
+        BookingReview::create([
+            'booking_id' => $request->booking_id,
+            'user_id'    => auth()->id(), // logged-in user
+            'rating'     => $request->rating,
+            'review'     => $request->review,
+            'status'     => 'pending',
+        ]);
+
+        return redirect()->route('booking_reviews.index')->with('success', 'Review submitted successfully!');
     }
 
     /**
@@ -44,7 +61,7 @@ class BookingReviewController extends Controller
      */
     public function edit(BookingReview $bookingReview)
     {
-        //
+        return view('booking_reviews.edit', compact('bookingReview'));
     }
 
     /**
@@ -52,7 +69,15 @@ class BookingReviewController extends Controller
      */
     public function update(Request $request, BookingReview $bookingReview)
     {
-        //
+        $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+            'review' => 'required|string',
+            'status' => 'required|in:pending,approved,rejected',
+        ]);
+
+        $bookingReview->update($request->all());
+
+        return redirect()->route('booking_reviews.index')->with('success', 'Review updated successfully!');
     }
 
     /**
@@ -60,6 +85,7 @@ class BookingReviewController extends Controller
      */
     public function destroy(BookingReview $bookingReview)
     {
-        //
+        $bookingReview->delete();
+        return redirect()->route('booking_reviews.index')->with('success', 'Review deleted successfully!');
     }
 }
