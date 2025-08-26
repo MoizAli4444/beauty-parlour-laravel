@@ -37,7 +37,7 @@ class BookingReviewController extends Controller
     {
         $review_statuses = BookingReview::STATUSES;
         $customers = Customer::active()->with('user:id,name')->get(['id', 'user_id']);
-        return view('admin.booking-reviews.index',compact('customers','review_statuses'));
+        return view('admin.booking-reviews.index', compact('customers', 'review_statuses'));
     }
 
     /**
@@ -136,6 +136,30 @@ class BookingReviewController extends Controller
             'success' => true,
             'message' => "Review {$request->status} successfully.",
             'data'    => $review->load('moderator'),
+        ]);
+    }
+
+    public function changeStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:pending,approved,rejected',
+        ]);
+
+        $review = BookingReview::findOrFail($id);
+
+        // Get logged-in user
+        $user = auth()->user();
+
+        // Save moderator info
+        $review->status = $request->status;
+        $review->moderator_id = $user->id;
+        $review->moderator_type = get_class($user); // e.g. App\Models\Admin or App\Models\Staff
+        $review->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Review status updated successfully.',
+            'data'    => $review
         ]);
     }
 }

@@ -84,7 +84,19 @@ class BookingReviewRepository implements BookingReviewRepositoryInterface
                     return '<span class="badge bg-' . $color . '">' . ucfirst($row->status) . '</span>';
                 })
 
-                ->addColumn('moderator', fn($row) => $row->moderator?->name ?? 'N/A')
+
+                ->addColumn('moderator_name', function ($row) {
+                    if ($row->moderator_type === 'App\\Models\\Staff') {
+                        return optional(optional($row->moderator)->user)->name ?? 'N/A';
+                    }
+
+                    if ($row->moderator_type === 'App\\Models\\User') {
+                        return optional($row->moderator)->name ?? 'N/A';
+                    }
+
+                    return 'N/A';
+                })
+
 
                 ->editColumn('created_at', fn($row) => $row->created_at->format('d M Y'))
 
@@ -94,7 +106,7 @@ class BookingReviewRepository implements BookingReviewRepositoryInterface
                     view('admin.booking-reviews.action', ['booking_review' => $row])->render()
                 )
 
-                ->rawColumns(['checkbox', 'status', 'action', 'rating'])
+                ->rawColumns(['checkbox', 'status', 'action', 'rating', 'moderator_name'])
                 ->make(true);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);

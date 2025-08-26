@@ -180,16 +180,6 @@ Route::middleware('auth')->group(function () {
         // Bulk actions
         Route::post('bulk-delete', [BookingController::class, 'bulkDelete'])->name('bulkDelete');
         Route::post('bulk-status', [BookingController::class, 'bulkStatus'])->name('bulkStatus');
-
-        // ******* API Code *******
-        // Customer creates review
-        // Route::middleware(['auth:api', 'role:customer'])->group(function () {
-        //     Route::post('/bookings/{booking}/reviews', [BookingReviewController::class, 'store'])->name('reviews.store');
-        // });
-
-        // Route::get('/reviews', [BookingReviewController::class, 'datatable'])->name('reviews.index');
-        // Route::get('/reviews/{review}', [BookingReviewController::class, 'show'])->name('reviews.show');
-        // Route::patch('/reviews/{review}/status', [BookingReviewController::class, 'updateStatus'])->name('reviews.updateStatus');
     });
 
     // Resource Routes
@@ -202,6 +192,12 @@ Route::middleware('auth')->group(function () {
     // ==============================
     Route::prefix('booking-reviews')->name('booking-reviews.')->group(function () {
 
+        // ******* API Code *******
+        // Customer creates review
+        // Route::middleware(['auth:api', 'role:customer'])->group(function () {
+        //     Route::post('/bookings/{booking}/reviews', [BookingReviewController::class, 'store'])->name('reviews.store');
+        // });
+
         // For DataTables AJAX loading
         Route::get('datatable', [BookingReviewController::class, 'datatable'])->name('datatable');
 
@@ -210,6 +206,10 @@ Route::middleware('auth')->group(function () {
 
         // Update status
         Route::patch('{review}/status', [BookingReviewController::class, 'updateStatus'])->name('updateStatus');
+
+
+        Route::post('/{id}/status', [BookingReviewController::class, 'changeStatus'])->name('changeStatus');
+
 
         // For toggling status
         Route::patch('{id}/toggle-status', [BookingReviewController::class, 'toggleStatus'])->name('toggle-status');

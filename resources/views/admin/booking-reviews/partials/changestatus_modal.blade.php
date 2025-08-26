@@ -14,10 +14,7 @@
           <label for="status">Select New Status</label>
           <select name="status" id="status_select" class="form-select" required>
               <option value="pending">Pending</option>
-              <option value="confirmed">Confirmed</option>
-              <option value="in_progress">In Progress</option>
-              <option value="completed">Completed</option>
-              <option value="cancelled">Cancelled</option>
+              <option value="approved">Approved</option>
               <option value="rejected">Rejected</option>
           </select>
 
