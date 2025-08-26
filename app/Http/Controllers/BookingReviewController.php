@@ -4,21 +4,40 @@ namespace App\Http\Controllers;
 
 use App\Models\Booking;
 use App\Models\BookingReview;
+use App\Repositories\BookingReview\BookingReviewRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class BookingReviewController extends Controller
 {
+
+    protected $bookingReviewRepo;
+
+    public function __construct(BookingReviewRepositoryInterface $bookingReviewRepo)
+    {
+        $this->bookingReviewRepo = $bookingReviewRepo;
+    }
+
     /**
      * Display a listing of the resource.
      */
-    
-    public function index()
+    public function datatable(Request $request)
     {
-        $reviews = BookingReview::with(['customer', 'booking', 'moderator'])->latest()->paginate(10);
+        if ($request->ajax()) {
+            $filters = $request->only(['customer_id', 'status', 'rating_from', 'rating_to', 'date_from', 'date_to']);
+            return $this->bookingReviewRepo->getDatatableData($filters);
+        }
 
-        return response()->json($reviews);
+        return abort(403);
     }
+
+
+    // public function index()
+    // {
+    //     $reviews = BookingReview::with(['customer', 'booking', 'moderator'])->latest()->paginate(10);
+
+    //     return response()->json($reviews);
+    // }
 
     /**
      * Show the form for creating a new resource.
@@ -118,6 +137,4 @@ class BookingReviewController extends Controller
             'data'    => $review->load('moderator'),
         ]);
     }
-
-
 }
