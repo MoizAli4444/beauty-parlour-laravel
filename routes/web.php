@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AddonController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\BookingReviewController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\PermissionController;
@@ -179,11 +180,25 @@ Route::middleware('auth')->group(function () {
         // Bulk actions
         Route::post('bulk-delete', [BookingController::class, 'bulkDelete'])->name('bulkDelete');
         Route::post('bulk-status', [BookingController::class, 'bulkStatus'])->name('bulkStatus');
+
+        // ******* API Code *******
+        // Customer creates review
+        // Route::middleware(['auth:api', 'role:customer'])->group(function () {
+        //     Route::post('/bookings/{booking}/reviews', [BookingReviewController::class, 'store'])->name('reviews.store');
+        // });
+
+        Route::get('/reviews', [BookingReviewController::class, 'index'])->name('reviews.index');
+        Route::get('/reviews/{review}', [BookingReviewController::class, 'show'])->name('reviews.show');
+        Route::patch('/reviews/{review}/status', [BookingReviewController::class, 'updateStatus'])->name('reviews.updateStatus');
     });
 
     // Resource Routes
     Route::resource('bookings', BookingController::class);
 
+
+
+
+    Route::prefix('bookings')->name('bookings.')->group(function () {});
 
 
 

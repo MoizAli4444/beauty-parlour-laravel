@@ -5,16 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\Booking;
 use App\Models\BookingReview;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BookingReviewController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    
     public function index()
     {
-        $reviews = BookingReview::with('booking', 'user')->latest()->paginate(10);
-        return view('booking_reviews.index', compact('reviews'));
+        $reviews = BookingReview::with(['customer', 'booking', 'moderator'])->latest()->paginate(10);
+
+        return response()->json($reviews);
     }
 
     /**
@@ -29,23 +32,28 @@ class BookingReviewController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
     public function store(Request $request)
     {
         $request->validate([
             'booking_id' => 'required|exists:bookings,id',
             'rating'     => 'required|integer|min:1|max:5',
-            'review'     => 'required|string',
+            'review'     => 'nullable|string|max:1000',
         ]);
 
-        BookingReview::create([
+        $review = BookingReview::create([
             'booking_id' => $request->booking_id,
-            'user_id'    => auth()->id(), // logged-in user
+            'customer_id' => Auth::id(), // assuming logged-in customer
             'rating'     => $request->rating,
             'review'     => $request->review,
             'status'     => 'pending',
         ]);
 
-        return redirect()->route('booking_reviews.index')->with('success', 'Review submitted successfully!');
+        return response()->json([
+            'success' => true,
+            'message' => 'Review submitted successfully and pending approval.',
+            'data'    => $review
+        ]);
     }
 
     /**
@@ -88,4 +96,28 @@ class BookingReviewController extends Controller
         $bookingReview->delete();
         return redirect()->route('booking_reviews.index')->with('success', 'Review deleted successfully!');
     }
+
+    /**
+     * Approve or reject a review by Admin/Staff.
+     */
+    public function moderate(Request $request, BookingReview $review)
+    {
+        $request->validate([
+            'status' => 'required|in:approved,rejected',
+        ]);
+
+        $review->update([
+            'status'         => $request->status,
+            'moderator_id'   => Auth::id(),
+            'moderator_type' => Auth::user()::class, // automatically saves Admin or Staff
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => "Review {$request->status} successfully.",
+            'data'    => $review->load('moderator'),
+        ]);
+    }
+
+
 }
