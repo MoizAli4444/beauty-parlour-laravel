@@ -155,6 +155,14 @@
             </a>
         </li>
 
+        <li class="menu-item {{ request()->routeIs('booking-reviews.*') ? 'active' : '' }}">
+            <a href="{{ route('booking-reviews.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-star"></i>
+                <div class="text-truncate" data-i18n="booking-reviews">Booking Reviews</div>
+            </a>
+        </li>
+
+
 
 
 

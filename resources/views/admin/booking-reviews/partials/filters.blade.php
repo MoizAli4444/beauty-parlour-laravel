@@ -31,7 +31,7 @@
                     <label class="form-label">Status</label>
                     <select name="status" class="form-select">
                         <option value="">All</option>
-                        @foreach ($booking_statuses as $value => $label)
+                        @foreach ($review_statuses as $value => $label)
                             <option value="{{ $value }}">{{ $label }}</option>
                         @endforeach
                     </select>

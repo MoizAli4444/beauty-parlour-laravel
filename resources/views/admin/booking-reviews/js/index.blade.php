@@ -5,7 +5,7 @@
             processing: true,
             serverSide: true,
             ajax: {
-                url: "{{ route('bookings.datatable') }}",
+                url: "{{ route('booking-reviews.datatable') }}",
                 data: function(d) {
                     d.customer_id = $('select[name=customer_id]').val();
                     d.status = $('select[name=status]').val();
@@ -25,28 +25,34 @@
                     name: 'id'
                 },
                 {
-                    data: 'customer_user_name',
-                    name: 'customer_user_name'
+                    data: 'customer',
+                    name: 'customer'
                 },
                 {
-                    data: 'appointment_time',
-                    name: 'appointment_time'
+                    data: 'booking',
+                    name: 'booking'
                 },
                 {
-                    data: 'total_amount',
-                    name: 'total_amount'
+                    data: 'rating',
+                    name: 'rating',
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: 'review',
+                    name: 'review'
                 },
                 {
                     data: 'status',
                     name: 'status'
                 },
                 {
-                    data: 'payment_status',
-                    name: 'payment_status'
+                    data: 'moderator',
+                    name: 'moderator'
                 },
                 {
-                    data: 'payment_method',
-                    name: 'payment_method'
+                    data: 'created_at',
+                    name: 'created_at'
                 },
                 {
                     data: 'action',
@@ -55,6 +61,7 @@
                     searchable: false
                 }
             ]
+
 
         });
 

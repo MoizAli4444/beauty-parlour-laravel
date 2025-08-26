@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Booking;
 use App\Models\BookingReview;
+use App\Models\Customer;
 use App\Repositories\BookingReview\BookingReviewRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,12 +33,12 @@ class BookingReviewController extends Controller
     }
 
 
-    // public function index()
-    // {
-    //     $reviews = BookingReview::with(['customer', 'booking', 'moderator'])->latest()->paginate(10);
-
-    //     return response()->json($reviews);
-    // }
+    public function index()
+    {
+        $review_statuses = BookingReview::STATUSES;
+        $customers = Customer::active()->with('user:id,name')->get(['id', 'user_id']);
+        return view('admin.booking-reviews.index',compact('customers','review_statuses'));
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -45,7 +46,7 @@ class BookingReviewController extends Controller
     public function create()
     {
         $bookings = Booking::all(); // you might filter only completed bookings
-        return view('booking_reviews.create', compact('bookings'));
+        return view('booking-reviewss.create', compact('bookings'));
     }
 
     /**
@@ -88,7 +89,7 @@ class BookingReviewController extends Controller
      */
     public function edit(BookingReview $bookingReview)
     {
-        return view('booking_reviews.edit', compact('bookingReview'));
+        return view('booking-reviewss.edit', compact('bookingReview'));
     }
 
     /**
@@ -104,7 +105,7 @@ class BookingReviewController extends Controller
 
         $bookingReview->update($request->all());
 
-        return redirect()->route('booking_reviews.index')->with('success', 'Review updated successfully!');
+        return redirect()->route('booking-reviewss.index')->with('success', 'Review updated successfully!');
     }
 
     /**
@@ -113,7 +114,7 @@ class BookingReviewController extends Controller
     public function destroy(BookingReview $bookingReview)
     {
         $bookingReview->delete();
-        return redirect()->route('booking_reviews.index')->with('success', 'Review deleted successfully!');
+        return redirect()->route('booking-reviewss.index')->with('success', 'Review deleted successfully!');
     }
 
     /**

@@ -11,24 +11,24 @@
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h5 class="mb-0">All Bookings</h5>
-                            <a href="{{ route('bookings.create') }}" class="btn btn-warning">Create</a>
+                            <a href="{{ route('booking-reviews.create') }}" class="btn btn-warning">Create</a>
                         </div>
                         <div class="card-body">
 
                             {{-- ✅ Include Filter Partial --}}
-                            @include('admin.booking.partials.filters')
+                            @include('admin.booking-reviews.partials.filters')
 
 
                             @include('admin.pages-partials.bulk-actions', [
-                                'deleteUrl' => route('bookings.bulkDelete'),
-                                'statusUrl' => route('bookings.bulkStatus'),
+                                'deleteUrl' => route('booking-reviews.bulkDelete'),
+                                'statusUrl' => route('booking-reviews.bulkStatus'),
                                 'itemType' => 'bookings', // optional
                             ])
 
                             <table id="indexPageDataTable" class="table table-bordered">
                                 <thead>
-                                    <tr>
-                                        <th><input type="checkbox" id="select-all"></th> {{-- universal checkbox --}}
+                                    {{-- <tr>
+                                        <th><input type="checkbox" id="select-all"></th>
                                         <th>ID</th>
                                         <th>Customer Name</th>
                                         <th>Appointment Time</th>
@@ -36,6 +36,20 @@
                                         <th>Status</th>
                                         <th>Payment Status</th>
                                         <th>Payment Method</th>
+                                        <th>Action</th>
+                                    </tr> --}}
+                                    <tr>
+                                        <th>
+                                            <input type="checkbox" id="select-all">
+                                        </th>
+                                        <th>ID</th>
+                                        <th>Customer</th>
+                                        <th>Booking</th>
+                                        <th>Rating</th>
+                                        <th>Review</th>
+                                        <th>Status</th>
+                                        <th>Moderator</th>
+                                        <th>Created At</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -50,7 +64,7 @@
         </div>
         <!-- / Content -->
 
-        @include('admin.booking.partials.changestatus_modal')
+        @include('admin.booking-reviews.partials.changestatus_modal')
 
 
         <div class="content-backdrop fade"></div>
@@ -59,5 +73,5 @@
 @endsection
 
 @push('scripts')
-    @include('admin.booking.js.index')
+    @include('admin.booking-reviews.js.index')
 @endpush

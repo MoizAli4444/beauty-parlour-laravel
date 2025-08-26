@@ -187,9 +187,9 @@ Route::middleware('auth')->group(function () {
         //     Route::post('/bookings/{booking}/reviews', [BookingReviewController::class, 'store'])->name('reviews.store');
         // });
 
-        Route::get('/reviews', [BookingReviewController::class, 'index'])->name('reviews.index');
-        Route::get('/reviews/{review}', [BookingReviewController::class, 'show'])->name('reviews.show');
-        Route::patch('/reviews/{review}/status', [BookingReviewController::class, 'updateStatus'])->name('reviews.updateStatus');
+        // Route::get('/reviews', [BookingReviewController::class, 'datatable'])->name('reviews.index');
+        // Route::get('/reviews/{review}', [BookingReviewController::class, 'show'])->name('reviews.show');
+        // Route::patch('/reviews/{review}/status', [BookingReviewController::class, 'updateStatus'])->name('reviews.updateStatus');
     });
 
     // Resource Routes
@@ -197,8 +197,31 @@ Route::middleware('auth')->group(function () {
 
 
 
+    // ==============================
+    // Booking Reviews Module Routes
+    // ==============================
+    Route::prefix('booking-reviews')->name('booking-reviews.')->group(function () {
 
-    Route::prefix('bookings')->name('bookings.')->group(function () {});
+        // For DataTables AJAX loading
+        Route::get('datatable', [BookingReviewController::class, 'datatable'])->name('datatable');
+
+        // Show single review
+        Route::get('{review}', [BookingReviewController::class, 'show'])->name('show');
+
+        // Update status
+        Route::patch('{review}/status', [BookingReviewController::class, 'updateStatus'])->name('updateStatus');
+
+        // For toggling status
+        Route::patch('{id}/toggle-status', [BookingReviewController::class, 'toggleStatus'])->name('toggle-status');
+
+        // Bulk actions
+        Route::post('bulk-delete', [BookingReviewController::class, 'bulkDelete'])->name('bulkDelete');
+        Route::post('bulk-status', [BookingReviewController::class, 'bulkStatus'])->name('bulkStatus');
+    });
+
+    // Resource Routes
+    Route::resource('booking-reviews', BookingReviewController::class);
+
 
 
 

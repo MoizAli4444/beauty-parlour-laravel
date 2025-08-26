@@ -20,6 +20,12 @@ class BookingReview extends Model
         'moderator_type',
     ];
 
+    const STATUSES = [
+        'pending' => 'Pending',
+        'approved' => 'Approved',
+        'rejected' => 'Rejected',
+    ];
+
     // Review belongs to a booking
     public function booking()
     {

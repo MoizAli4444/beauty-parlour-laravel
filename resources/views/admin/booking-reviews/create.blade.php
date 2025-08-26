@@ -253,5 +253,5 @@
 @endsection
 
 @push('scripts')
-    @include('admin.booking.js.script')
+    @include('admin.booking-reviews.js.script')
 @endpush

@@ -72,7 +72,8 @@ class BookingReviewRepository implements BookingReviewRepositoryInterface
 
                 ->addColumn('rating', fn($row) => str_repeat('⭐', $row->rating))
 
-                ->editColumn('review', fn($row) => Str::limit($row->review, 50))
+                // ->editColumn('review', fn($row) => Str::limit($row->review, 50))
+                ->editColumn('review', fn($row) => substr($row->review, 0, 50) . '...')
 
                 ->editColumn('status', function ($row) {
                     $color = match ($row->status) {
@@ -90,7 +91,7 @@ class BookingReviewRepository implements BookingReviewRepositoryInterface
                 ->addColumn(
                     'action',
                     fn($row) =>
-                    view('admin.booking-reviews.action', ['review' => $row])->render()
+                    view('admin.booking-reviews.action', ['booking_review' => $row])->render()
                 )
 
                 ->rawColumns(['checkbox', 'status', 'action', 'rating'])
