@@ -16,7 +16,7 @@
                         <div class="card-body">
 
                             {{-- ✅ Include Filter Partial --}}
-                            @include('admin.booking-reviews.partials.filters')
+                            @include('admin.booking.partials.filters')
 
 
                             @include('admin.pages-partials.bulk-actions', [
@@ -50,7 +50,7 @@
         </div>
         <!-- / Content -->
 
-        @include('admin.booking-reviews.partials.changestatus_modal')
+        @include('admin.booking.partials.changestatus_modal')
 
 
         <div class="content-backdrop fade"></div>
@@ -59,5 +59,5 @@
 @endsection
 
 @push('scripts')
-    @include('admin.booking-reviews.js.index')
+    @include('admin.booking.js.index')
 @endpush
