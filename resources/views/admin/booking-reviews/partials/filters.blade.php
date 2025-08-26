@@ -37,27 +37,22 @@
                     </select>
                 </div>
 
-                <!-- Payment Status -->
+                <!-- Rating -->
                 <div class="col-md-2">
-                    <label class="form-label">Payment</label>
-                    <select name="payment_status" class="form-select">
+                    <label class="form-label">Rating</label>
+                    {{-- <select name="rating" class="form-select"> --}}
+                    <select id="filterRating" name="rating" class="form-select">
                         <option value="">All</option>
-                        <option value="0">Unpaid</option>
-                        <option value="1">Paid</option>
+                        <option value="1">1 Star</option>
+                        <option value="2">2 Stars</option>
+                        <option value="3">3 Stars</option>
+                        <option value="4">4 Stars</option>
+                        <option value="5">5 Stars</option>
                     </select>
                 </div>
 
-                <!-- Date From -->
-                <div class="col-md-2">
-                    <label class="form-label">From</label>
-                    <input type="date" name="date_from" class="form-control">
-                </div>
 
-                <!-- Date To -->
-                <div class="col-md-2">
-                    <label class="form-label">To</label>
-                    <input type="date" name="date_to" class="form-control">
-                </div>
+
 
                 <!-- Buttons -->
                 <div class="col-md-12 d-flex justify-content-end mt-3">

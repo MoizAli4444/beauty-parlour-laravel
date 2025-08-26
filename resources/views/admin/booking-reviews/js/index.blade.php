@@ -9,9 +9,9 @@
                 data: function(d) {
                     d.customer_id = $('select[name=customer_id]').val();
                     d.status = $('select[name=status]').val();
-                    d.payment_status = $('select[name=payment_status]').val();
-                    d.date_from = $('input[name=date_from]').val();
-                    d.date_to = $('input[name=date_to]').val();
+                    // d.rating = $('select[name=rating]').val();
+                    d.rating = $('#filterRating').val();
+
                 }
             },
             columns: [{

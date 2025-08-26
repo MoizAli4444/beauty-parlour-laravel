@@ -25,7 +25,7 @@ class BookingReviewController extends Controller
     public function datatable(Request $request)
     {
         if ($request->ajax()) {
-            $filters = $request->only(['customer_id', 'status', 'rating_from', 'rating_to', 'date_from', 'date_to']);
+            $filters = $request->only(['customer_id', 'status', 'rating']);
             return $this->bookingReviewRepo->getDatatableData($filters);
         }
 

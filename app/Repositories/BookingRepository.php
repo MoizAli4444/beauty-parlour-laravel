@@ -146,12 +146,6 @@ class BookingRepository implements BookingRepositoryInterface
 
                 ->editColumn('status', fn($row) => $row->status_badge)
 
-                // ->addColumn('payment_status_badge', function ($row) {
-                //     return $row->payment_status == 1
-                //         ? '<span class="badge bg-success">Paid</span>'
-                //         : '<span class="badge bg-danger">Unpaid</span>';
-                // })
-
                 ->editColumn('payment_status', fn($row) => $row->payment_status_badge)
 
                 ->addColumn('payment_method', fn($row) => $row->payment_method ? ucfirst($row->payment_method) : 'N/A')

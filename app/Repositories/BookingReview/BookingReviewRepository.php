@@ -7,7 +7,6 @@ use App\Models\BookingReview;
 use App\Repositories\BookingReview\BookingReviewRepositoryInterface;
 use Yajra\DataTables\Facades\DataTables;
 use App\Traits\TracksUser;
-use Illuminate\Support\Str;
 
 class BookingReviewRepository implements BookingReviewRepositoryInterface
 {
@@ -23,6 +22,7 @@ class BookingReviewRepository implements BookingReviewRepositoryInterface
 
     public function getDatatableData(array $filters)
     {
+
         try {
             $query = BookingReview::with(['customer.user', 'booking', 'moderator'])->latest();
 
@@ -35,21 +35,12 @@ class BookingReviewRepository implements BookingReviewRepositoryInterface
                 $query->where('status', $filters['status']);
             }
 
-            if (!empty($filters['rating_from'])) {
-                $query->where('rating', '>=', $filters['rating_from']);
+            if (!empty($filters['rating'])) {
+                // $query->where('rating', $filters['rating']);
+                $query->where('rating', (int) $filters['rating']);
             }
 
-            if (!empty($filters['rating_to'])) {
-                $query->where('rating', '<=', $filters['rating_to']);
-            }
 
-            if (!empty($filters['date_from'])) {
-                $query->whereDate('created_at', '>=', $filters['date_from']);
-            }
-
-            if (!empty($filters['date_to'])) {
-                $query->whereDate('created_at', '<=', $filters['date_to']);
-            }
 
             // ✅ DataTable response
             return DataTables::of($query)
@@ -72,7 +63,6 @@ class BookingReviewRepository implements BookingReviewRepositoryInterface
 
                 ->addColumn('rating', fn($row) => str_repeat('⭐', $row->rating))
 
-                // ->editColumn('review', fn($row) => Str::limit($row->review, 50))
                 ->editColumn('review', fn($row) => substr($row->review, 0, 50) . '...')
 
                 ->editColumn('status', function ($row) {
