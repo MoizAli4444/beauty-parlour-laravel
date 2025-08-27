@@ -1,6 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('content')
+
     <!-- Content wrapper -->
     <div class="content-wrapper">
         <!-- Content -->
@@ -23,25 +24,27 @@
                                 'itemType' => 'bookings', // optional
                             ])
 
-                            <table id="indexPageDataTable" class="table table-bordered">
-                                <thead>
-                                  
-                                    <tr>
-                                        <th>
-                                            <input type="checkbox" id="select-all">
-                                        </th>
-                                        <th>ID</th>
-                                        <th>Customer</th>
-                                        <th>Booking</th>
-                                        <th>Rating</th>
-                                        <th>Review</th>
-                                        <th>Status</th>
-                                        <th>Moderator</th>
-                                        <th>Created At</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                            </table>
+                            <div class="table-responsive">
+                                <table id="indexPageDataTable" class="table table-bordered">
+                                    <thead>
+
+                                        <tr>
+                                            <th>
+                                                <input type="checkbox" id="select-all">
+                                            </th>
+                                            <th>ID</th>
+                                            <th>Customer</th>
+                                            <th>Booking</th>
+                                            <th>Rating</th>
+                                            <th>Review</th>
+                                            <th>Status</th>
+                                            <th>Moderator</th>
+                                            <th>Created At</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
 
 
                         </div>

@@ -38,6 +38,16 @@ class BookingReview extends Model
         return '<span class="' . $color . '">' . ucwords(str_replace('_', ' ', $this->status)) . '</span>';
     }
 
+    public function getChangeStatusButtonAttribute()
+    {
+        return '<button class="btn btn-sm btn-outline-primary change-status-btn text-nowrap" 
+                data-id="' . $this->id . '" 
+                data-status="' . $this->status . '">
+                Change Status
+            </button>';
+    }
+
+
     // Review belongs to a booking
     public function booking()
     {

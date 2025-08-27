@@ -61,7 +61,16 @@ class BookingReviewRepository implements BookingReviewRepositoryInterface
 
                 ->addColumn('booking', fn($row) => $row->booking ? 'Booking #' . $row->booking->id : 'N/A')
 
-                ->addColumn('rating', fn($row) => str_repeat('⭐', $row->rating))
+                ->addColumn('rating', function ($row) {
+                    $stars = '';
+                    for ($i = 1; $i <= 5; $i++) {
+                        $stars .= $i <= $row->rating
+                            ? '<i class="bi bi-star-fill text-warning"></i>'
+                            : '<i class="bi bi-star text-muted"></i>';
+                    }
+                    return '<div class="d-flex gap-1">' . $stars . '</div>';
+                })
+
 
                 ->editColumn('review', fn($row) => substr($row->review, 0, 50) . '...')
 

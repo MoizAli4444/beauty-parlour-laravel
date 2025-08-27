@@ -1,6 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('content')
+
     <!-- Content wrapper -->
     <div class="content-wrapper">
         <!-- Content -->
@@ -40,7 +41,7 @@
                                             <i
                                                 class="bi {{ $i <= $review->rating ? 'bi-star-fill text-warning' : 'bi-star text-muted' }}"></i>
                                         @endfor
-                                        <div>({{ $review->rating }})</div>
+                                        <span>({{ $review->rating }}/5)</span>
                                     </div>
                                 </div>
                                 
