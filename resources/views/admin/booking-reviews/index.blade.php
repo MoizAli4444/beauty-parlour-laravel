@@ -10,8 +10,7 @@
                 <div class="col-xl">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">All Bookings</h5>
-                            <a href="{{ route('booking-reviews.create') }}" class="btn btn-warning">Create</a>
+                            <h5 class="mb-0">All Booking Reviews</h5>
                         </div>
                         <div class="card-body">
 
@@ -26,17 +25,7 @@
 
                             <table id="indexPageDataTable" class="table table-bordered">
                                 <thead>
-                                    {{-- <tr>
-                                        <th><input type="checkbox" id="select-all"></th>
-                                        <th>ID</th>
-                                        <th>Customer Name</th>
-                                        <th>Appointment Time</th>
-                                        <th>Total</th>
-                                        <th>Status</th>
-                                        <th>Payment Status</th>
-                                        <th>Payment Method</th>
-                                        <th>Action</th>
-                                    </tr> --}}
+                                  
                                     <tr>
                                         <th>
                                             <input type="checkbox" id="select-all">

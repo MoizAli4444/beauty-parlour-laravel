@@ -79,10 +79,14 @@ class BookingReviewController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(BookingReview $bookingReview)
+    public function show($id)
     {
-        //
+        $review = BookingReview::with(['booking', 'customer', 'moderator'])
+            ->findOrFail($id);
+
+        return view('admin.booking-reviews.show', compact('review'));
     }
+
 
     /**
      * Show the form for editing the specified resource.

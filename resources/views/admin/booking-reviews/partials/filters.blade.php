@@ -2,7 +2,7 @@
     <div class="card-header bg-gradient text-white d-flex justify-content-between align-items-center rounded-top border-bottom"
         style="background: linear-gradient(135deg, #4e73df, #224abe);">
         <h6 class="mb-0 fw-bold">
-            <i class="bi bi-funnel me-2"></i> Booking Filters
+            <i class="bi bi-funnel me-2"></i> Filters
         </h6>
         <button class="btn btn-sm btn-light text-primary fw-semibold shadow-sm" type="button" data-bs-toggle="collapse"
             data-bs-target="#filterCollapse" aria-expanded="true">

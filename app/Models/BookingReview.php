@@ -43,4 +43,9 @@ class BookingReview extends Model
     {
         return $this->morphTo();
     }
+
+    public function getViewButtonAttribute()
+    {
+        return render_view_button(route('booking-reviews.show', $this->id));
+    }
 }
