@@ -56,13 +56,10 @@
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-label fw-bold">Status</label>
-                                            <div
-                                                class="badge 
-                                                            @if ($review->status === 'approved') bg-success 
-                                                            @elseif($review->status === 'rejected') bg-danger 
-                                                            @else bg-warning text-dark @endif">
-                                                {{ ucfirst($review->status) }}
+                                            <div>
+                                                {!! $review->status_badge !!}
                                             </div>
+
                                         </div>
                                     </div>
 

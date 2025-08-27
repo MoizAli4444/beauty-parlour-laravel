@@ -26,6 +26,18 @@ class BookingReview extends Model
         'rejected' => 'Rejected',
     ];
 
+    public function getStatusBadgeAttribute()
+    {
+        $colors = [
+            'pending'     => 'badge bg-info',
+            'approved'   => 'badge bg-success',
+            'rejected'    => 'badge bg-danger',
+        ];
+
+        $color = $colors[$this->status] ?? 'badge bg-dark';
+        return '<span class="' . $color . '">' . ucwords(str_replace('_', ' ', $this->status)) . '</span>';
+    }
+
     // Review belongs to a booking
     public function booking()
     {
