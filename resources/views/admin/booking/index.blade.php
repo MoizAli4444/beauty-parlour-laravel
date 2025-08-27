@@ -19,11 +19,11 @@
                             @include('admin.booking.partials.filters')
 
 
-                            @include('admin.pages-partials.bulk-actions', [
+                            {{-- @include('admin.pages-partials.bulk-actions', [
                                 'deleteUrl' => route('bookings.bulkDelete'),
                                 'statusUrl' => route('bookings.bulkStatus'),
                                 'itemType' => 'bookings', // optional
-                            ])
+                            ]) --}}
 
                             <table id="indexPageDataTable" class="table table-bordered">
                                 <thead>
