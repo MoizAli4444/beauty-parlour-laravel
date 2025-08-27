@@ -10,40 +10,29 @@
                     <div class="card">
 
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">View Booking</h5>
+                            <h5 class="mb-0">View Booking Review</h5>
                             <div>
 
-                                {{-- {!! render_delete_button($booking->id, route('bookings.destroy', $booking->id), false) !!} --}}
-                                {!! render_edit_button(route('bookings.edit', $review->id), false) !!}
-                                {!! render_index_button(route('bookings.index'), 'All Bookings', false) !!}
+                                {!! render_index_button(route('booking-reviews.index'), 'All Reviews', false) !!}
                             </div>
                         </div>
 
                         <div class="card-body">
 
-
-
-
                             <div class="row justify-content-center">
 
-
-                                <!-- Card -->
-
-
                                 <!-- Booking & Customer Info -->
-
                                 <div class="col-md-4 mb-4">
                                     <label class="form-label fw-bold">Booking</label>
                                     <div>{{ $review->booking->id ?? 'N/A' }}</div>
                                 </div>
+
                                 <div class="col-md-4 mb-4">
                                     <label class="form-label fw-bold">Customer</label>
                                     <div>{{ $review->customer->name ?? 'N/A' }}</div>
                                 </div>
-                                {{-- </div>
 
-                                    <!-- Rating & Status -->
-                                    <div class="row mb-3"> --}}
+                                <!-- Rating & Status -->    
                                 <div class="col-md-4 mb-4">
                                     <label class="form-label fw-bold">Rating</label>
                                     <div>
@@ -54,6 +43,7 @@
                                         <div>({{ $review->rating }})</div>
                                     </div>
                                 </div>
+                                
                                 <div class="col-md-4 mb-4">
                                     <label class="form-label fw-bold">Status</label>
                                     <div>
@@ -75,10 +65,6 @@
                                 </div>
                             </div>
 
-
-
-
-
                             <!-- Review Text -->
                             <div class="mb-4">
                                 <label class="form-label fw-bold">Review</label>
@@ -87,12 +73,7 @@
                                 </div>
                             </div>
 
-
-
                         </div>
-
-
-
 
                     </div>
                 </div>
