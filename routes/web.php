@@ -178,8 +178,8 @@ Route::middleware('auth')->group(function () {
 
 
         // Bulk actions
-        Route::post('bulk-delete', [BookingController::class, 'bulkDelete'])->name('bulkDelete');
-        Route::post('bulk-status', [BookingController::class, 'bulkStatus'])->name('bulkStatus');
+        // Route::post('bulk-delete', [BookingController::class, 'bulkDelete'])->name('bulkDelete');
+        // Route::post('bulk-status', [BookingController::class, 'bulkStatus'])->name('bulkStatus');
     });
 
     // Resource Routes
@@ -215,7 +215,7 @@ Route::middleware('auth')->group(function () {
         Route::patch('{id}/toggle-status', [BookingReviewController::class, 'toggleStatus'])->name('toggle-status');
 
         // Bulk actions
-        Route::post('bulk-delete', [BookingReviewController::class, 'bulkDelete'])->name('bulkDelete');
+        // Route::post('bulk-delete', [BookingReviewController::class, 'bulkDelete'])->name('bulkDelete');
         Route::post('bulk-status', [BookingReviewController::class, 'bulkStatus'])->name('bulkStatus');
     });
 

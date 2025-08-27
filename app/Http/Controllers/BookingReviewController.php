@@ -162,4 +162,11 @@ class BookingReviewController extends Controller
             'data'    => $review
         ]);
     }
+
+    public function bulkStatus(Request $request)
+    {
+        $this->bookingReviewRepo->bulkStatus($request->ids, $request->status);
+
+        return response()->json(['message' => 'Status updated']);
+    }
 }

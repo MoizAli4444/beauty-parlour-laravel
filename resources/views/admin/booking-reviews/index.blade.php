@@ -20,7 +20,6 @@
 
 
                             @include('admin.pages-partials.bulk-actions', [
-                                'deleteUrl' => route('booking-reviews.bulkDelete'),
                                 'statusUrl' => route('booking-reviews.bulkStatus'),
                                 'itemType' => 'bookings', // optional
                             ])
