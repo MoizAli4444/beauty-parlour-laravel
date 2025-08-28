@@ -4,6 +4,7 @@ use App\Http\Controllers\AddonController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\BookingReviewController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
@@ -222,6 +223,25 @@ Route::middleware('auth')->group(function () {
     // Resource Routes
     Route::resource('booking-reviews', BookingReviewController::class);
 
+
+    // ==============================
+    // Gallery Module Routes
+    // ==============================
+
+    Route::prefix('galleries')->name('galleries.')->group(function () {
+        // For DataTables AJAX loading
+        Route::get('datatable', [GalleryController::class, 'datatable'])->name('datatable');
+
+        // For toggling status
+        Route::patch('{id}/toggle-status', [GalleryController::class, 'toggleStatus'])->name('toggle-status');
+
+        // Bulk actions
+        Route::post('bulk-delete', [GalleryController::class, 'bulkDelete'])->name('bulkDelete');
+        Route::post('bulk-status', [GalleryController::class, 'bulkStatus'])->name('bulkStatus');
+    });
+
+    // Resource Routes
+    Route::resource('galleries', GalleryController::class);
 
 
 
