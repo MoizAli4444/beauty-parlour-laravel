@@ -8,18 +8,19 @@ use App\Repositories\Gallery\GalleryRepositoryInterface;
 
 class GalleryController extends Controller
 {
-    protected $offerRepository;
+    protected $repository;
 
-    public function __construct(GalleryRepositoryInterface $offerRepository)
+    public function __construct(GalleryRepositoryInterface $repository)
     {
-        $this->offerRepository = $offerRepository;
+        $this->repository = $repository;
     }
 
     public function datatable(Request $request)
     {
 
         if ($request->ajax()) {
-            return $this->offerRepository->getDatatableData();
+            $filters = $request->only(['service_id', 'status', 'media_type', 'featured']);
+            return $this->repository->getDatatableData($filters);
         }
 
         return abort(403);
@@ -30,7 +31,7 @@ class GalleryController extends Controller
      */
     public function index()
     {
-        return view('admin.offer.index');
+        return view('admin.galleries.index');
     }
 
     /**

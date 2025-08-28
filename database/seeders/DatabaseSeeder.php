@@ -37,6 +37,9 @@ class DatabaseSeeder extends Seeder
             OfferSeeder::class,
 
             AddonsTableSeeder::class,
+            // booking seeder missing
+            BookingReviewSeeder::class,
+            GallerySeeder::class,
 
 
         ]);

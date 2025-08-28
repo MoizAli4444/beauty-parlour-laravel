@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::create('galleries', function (Blueprint $table) {
 
             $table->id();
-            // Foreign key constraint if services table exists
-            $table->foreign('service_id')->references('id')->on('services')->onDelete('set null');
+            $table->foreignId('service_id')->nullable()->constrained()->nullOnDelete();
             $table->string('title')->nullable();
             $table->text('description')->nullable();
             $table->string('file_path'); // e.g., storage path like 'uploads/gallery/image1.jpg'
@@ -26,6 +25,7 @@ return new class extends Migration
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('updated_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

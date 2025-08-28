@@ -15,6 +15,8 @@ use App\Repositories\BookingRepository;
 use App\Repositories\BookingReview\BookingReviewRepository;
 use App\Repositories\BookingReview\BookingReviewRepositoryInterface;
 use App\Repositories\CustomerRepository;
+use App\Repositories\Gallery\GalleryRepository;
+use App\Repositories\Gallery\GalleryRepositoryInterface;
 use App\Repositories\OfferRepository;
 use App\Repositories\ServiceRepository;
 use App\Repositories\ServiceVariantRepository;
@@ -47,6 +49,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             BookingReviewRepositoryInterface::class,
             BookingReviewRepository::class
+        );
+
+         $this->app->bind(
+            GalleryRepositoryInterface::class,
+            GalleryRepository::class
         );
     }
 
