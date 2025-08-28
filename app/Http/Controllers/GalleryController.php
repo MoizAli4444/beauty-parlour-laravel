@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Gallery\StoreGalleryRequest;
 use App\Models\Gallery;
 use App\Models\ServiceVariant;
 use Illuminate\Http\Request;
@@ -41,15 +42,24 @@ class GalleryController extends Controller
     public function create()
     {
         $services = ServiceVariant::active()->get();
-        return view('admin.galleries.create',compact('services'));
+        return view('admin.galleries.create', compact('services'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreGalleryRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        if ($request->hasFile('file')) {
+            $validated['file'] = $request->file('file');
+        }
+
+
+        $this->repository->create($validated);
+
+        return redirect()->route('galleries.index')->with('success', 'Gallery created successfully.');
     }
 
     /**
@@ -63,10 +73,19 @@ class GalleryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Gallery $gallery)
+    public function edit($id)
     {
-        //
+        $gallery = Gallery::find($id);
+
+        if (!$gallery) {
+            return redirect()->route('galleries.index')->with('error', 'Gallery not found');
+        }
+
+        $services = ServiceVariant::active()->get(); // assuming you have an `active()` scope
+
+        return view('admin.galleries.edit', compact('gallery', 'services'));
     }
+
 
     /**
      * Update the specified resource in storage.

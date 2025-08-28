@@ -11,8 +11,8 @@
                     <div class="card">
 
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">Create Addon</h5>
-                            <a href="{{ route('addons.index') }}" class="btn btn-warning">All Addons</a>
+                            <h5 class="mb-0">Create Gallery</h5>
+                            <a href="{{ route('galleries.index') }}" class="btn btn-warning">All Galleries</a>
                         </div>
 
                         <div class="card-body">
@@ -93,7 +93,7 @@
                                     @enderror
                                 </div>
 
-                                <!-- Featured -->
+                                {{-- <!-- Featured -->
                                 <div class="mb-4 form-check form-switch">
                                     <input class="form-check-input" type="checkbox" id="featured" name="featured"
                                         {{ old('featured', $gallery->featured ?? false) ? 'checked' : '' }}>
@@ -101,7 +101,18 @@
                                     @error('featured')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
+                                </div> --}}
+                                <!-- Featured -->
+                                <div class="mb-4 form-check form-switch">
+                                    <input type="hidden" name="featured" value="0"> <!-- default when unchecked -->
+                                    <input class="form-check-input" type="checkbox" id="featured" name="featured"
+                                        value="1" {{ old('featured', $gallery->featured ?? false) ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="featured">Featured</label>
+                                    @error('featured')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
+
 
                                 <!-- Status -->
                                 <div class="mb-4">
@@ -121,7 +132,7 @@
 
                                 <!-- Submit -->
                                 <button type="submit" class="btn btn-warning">
-                                    Create Addon
+                                    Create Gallery
                                 </button>
                             </form>
 

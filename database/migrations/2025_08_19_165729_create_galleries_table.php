@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('service_id')->nullable()->constrained()->nullOnDelete();
             $table->string('title')->nullable();
+            $table->string('slug')->unique();
             $table->text('description')->nullable();
             $table->string('file_path'); // e.g., storage path like 'uploads/gallery/image1.jpg'
             $table->enum('media_type', ['image', 'video'])->default('image');

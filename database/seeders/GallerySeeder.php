@@ -8,6 +8,7 @@ use App\Models\User;
 use Faker\Factory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class GallerySeeder extends Seeder
 {
@@ -23,9 +24,12 @@ class GallerySeeder extends Seeder
         $users    = User::pluck('id')->toArray();
 
         foreach (range(1, 20) as $i) {
+            $title = $faker->sentence(3);
+
             Gallery::create([
                 'service_id'  => $faker->randomElement($services) ?? null,
-                'title'       => $faker->sentence(3),
+                'title'       => $title,
+                'slug'        => Str::slug($title) . '-' . $faker->unique()->numberBetween(1000, 9999), // unique slug
                 'description' => $faker->paragraph,
                 'file_path'   => 'uploads/gallery/' . $faker->uuid . '.jpg', // just dummy path
                 'media_type'  => $faker->randomElement(['image', 'video']),
