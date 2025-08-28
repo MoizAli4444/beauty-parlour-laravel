@@ -11,52 +11,7 @@ use Illuminate\Support\Facades\Storage;
 
 class GalleryRepository implements GalleryRepositoryInterface
 {
-    //  public function store(array $data)
-    // {
-    //     if (isset($data['file'])) {
-    //         $file = $data['file'];
-    //         $path = $file->store('uploads/gallery', 'public');
-
-    //         $data['file_path'] = $path;
-    //         $data['file_size'] = $file->getSize();
-    //         unset($data['file']); // don’t try to insert file object into DB
-    //     }
-
-    //     return $this->repo->create($data);
-    // }
-
-    // public function update($id, array $data)
-    // {
-    //     $gallery = $this->repo->find($id);
-
-    //     if (isset($data['file'])) {
-    //         // Delete old file if exists
-    //         if ($gallery->file_path && Storage::disk('public')->exists($gallery->file_path)) {
-    //             Storage::disk('public')->delete($gallery->file_path);
-    //         }
-
-    //         $file = $data['file'];
-    //         $path = $file->store('uploads/gallery', 'public');
-
-    //         $data['file_path'] = $path;
-    //         $data['file_size'] = $file->getSize();
-    //         unset($data['file']);
-    //     }
-
-    //     return $this->repo->update($gallery, $data);
-    // }
-
-    // public function destroy($id)
-    // {
-    //     $gallery = $this->repo->find($id);
-
-    //     if ($gallery->file_path && Storage::disk('public')->exists($gallery->file_path)) {
-    //         Storage::disk('public')->delete($gallery->file_path);
-    //     }
-
-    //     return $this->repo->delete($gallery);
-    // }
-
+    
     /**
      * Create a new class instance.
      */
@@ -155,9 +110,6 @@ class GalleryRepository implements GalleryRepositoryInterface
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
-
-
-
 
     public function all()
     {
