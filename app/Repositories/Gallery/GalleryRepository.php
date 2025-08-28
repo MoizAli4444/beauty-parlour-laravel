@@ -245,12 +245,17 @@ class GalleryRepository implements GalleryRepositoryInterface
 
     public function toggleStatus($id)
     {
-        $addon = Gallery::findOrFail($id);
-        $addon->status = $addon->status === 'active' ? 'inactive' : 'active';
-        $addon->save();
+        $gallery = Gallery::findOrFail($id);
 
-        return $addon;
+        $gallery->status = $gallery->status === Gallery::STATUS_ACTIVE
+            ? Gallery::STATUS_INACTIVE
+            : Gallery::STATUS_ACTIVE;
+
+        $gallery->save();
+
+        return $gallery;
     }
+
 
     public function bulkDelete(array $ids)
     {
