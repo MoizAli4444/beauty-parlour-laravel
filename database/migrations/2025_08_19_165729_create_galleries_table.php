@@ -19,10 +19,12 @@ return new class extends Migration
             $table->string('title')->nullable();
             $table->text('description')->nullable();
             $table->string('file_path'); // e.g., storage path like 'uploads/gallery/image1.jpg'
-            $table->enum('media_type', ['image', 'video', 'document'])->default('image');
+            $table->enum('media_type', ['image', 'video'])->default('image');
+            $table->boolean('featured')->default(false); // highlight item
+            $table->string('alt_text')->nullable(); // SEO & accessibility
+            $table->bigInteger('file_size')->nullable(); // in bytes
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
-
         });
     }
 
