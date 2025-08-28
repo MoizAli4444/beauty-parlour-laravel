@@ -162,6 +162,14 @@
             </a>
         </li>
 
+        <li class="menu-item {{ request()->routeIs('galleries.*') ? 'active' : '' }}">
+            <a href="{{ route('galleries.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-images"></i>
+                <div class="text-truncate" data-i18n="gallery">Gallery</div>
+            </a>
+        </li>
+
+
 
 
 

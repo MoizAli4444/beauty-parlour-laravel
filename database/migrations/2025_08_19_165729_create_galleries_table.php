@@ -24,6 +24,8 @@ return new class extends Migration
             $table->string('alt_text')->nullable(); // SEO & accessibility
             $table->bigInteger('file_size')->nullable(); // in bytes
             $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('updated_by')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();
         });
     }

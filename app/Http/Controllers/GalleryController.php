@@ -4,15 +4,33 @@ namespace App\Http\Controllers;
 
 use App\Models\Gallery;
 use Illuminate\Http\Request;
+use App\Repositories\Gallery\GalleryRepositoryInterface;
 
 class GalleryController extends Controller
 {
+    protected $offerRepository;
+
+    public function __construct(GalleryRepositoryInterface $offerRepository)
+    {
+        $this->offerRepository = $offerRepository;
+    }
+
+    public function datatable(Request $request)
+    {
+
+        if ($request->ajax()) {
+            return $this->offerRepository->getDatatableData();
+        }
+
+        return abort(403);
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return view('admin.offer.index');
     }
 
     /**
