@@ -1,8 +1,8 @@
 <div class="d-flex" role="group">
 
-    {!! $addon->edit_button !!}
-    {!! $addon->view_button !!}
-    {!! $addon->delete_button !!}
+    {!! $gallery->edit_button !!}
+    {!! $gallery->view_button !!}
+    {!! $gallery->delete_button !!}
 
 </div>
 

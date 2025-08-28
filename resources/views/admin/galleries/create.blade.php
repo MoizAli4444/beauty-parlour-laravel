@@ -17,97 +17,101 @@
 
                         <div class="card-body">
 
-                            <form action="{{ route('addons.store') }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('galleries.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
 
-                                <!-- Name -->
-                                <div class="mb-4">
-                                    <label class="form-label" for="name">Addon Name</label>
-                                    <input type="text" name="name" class="form-control" id="name"
-                                        value="{{ old('name', $addon->name ?? '') }}" placeholder="Enter addon name">
-                                    @error('name')
-                                        <small class="text-danger">{{ $message }}</small>
+
+                                {{-- Title --}}
+                                <div class="mb-3">
+                                    <label for="title" class="form-label fw-bold">Title</label>
+                                    <input type="text" name="title" id="title"
+                                        class="form-control @error('title') is-invalid @enderror"
+                                        placeholder="Enter gallery title" value="{{ old('title') }}">
+                                    @error('title')
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
-                                <!-- Description -->
-                                <div class="mb-4">
-                                    <label class="form-label" for="description">Description</label>
-                                    <textarea name="description" id="description" class="form-control" rows="4"
-                                        placeholder="Write a short description...">{{ old('description', $addon->description ?? '') }}</textarea>
+                                {{-- Description --}}
+                                <div class="mb-3">
+                                    <label for="description" class="form-label fw-bold">Description</label>
+                                    <textarea name="description" id="description" class="form-control @error('description') is-invalid @enderror"
+                                        rows="4" placeholder="Write something about this item...">{{ old('description') }}</textarea>
                                     @error('description')
-                                        <small class="text-danger">{{ $message }}</small>
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
-                                <!-- Image Upload -->
-                                <div class="mb-4">
-                                    <label class="form-label" for="image">Addon Image</label>
-                                    <input type="file" name="image" id="image" class="form-control">
-                                    @error('image')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-
-                                </div>
-
-                                <!-- Price -->
-                                <div class="mb-4">
-                                    <label class="form-label" for="price">Price</label>
-                                    <input type="number" name="price" step="0.01" class="form-control" id="price"
-                                        value="{{ old('price', $addon->price ?? '') }}" placeholder="Enter price">
-                                    @error('price')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-
-                                <!-- Duration Minutes -->
-                                <div class="mb-4">
-                                    <label class="form-label" for="duration">Duration (in minutes)</label>
-                                    <input type="number" name="duration" class="form-control" id="duration"
-                                        value="{{ old('duration', $addon->duration ?? '') }}"
-                                        placeholder="e.g. 30">
-                                    @error('duration')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-
-                                <!-- Gender -->
-                                <div class="mb-4">
-                                    <label class="form-label" for="gender">Gender</label>
-                                    <select name="gender" id="gender" class="form-select">
-                                        <option value="0"
-                                            {{ old('gender', $addon->gender ?? '') == 0 ? 'selected' : '' }}>Female
+                                {{-- Media Type --}}
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Media Type</label>
+                                    <select name="media_type" class="form-select @error('media_type') is-invalid @enderror">
+                                        <option value="image" {{ old('media_type') == 'image' ? 'selected' : '' }}>Image
                                         </option>
-                                        <option value="1"
-                                            {{ old('gender', $addon->gender ?? '') == 1 ? 'selected' : '' }}>Male</option>
-                                        <option value="2"
-                                            {{ old('gender', $addon->gender ?? '') == 2 ? 'selected' : '' }}>Both</option>
+                                        <option value="video" {{ old('media_type') == 'video' ? 'selected' : '' }}>Video
+                                        </option>
                                     </select>
-                                    @error('gender')
-                                        <small class="text-danger">{{ $message }}</small>
+                                    @error('media_type')
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
-                                <!-- Status -->
-                                <div class="mb-4">
-                                    <label class="form-label" for="status">Status</label>
-                                    <select name="status" id="status" class="form-select">
-                                        <option value="1"
-                                            {{ old('status', $addon->status ?? '') == 1 ? 'selected' : '' }}>Active
+                                {{-- File Upload --}}
+                                <div class="mb-3">
+                                    <label for="file_path" class="form-label fw-bold">Upload File</label>
+                                    <input type="file" name="file_path" id="file_path"
+                                        class="form-control @error('file_path') is-invalid @enderror"
+                                        accept="image/*,video/*" onchange="previewFile(event)">
+                                    @error('file_path')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+
+                                    {{-- Preview --}}
+                                    <div id="preview" class="mt-3 text-center"></div>
+                                </div>
+
+                                {{-- Featured --}}
+                                <div class="form-check form-switch mb-3">
+                                    <input class="form-check-input" type="checkbox" name="featured" id="featured"
+                                        {{ old('featured') ? 'checked' : '' }}>
+                                    <label class="form-check-label fw-bold" for="featured">Mark as Featured</label>
+                                </div>
+
+                                {{-- Alt Text --}}
+                                <div class="mb-3">
+                                    <label for="alt_text" class="form-label fw-bold">Alt Text (SEO)</label>
+                                    <input type="text" name="alt_text" id="alt_text"
+                                        class="form-control @error('alt_text') is-invalid @enderror"
+                                        placeholder="Alternative text for accessibility" value="{{ old('alt_text') }}">
+                                    @error('alt_text')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                {{-- Status --}}
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Status</label>
+                                    <select name="status" class="form-select @error('status') is-invalid @enderror">
+                                        <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active
                                         </option>
-                                        <option value="0"
-                                            {{ old('status', $addon->status ?? '') == 0 ? 'selected' : '' }}>Inactive
-                                        </option>
+                                        <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>
+                                            Inactive</option>
                                     </select>
                                     @error('status')
-                                        <small class="text-danger">{{ $message }}</small>
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
-                                <!-- Submit -->
-                                <button type="submit" class="btn btn-warning">
-                                    Create Addon
-                                </button>
+                                {{-- Buttons --}}
+                                <div class="d-flex justify-content-between">
+                                    <a href="{{ route('galleries.index') }}" class="btn btn-outline-secondary">
+                                        <i class="bi bi-arrow-left"></i> Cancel
+                                    </a>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="bi bi-save"></i> Save Gallery Item
+                                    </button>
+                                </div>
+
                             </form>
 
 

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Storage;
 
 class GalleryRepository implements GalleryRepositoryInterface
 {
-    
+
     /**
      * Create a new class instance.
      */
@@ -63,17 +63,37 @@ class GalleryRepository implements GalleryRepositoryInterface
 
                 ->addColumn('title', fn($row) => $row->title ?? 'N/A')
 
+                // ->addColumn('media_preview', function ($row) {
+                //     if ($row->media_type === 'image') {
+                //         return '<img src="' . asset('storage/' . $row->file_path) . '" width="60" height="60" class="rounded">';
+                //     }
+                //     if ($row->media_type === 'video') {
+                //         return '<video width="80" height="60" controls>
+                //                 <source src="' . asset('storage/' . $row->file_path) . '" type="video/mp4">
+                //             </video>';
+                //     }
+                //     return 'N/A';
+                // })
                 ->addColumn('media_preview', function ($row) {
                     if ($row->media_type === 'image') {
-                        return '<img src="' . asset('storage/' . $row->file_path) . '" width="60" height="60" class="rounded">';
+                        return '<img src="' . asset('storage/' . $row->file_path) . '" 
+                     width="60" height="60" 
+                     class="rounded" style="object-fit:cover;cursor:pointer"
+                     onclick="showPreview(\'' . asset('storage/' . $row->file_path) . '\', \'image\')">';
                     }
+
                     if ($row->media_type === 'video') {
-                        return '<video width="80" height="60" controls>
-                                <source src="' . asset('storage/' . $row->file_path) . '" type="video/mp4">
-                            </video>';
+                        return '<video width="60" height="60" 
+                      style="object-fit:cover;cursor:pointer"
+                      onclick="showPreview(\'' . asset('storage/' . $row->file_path) . '\', \'video\')"
+                      muted>
+                    <source src="' . asset('storage/' . $row->file_path) . '" type="video/mp4">
+                </video>';
                     }
+
                     return 'N/A';
                 })
+
 
                 ->addColumn(
                     'file_size',
