@@ -254,8 +254,18 @@ class GalleryRepository implements GalleryRepositoryInterface
 
     public function bulkDelete(array $ids)
     {
-        return Gallery::whereIn('id', $ids)->delete();
+        $galleries = Gallery::whereIn('id', $ids)->get();
+
+        foreach ($galleries as $gallery) {
+            if ($gallery->file_path && Storage::disk('public')->exists($gallery->file_path)) {
+                Storage::disk('public')->delete($gallery->file_path);
+            }
+            $gallery->delete();
+        }
+
+        return true;
     }
+
 
     public function bulkStatus(array $ids, string $status)
     {
