@@ -20,99 +20,111 @@
                             <form action="{{ route('galleries.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
 
-
-                                {{-- Title --}}
-                                <div class="mb-3">
-                                    <label for="title" class="form-label fw-bold">Title</label>
-                                    <input type="text" name="title" id="title"
-                                        class="form-control @error('title') is-invalid @enderror"
-                                        placeholder="Enter gallery title" value="{{ old('title') }}">
+                                <!-- Title -->
+                                <div class="mb-4">
+                                    <label class="form-label" for="title">Gallery Title</label>
+                                    <input type="text" name="title" class="form-control" id="title"
+                                        value="{{ old('title', $gallery->title ?? '') }}" placeholder="Enter gallery title">
                                     @error('title')
-                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
 
-                                {{-- Description --}}
-                                <div class="mb-3">
-                                    <label for="description" class="form-label fw-bold">Description</label>
-                                    <textarea name="description" id="description" class="form-control @error('description') is-invalid @enderror"
-                                        rows="4" placeholder="Write something about this item...">{{ old('description') }}</textarea>
+                                <!-- Description -->
+                                <div class="mb-4">
+                                    <label class="form-label" for="description">Description</label>
+                                    <textarea name="description" id="description" class="form-control" rows="4"
+                                        placeholder="Write a short description...">{{ old('description', $gallery->description ?? '') }}</textarea>
                                     @error('description')
-                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
 
-                                {{-- Media Type --}}
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Media Type</label>
-                                    <select name="media_type" class="form-select @error('media_type') is-invalid @enderror">
-                                        <option value="image" {{ old('media_type') == 'image' ? 'selected' : '' }}>Image
-                                        </option>
-                                        <option value="video" {{ old('media_type') == 'video' ? 'selected' : '' }}>Video
-                                        </option>
+                                <!-- Service (if gallery belongs to service) -->
+                                <div class="mb-4">
+                                    <label class="form-label" for="service_id">Service</label>
+                                    <select name="service_id" id="service_id" class="form-select">
+                                        <option value="">-- Select Service --</option>
+                                        @foreach ($services as $service)
+                                            <option value="{{ $service->id }}"
+                                                {{ old('service_id', $gallery->service_id ?? '') == $service->id ? 'selected' : '' }}>
+                                                {{ $service->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('service_id')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                                <!-- File Upload -->
+                                <div class="mb-4">
+                                    <label class="form-label" for="file">Upload Media</label>
+                                    <input type="file" name="file" id="file" class="form-control">
+                                    @error('file')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                                <!-- Media Type -->
+                                <div class="mb-4">
+                                    <label class="form-label" for="media_type">Media Type</label>
+                                    <select name="media_type" id="media_type" class="form-select">
+                                        <option value="image"
+                                            {{ old('media_type', $gallery->media_type ?? '') == 'image' ? 'selected' : '' }}>
+                                            Image</option>
+                                        <option value="video"
+                                            {{ old('media_type', $gallery->media_type ?? '') == 'video' ? 'selected' : '' }}>
+                                            Video</option>
                                     </select>
                                     @error('media_type')
-                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
 
-                                {{-- File Upload --}}
-                                <div class="mb-3">
-                                    <label for="file_path" class="form-label fw-bold">Upload File</label>
-                                    <input type="file" name="file_path" id="file_path"
-                                        class="form-control @error('file_path') is-invalid @enderror"
-                                        accept="image/*,video/*" onchange="previewFile(event)">
-                                    @error('file_path')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-
-                                    {{-- Preview --}}
-                                    <div id="preview" class="mt-3 text-center"></div>
-                                </div>
-
-                                {{-- Featured --}}
-                                <div class="form-check form-switch mb-3">
-                                    <input class="form-check-input" type="checkbox" name="featured" id="featured"
-                                        {{ old('featured') ? 'checked' : '' }}>
-                                    <label class="form-check-label fw-bold" for="featured">Mark as Featured</label>
-                                </div>
-
-                                {{-- Alt Text --}}
-                                <div class="mb-3">
-                                    <label for="alt_text" class="form-label fw-bold">Alt Text (SEO)</label>
-                                    <input type="text" name="alt_text" id="alt_text"
-                                        class="form-control @error('alt_text') is-invalid @enderror"
-                                        placeholder="Alternative text for accessibility" value="{{ old('alt_text') }}">
+                                <!-- Alt Text -->
+                                <div class="mb-4">
+                                    <label class="form-label" for="alt_text">Alt Text</label>
+                                    <input type="text" name="alt_text" class="form-control" id="alt_text"
+                                        value="{{ old('alt_text', $gallery->alt_text ?? '') }}"
+                                        placeholder="For SEO & accessibility">
                                     @error('alt_text')
-                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
 
-                                {{-- Status --}}
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Status</label>
-                                    <select name="status" class="form-select @error('status') is-invalid @enderror">
-                                        <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active
-                                        </option>
-                                        <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>
+                                <!-- Featured -->
+                                <div class="mb-4 form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="featured" name="featured"
+                                        {{ old('featured', $gallery->featured ?? false) ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="featured">Featured</label>
+                                    @error('featured')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                                <!-- Status -->
+                                <div class="mb-4">
+                                    <label class="form-label" for="status">Status</label>
+                                    <select name="status" id="status" class="form-select">
+                                        <option value="active"
+                                            {{ old('status', $gallery->status ?? '') == 'active' ? 'selected' : '' }}>
+                                            Active</option>
+                                        <option value="inactive"
+                                            {{ old('status', $gallery->status ?? '') == 'inactive' ? 'selected' : '' }}>
                                             Inactive</option>
                                     </select>
                                     @error('status')
-                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
 
-                                {{-- Buttons --}}
-                                <div class="d-flex justify-content-between">
-                                    <a href="{{ route('galleries.index') }}" class="btn btn-outline-secondary">
-                                        <i class="bi bi-arrow-left"></i> Cancel
-                                    </a>
-                                    <button type="submit" class="btn btn-primary">
-                                        <i class="bi bi-save"></i> Save Gallery Item
-                                    </button>
-                                </div>
-
+                                <!-- Submit -->
+                                <button type="submit" class="btn btn-warning">
+                                    Create Addon
+                                </button>
                             </form>
+
 
 
                         </div>

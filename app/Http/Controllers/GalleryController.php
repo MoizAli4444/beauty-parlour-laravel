@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Gallery;
+use App\Models\ServiceVariant;
 use Illuminate\Http\Request;
 use App\Repositories\Gallery\GalleryRepositoryInterface;
 
@@ -39,7 +40,8 @@ class GalleryController extends Controller
      */
     public function create()
     {
-        //
+        $services = ServiceVariant::active()->get();
+        return view('admin.galleries.create',compact('services'));
     }
 
     /**
