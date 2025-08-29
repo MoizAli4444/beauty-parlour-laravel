@@ -107,8 +107,51 @@ class GalleryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Gallery $gallery)
+    public function destroy($id)
     {
-        //
+        $this->repository->delete($id);
+        return response()->json([
+            'status' => true,
+            'message' => 'Offer deleted successfully.',
+        ]);
+    }
+
+    public function toggleStatus($id)
+    {
+        $offer = $this->repository->toggleStatus($id);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Status updated successfully.',
+            'new_status' => $offer->status,
+            'badge' => $offer->status_badge,
+        ]);
+    }
+
+    public function toggleFeatured($id)
+    {
+        $gallery = $this->repository->toggleFeatured($id);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Featured status updated successfully.',
+            'new_featured' => $gallery->featured,
+            'badge' => $gallery->featured_badge, // 👈 accessor
+        ]);
+    }
+
+
+    public function bulkDelete(Request $request)
+    {
+        $this->repository->bulkDelete($request->ids);
+
+        return response()->json(['message' => 'Selected offers deleted successfully.']);
+    }
+
+    public function bulkStatus(Request $request)
+    {
+        $this->repository->bulkStatus($request->ids, $request->status);
+
+        return response()->json(['message' => 'Status updated']);
     }
 }

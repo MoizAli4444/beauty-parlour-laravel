@@ -13,6 +13,7 @@ interface GalleryRepositoryInterface
     public function delete($id);
 
     public function toggleStatus($id);
+    public function toggleFeatured($id);
     public function bulkDelete(array $ids);
     public function bulkStatus(array $ids, string $status);
 }

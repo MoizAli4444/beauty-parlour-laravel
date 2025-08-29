@@ -48,6 +48,54 @@
         });
     });
 
+    // Handles featured toggle with SweetAlert confirmation prompt
+    // Sends AJAX PATCH request with CSRF token to update featured status
+    // On success, shows alert and reloads DataTable; shows error if request fails
+
+    $(document).on('click', '.toggle-featured', function() {
+        let url = $(this).data('route');
+        let id = $(this).data('id');
+        let el = $(this);
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You want to toggle the featured status?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, change it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: url,
+                    type: 'PATCH', // or POST depending on your route
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        if (response.status) {
+                            Swal.fire('Updated!', response.message, 'success');
+
+                            // If DataTable exists, reload; else replace badge
+                            $('#indexPageDataTable').length ?
+                                $('#indexPageDataTable').DataTable().ajax.reload(null,
+                                    false) :
+                                el.replaceWith(response.badge);
+
+                        } else {
+                            Swal.fire('Error!', 'Something went wrong.', 'error');
+                        }
+                    },
+                    error: function() {
+                        Swal.fire('Error!', 'Request failed.', 'error');
+                    }
+                });
+            }
+        });
+    });
+
+
     // Handle single record deletion with confirmation using SweetAlert
     // Sends AJAX DELETE request with CSRF token and reloads DataTable on success
     // Displays success or error alert based on response

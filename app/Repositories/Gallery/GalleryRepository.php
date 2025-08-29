@@ -62,31 +62,26 @@ class GalleryRepository implements GalleryRepositoryInterface
                 )
 
                 ->addColumn('title', fn($row) => $row->title ?? 'N/A')
-// ->addColumn('media_preview', fn($row) => '<img src="https://via.placeholder.com/60">')
 
-                
+
+
                 ->addColumn('media_preview', function ($row) {
-                    $url = asset('storage/' . $row->file_path);
-
                     if ($row->media_type === 'image') {
-                        return '<img src="' . $url . '" width="60" height="60"
-                 class="rounded js-media-preview"
-                 style="object-fit:cover;cursor:pointer"
-                 data-url="' . $url . '" data-type="image" />';
+                        return '<i class="bi bi-image text-primary fs-3 js-media-preview"
+                    style="cursor:pointer"
+                    data-url="' . asset('storage/' . $row->file_path) . '" 
+                    data-type="image"></i>';
                     }
 
                     if ($row->media_type === 'video') {
-                        return '<video width="60" height="60"
-                 class="rounded js-media-preview"
-                 style="object-fit:cover;cursor:pointer"
-                 data-url="' . $url . '" data-type="video" muted playsinline>
-                   <source src="' . $url . '" type="video/mp4">
-                </video>';
+                        return '<i class="bi bi-play-btn text-danger fs-3 js-media-preview"
+                    style="cursor:pointer"
+                    data-url="' . asset('storage/' . $row->file_path) . '" 
+                    data-type="video"></i>';
                     }
 
                     return 'N/A';
                 })
-
 
                 ->addColumn(
                     'file_size',
@@ -95,15 +90,15 @@ class GalleryRepository implements GalleryRepositoryInterface
                 )
 
 
-                  ->editColumn('status', function ($row) {
+                ->editColumn('status', function ($row) {
                     // dd($row->status);
                     return $row->status_badge; // uses model accessor
                 })
 
 
-                  ->editColumn('featured', function ($row) {
+                ->editColumn('featured', function ($row) {
                     // dd($row->status);
-                    return $row->featured_badge ; // uses model accessor
+                    return $row->featured_badge; // uses model accessor
                 })
 
 
@@ -222,6 +217,16 @@ class GalleryRepository implements GalleryRepositoryInterface
 
         return $gallery;
     }
+
+    public function toggleFeatured($id)
+    {
+        $gallery = Gallery::findOrFail($id);
+        $gallery->featured = !$gallery->featured;
+        $gallery->save();
+
+        return $gallery;
+    }
+
 
 
     public function bulkDelete(array $ids)

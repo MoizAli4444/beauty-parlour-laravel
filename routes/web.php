@@ -242,6 +242,9 @@ Route::middleware('auth')->group(function () {
 
         // For toggling status
         Route::patch('{id}/toggle-status', [GalleryController::class, 'toggleStatus'])->name('toggle-status');
+        // For toggling featured
+        Route::patch('/{id}/toggle-featured', [GalleryController::class, 'toggleFeatured'])->name('toggleFeatured');
+
 
         // Bulk actions
         Route::post('bulk-delete', [GalleryController::class, 'bulkDelete'])->name('bulkDelete');

@@ -90,14 +90,27 @@ class Gallery extends Model
     }
     /////////////////////////////////////////////////////////////
 
-    public function getFeaturedBadgeAttribute()
+    public function getFeaturedBadgeAttribute(): string
     {
-        if ($this->featured) {
-            return '<span class="badge bg-success">Yes</span>';
+        return $this->renderFeaturedBadge($this->featured, $this->id, route('galleries.toggleFeatured', $this->id));
+    }
+
+    private function renderFeaturedBadge($featured, $id = null, $route = null): string
+    {
+        $text  = $featured ? 'Yes' : 'No';
+        $class = $featured ? 'success' : 'secondary';
+
+        if ($id && $route) {
+            return "<a href='javascript:void(0)' 
+                    data-id='{$id}' 
+                    data-route='{$route}' 
+                    class='toggle-featured badge rounded-pill text-bg-{$class}' 
+                    style='cursor:pointer'>{$text}</a>";
         }
 
-        return '<span class="badge bg-secondary">No</span>';
+        return "<span class='badge rounded-pill text-bg-{$class}'>{$text}</span>";
     }
+
 
 
 
