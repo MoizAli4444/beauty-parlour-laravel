@@ -71,11 +71,11 @@
                 {
                     data: 'file_size',
                     name: 'file_size',
-                    render: function(data) {
-                        if (!data) return 'N/A';
-                        let sizeKB = (data / 1024).toFixed(2);
-                        return sizeKB + ' KB';
-                    }
+                    // render: function(data) {
+                    //     if (!data) return 'N/A';
+                    //     let sizeKB = (data / 1024).toFixed(2);
+                    //     return sizeKB + ' KB';
+                    // }
                 },
                 {
                     data: 'status',

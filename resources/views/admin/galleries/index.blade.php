@@ -21,23 +21,25 @@
                                 'itemType' => 'galleries', // optional
                             ])
 
-                            <table id="indexPageDataTable" class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th><input type="checkbox" id="select-all"></th> {{-- universal checkbox --}}
-                                        <th>ID</th>
-                                        <th>Title</th>
-                                        <th>Media</th>
-                                        <th>Media Type</th>
-                                        <th>Featured</th>
-                                        <th>Alt Text</th>
-                                        <th>File Size</th>
-                                        <th>Status</th>
-                                        <th>Created At</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                            </table>
+                            <div class="table-responsive">
+                                <table id="indexPageDataTable" class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th><input type="checkbox" id="select-all"></th> {{-- universal checkbox --}}
+                                            <th>ID</th>
+                                            <th>Title</th>
+                                            <th>Media</th>
+                                            <th>Media Type</th>
+                                            <th>Featured</th>
+                                            <th>Alt Text</th>
+                                            <th>File Size</th>
+                                            <th>Status</th>
+                                            <th>Created At</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
 
                         </div>
                     </div>

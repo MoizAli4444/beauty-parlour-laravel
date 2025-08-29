@@ -83,11 +83,26 @@ class GalleryRepository implements GalleryRepositoryInterface
                     return 'N/A';
                 })
 
-                ->addColumn(
-                    'file_size',
-                    fn($row) =>
-                    $row->file_size ? number_format($row->file_size / 1024, 2) . ' KB' : 'N/A'
-                )
+                // ->addColumn(
+                //     'file_size',
+                //     fn($row) =>
+                //     $row->file_size ? number_format($row->file_size / 1024, 2) . ' KB' : 'N/A'
+                // )
+
+                ->addColumn('file_size', function ($row) {
+                    if (!is_numeric($row->file_size)) {
+                        return 'N/A';
+                    }
+
+                    $sizeKB = $row->file_size / 1024;
+
+                    if ($sizeKB < 1024) {
+                        return number_format($sizeKB, 2) . ' KB';
+                    } else {
+                        $sizeMB = $sizeKB / 1024;
+                        return number_format($sizeMB, 2) . ' MB';
+                    }
+                })
 
 
                 ->editColumn('status', function ($row) {
@@ -114,7 +129,7 @@ class GalleryRepository implements GalleryRepositoryInterface
                     view('admin.galleries.action', ['gallery' => $row])->render()
                 )
 
-                ->rawColumns(['checkbox', 'media_preview', 'status', 'featured', 'action'])
+                ->rawColumns(['checkbox', 'media_preview', 'status', 'featured', 'file_size', 'action'])
                 ->make(true);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
