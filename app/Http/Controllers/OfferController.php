@@ -81,7 +81,7 @@ class OfferController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-     public function edit($slug)
+    public function edit($slug)
     {
         $offer = $this->offerRepository->findBySlug($slug);
 
@@ -95,7 +95,7 @@ class OfferController extends Controller
     /**
      * Update the specified resource in storage.
      */
-     public function update(UpdateOfferRequest $request, $id = null)
+    public function update(UpdateOfferRequest $request, $id = null)
     {
         $validated = $request->validated();
 
@@ -121,7 +121,7 @@ class OfferController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-        public function destroy($id)
+    public function destroy($id)
     {
         $this->offerRepository->delete($id);
         return response()->json([

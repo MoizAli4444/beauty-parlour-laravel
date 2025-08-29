@@ -49,18 +49,27 @@ class GalleryController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(StoreGalleryRequest $request)
+    // public function store(Request $request)
     {
+        // dd(request()->file('file')->getSize() / 1024 / 1024 . ' MB');
+        // dd(phpinfo());
+        // dd(php_ini_loaded_file());
+
+
+        // dd(request()->file('file')->getError(), request()->file('file')->getErrorMessage());
+
+
         $validated = $request->validated();
 
         if ($request->hasFile('file')) {
             $validated['file'] = $request->file('file');
         }
 
-
         $this->repository->create($validated);
 
         return redirect()->route('galleries.index')->with('success', 'Gallery created successfully.');
     }
+
 
     /**
      * Display the specified resource.

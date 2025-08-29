@@ -25,9 +25,11 @@ class StoreGalleryRequest extends FormRequest
             'service_id' => 'nullable|exists:service_variants,id',
             'title'       => 'required|string|max:255',
             'description' => 'nullable|string',
-            // 'file'        => 'required|file|mimes:jpg,jpeg,png,mp4|max:5120', // 5MB
-            'file'        => 'required|file|max:5120', // 5MB
-            'media_type'  => 'required|in:image,video',
+            // 'file'        => 'required|file|mimes:jpg,jpeg,png,gif,mp4|max:15120', // ✅ added gif
+            'file' => 'required|file|mimes:jpg,jpeg,png,gif,mp4|max:102400', // 100MB
+
+            // 'file'        => 'required|file|max:5120', // 5MB
+            // 'media_type'  => 'required|in:image,video',
             'featured'    => 'nullable|boolean',
             'alt_text'    => 'nullable|string|max:255',
             'status'      => 'required|in:active,inactive',

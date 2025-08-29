@@ -62,32 +62,25 @@ class GalleryRepository implements GalleryRepositoryInterface
                 )
 
                 ->addColumn('title', fn($row) => $row->title ?? 'N/A')
+// ->addColumn('media_preview', fn($row) => '<img src="https://via.placeholder.com/60">')
 
-                // ->addColumn('media_preview', function ($row) {
-                //     if ($row->media_type === 'image') {
-                //         return '<img src="' . asset('storage/' . $row->file_path) . '" width="60" height="60" class="rounded">';
-                //     }
-                //     if ($row->media_type === 'video') {
-                //         return '<video width="80" height="60" controls>
-                //                 <source src="' . asset('storage/' . $row->file_path) . '" type="video/mp4">
-                //             </video>';
-                //     }
-                //     return 'N/A';
-                // })
+                
                 ->addColumn('media_preview', function ($row) {
+                    $url = asset('storage/' . $row->file_path);
+
                     if ($row->media_type === 'image') {
-                        return '<img src="' . asset('storage/' . $row->file_path) . '" 
-                     width="60" height="60" 
-                     class="rounded" style="object-fit:cover;cursor:pointer"
-                     onclick="showPreview(\'' . asset('storage/' . $row->file_path) . '\', \'image\')">';
+                        return '<img src="' . $url . '" width="60" height="60"
+                 class="rounded js-media-preview"
+                 style="object-fit:cover;cursor:pointer"
+                 data-url="' . $url . '" data-type="image" />';
                     }
 
                     if ($row->media_type === 'video') {
-                        return '<video width="60" height="60" 
-                      style="object-fit:cover;cursor:pointer"
-                      onclick="showPreview(\'' . asset('storage/' . $row->file_path) . '\', \'video\')"
-                      muted>
-                    <source src="' . asset('storage/' . $row->file_path) . '" type="video/mp4">
+                        return '<video width="60" height="60"
+                 class="rounded js-media-preview"
+                 style="object-fit:cover;cursor:pointer"
+                 data-url="' . $url . '" data-type="video" muted playsinline>
+                   <source src="' . $url . '" type="video/mp4">
                 </video>';
                     }
 
@@ -101,16 +94,18 @@ class GalleryRepository implements GalleryRepositoryInterface
                     $row->file_size ? number_format($row->file_size / 1024, 2) . ' KB' : 'N/A'
                 )
 
-                ->editColumn('status', function ($row) {
-                    $color = $row->status === 'active' ? 'success' : 'secondary';
-                    return '<span class="badge bg-' . $color . '">' . ucfirst($row->status) . '</span>';
+
+                  ->editColumn('status', function ($row) {
+                    // dd($row->status);
+                    return $row->status_badge; // uses model accessor
                 })
 
-                ->addColumn(
-                    'featured',
-                    fn($row) =>
-                    $row->featured ? '<span class="badge bg-info">Yes</span>' : 'No'
-                )
+
+                  ->editColumn('featured', function ($row) {
+                    // dd($row->status);
+                    return $row->featured_badge ; // uses model accessor
+                })
+
 
                 ->editColumn(
                     'created_at',
@@ -151,13 +146,13 @@ class GalleryRepository implements GalleryRepositoryInterface
     {
         $data = $this->addCreatedBy($data);
 
+
         if (isset($data['file'])) {
             $file = $data['file'];
-            $path = $file->store('uploads/gallery', 'public');
 
-            $data['file_path'] = $path;
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $data['file_path'] = $file->storeAs('uploads/gallery', $filename, 'public');
             $data['file_size'] = $file->getSize();
-
             // ✅ Detect file type automatically
             $mimeType = $file->getMimeType(); // e.g. image/jpeg, video/mp4
             if (str_starts_with($mimeType, 'image/')) {
