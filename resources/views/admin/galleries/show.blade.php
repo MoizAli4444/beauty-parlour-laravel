@@ -13,8 +13,8 @@
                             <h5 class="mb-0">View Addon</h5>
                             <div>
 
-                                {!! render_delete_button($addon->id, route('addons.destroy', $addon->id), false) !!}
-                                {!! render_edit_button(route('addons.edit', $addon->slug), false) !!}
+                                {!! render_delete_button($gallery->id, route('addons.destroy', $gallery->id), false) !!}
+                                {!! render_edit_button(route('addons.edit', $gallery->slug), false) !!}
                                 {!! render_index_button(route('addons.index'), 'All Addons', false) !!}
                             </div>
                         </div>
@@ -24,68 +24,106 @@
                                 <!-- Left Column -->
                                 <div class="col-md-8">
 
-                                    <!-- Addon Name -->
+                                    <!-- Title -->
                                     <div class="mb-4">
-                                        <label class="form-label fw-bold">Addon Name:</label>
-                                        <div>{{ $addon->name }}</div>
+                                        <label class="form-label fw-bold">Title:</label>
+                                        <div>{{ $gallery->title ?? '-' }}</div>
                                     </div>
 
                                     <!-- Description -->
                                     <div class="mb-4">
                                         <label class="form-label fw-bold">Description:</label>
-                                        <div>{{ $addon->description ?? '-' }}</div>
+                                        <div>{{ $gallery->description ?? '-' }}</div>
                                     </div>
 
-                                    <!-- Price -->
-                                    <div class="mb-4">
-                                        <label class="form-label fw-bold">Price (PKR):</label>
-                                        <div>Rs {{ number_format($addon->price, 2) }}</div>
+                                    <!-- Featured & File size -->
+                                    <div class="row mb-4">
+                                        <div class="col-md-6">
+
+                                            <label class="form-label fw-bold">Featured:</label>
+                                            <div>{!! $gallery->featured_badge !!}</div>
+
+                                            
+                                        </div>
+                                        <div class="col-md-6">
+                                             <label class="form-label fw-bold">File Size:</label>
+                                            <div>
+                                                @if ($gallery->file_size)
+                                                    @php
+                                                        $sizeKB = $gallery->file_size / 1024;
+                                                        $sizeDisplay =
+                                                            $sizeKB < 1024
+                                                                ? number_format($sizeKB, 2) . ' KB'
+                                                                : number_format($sizeKB / 1024, 2) . ' MB';
+                                                    @endphp
+                                                    {{ $sizeDisplay }}
+                                                @else
+                                                    N/A
+                                                @endif
+                                            </div>
+                                        </div>
                                     </div>
 
-                                    <!-- Duration -->
-                                    <div class="mb-4">
-                                        <label class="form-label fw-bold">Duration (minutes):</label>
-                                        <div>{{ $addon->duration ?? '-' }}</div>
+                                    <!-- File Size & Status -->
+                                    <div class="row mb-4">
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-bold">File Size:</label>
+                                            <div>
+                                                @if ($gallery->file_size)
+                                                    @php
+                                                        $sizeKB = $gallery->file_size / 1024;
+                                                        $sizeDisplay =
+                                                            $sizeKB < 1024
+                                                                ? number_format($sizeKB, 2) . ' KB'
+                                                                : number_format($sizeKB / 1024, 2) . ' MB';
+                                                    @endphp
+                                                    {{ $sizeDisplay }}
+                                                @else
+                                                    N/A
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-bold">Status:</label>
+                                            <div>{!! $gallery->status_badge !!}</div>
+                                        </div>
                                     </div>
 
+                                    <!-- Created & Updated At -->
+                                    <div class="row mb-4">
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-bold">Created At:</label>
+                                            <div>{{ $gallery->created_at->format('d M Y, h:i A') }}</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-bold">Updated At:</label>
+                                            <div>{{ $gallery->updated_at->format('d M Y, h:i A') }}</div>
+                                        </div>
+                                    </div>
 
                                 </div>
 
-                                <!-- Right Column -->
-                                <div class="col-md-4">
-                                    <label class="form-label fw-bold">Addon Image:</label><br>
+                                <!-- Right Column (Media Preview) -->
+                                <div class="col-md-4 text-center">
+                                    <label class="form-label fw-bold">Media Preview:</label><br>
 
-                                    @if (!empty($addon->image) && file_exists(public_path('storage/' . $addon->image)))
-                                        <img src="{{ asset('storage/' . $addon->image) }}" alt="Addon Image"
-                                            class="rounded shadow-sm" style="width: 250px; object-fit: cover;">
+                                    @if ($gallery->media_type === 'image' && file_exists(public_path('storage/' . $gallery->file_path)))
+                                        <img src="{{ asset('storage/' . $gallery->file_path) }}"
+                                            alt="{{ $gallery->alt_text }}" class="img-fluid rounded shadow-sm mb-2"
+                                            style="max-height:200px; object-fit:cover;">
+                                    @elseif($gallery->media_type === 'video' && file_exists(public_path('storage/' . $gallery->file_path)))
+                                        <i class="bi bi-camera-video fs-1 text-danger mb-2"></i>
+                                        <p class="mb-0">Video file</p>
                                     @else
-                                        <div class="text-muted">No image uploaded</div>
+                                        <div class="text-muted">No media uploaded</div>
                                     @endif
                                 </div>
                             </div>
-
-                            <div class="row mb-4">
-                                <div class="col-md-3">
-                                    <!-- Gender -->
-
-                                    <label class="form-label fw-bold">Gender:</label>
-                                    <div>{{ $addon->gender->label() ?? '-' }}</div>
-
-                                </div>
-
-                                <!-- Status -->
-                                <div class="col-md-3">
-
-                                    <label class="form-label fw-bold">Status:</label>
-                                    <div>{!! $addon->status_badge !!}</div>
-
-                                </div>
-                            </div>
-
-
-
-
                         </div>
+
+
+
+
                     </div>
                 </div>
             </div>

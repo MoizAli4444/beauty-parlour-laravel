@@ -74,9 +74,15 @@ class GalleryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Gallery $gallery)
+    public function show($slug)
     {
-        //
+        $gallery = $this->repository->findBySlug($slug);
+
+        if (!$gallery) {
+            return redirect()->route('galleries.index')->with('error', 'Gallery record not found.');
+        }
+
+        return view('admin.galleries.show', compact('gallery'));
     }
 
     /**
