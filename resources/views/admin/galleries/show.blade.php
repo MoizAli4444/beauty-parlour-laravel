@@ -10,12 +10,12 @@
                     <div class="card">
 
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">View Addon</h5>
+                            <h5 class="mb-0">View Gallery</h5>
                             <div>
 
-                                {!! render_delete_button($gallery->id, route('addons.destroy', $gallery->id), false) !!}
-                                {!! render_edit_button(route('addons.edit', $gallery->slug), false) !!}
-                                {!! render_index_button(route('addons.index'), 'All Addons', false) !!}
+                                {!! render_delete_button($gallery->id, route('galleries.destroy', $gallery->id), false) !!}
+                                {!! render_edit_button(route('galleries.edit', $gallery->slug), false) !!}
+                                {!! render_index_button(route('galleries.index'), 'All Galleries', false) !!}
                             </div>
                         </div>
 
@@ -43,10 +43,10 @@
                                             <label class="form-label fw-bold">Featured:</label>
                                             <div>{!! $gallery->featured_badge !!}</div>
 
-                                            
+
                                         </div>
                                         <div class="col-md-6">
-                                             <label class="form-label fw-bold">File Size:</label>
+                                            <label class="form-label fw-bold">File Size:</label>
                                             <div>
                                                 @if ($gallery->file_size)
                                                     @php
@@ -112,11 +112,15 @@
                                             alt="{{ $gallery->alt_text }}" class="img-fluid rounded shadow-sm mb-2"
                                             style="max-height:200px; object-fit:cover;">
                                     @elseif($gallery->media_type === 'video' && file_exists(public_path('storage/' . $gallery->file_path)))
-                                        <i class="bi bi-camera-video fs-1 text-danger mb-2"></i>
-                                        <p class="mb-0">Video file</p>
+                                        <video controls class="img-fluid rounded shadow-sm mb-2"
+                                            style="max-height:200px; object-fit:cover;">
+                                            <source src="{{ asset('storage/' . $gallery->file_path) }}" type="video/mp4">
+                                            Your browser does not support the video tag.
+                                        </video>
                                     @else
                                         <div class="text-muted">No media uploaded</div>
                                     @endif
+
                                 </div>
                             </div>
                         </div>
