@@ -31,53 +31,78 @@
                                             <div>{{ $offer->name }}</div>
                                         </div>
 
-                                        <!-- Offer Code -->
-                                        <div class="mb-4">
-                                            <label class="form-label fw-bold">Offer Code:</label>
-                                            <div>{{ $offer->offer_code ?? '-' }}</div>
-                                        </div>
-
                                         <!-- Description -->
                                         <div class="mb-4">
                                             <label class="form-label fw-bold">Description:</label>
                                             <div>{{ $offer->description ?? '-' }}</div>
                                         </div>
 
-                                        <!-- Type -->
+                                        <!-- Offer Code -->
                                         <div class="mb-4">
-                                            <label class="form-label fw-bold">Type:</label>
-                                            <div class="text-capitalize">{{ $offer->type }}</div>
+                                            <label class="form-label fw-bold">Offer Code:</label>
+                                            <div>{{ $offer->offer_code ?? '-' }}</div>
                                         </div>
 
-                                        <!-- Value -->
-                                        <div class="mb-4">
-                                            <label class="form-label fw-bold">Value:</label>
-                                            <div>
-                                                @if ($offer->type === 'percentage')
-                                                    {{ $offer->value }}%
-                                                @else
-                                                    Rs {{ number_format($offer->value, 2) }}
-                                                @endif
+                                        <div class="row">
+
+
+
+                                            <div class="col-md-4 mb-4">
+                                                <!-- Type -->
+                                                <label class="form-label fw-bold">Type:</label>
+                                                <div class="text-capitalize">{{ $offer->type }}</div>
                                             </div>
-                                        </div>
 
-                                        <!-- Max Total Uses -->
-                                        <div class="mb-4">
-                                            <label class="form-label fw-bold">Max Total Uses:</label>
-                                            <div>{{ $offer->max_total_uses ?? '-' }}</div>
-                                        </div>
-
-                                        <!-- Dates -->
-                                        <div class="mb-4">
-                                            <label class="form-label fw-bold">Start Date:</label>
-                                            <div>{{ $offer->starts_at ? $offer->starts_at->format('d M Y, h:i A') : '-' }}
+                                            <div class="col-md-4 mb-4">
+                                                <!-- Value -->
+                                                <label class="form-label fw-bold">Value:</label>
+                                                <div>
+                                                    @if ($offer->type === 'percentage')
+                                                        {{ $offer->value }}%
+                                                    @else
+                                                        Rs {{ number_format($offer->value, 2) }}
+                                                    @endif
+                                                </div>
                                             </div>
+
+                                            <div class="col-md-4 mb-4">
+                                                <!-- Max Total Uses -->
+                                                <label class="form-label fw-bold">Max Total Uses:</label>
+                                                <div>{{ $offer->max_total_uses ?? '-' }}</div>
+                                            </div>
+
+                                            <div class="col-md-4 mb-4">
+                                                <!-- Start Date -->
+                                                <label class="form-label fw-bold">Start Date:</label>
+                                                <div>
+                                                    {{ $offer->starts_at ? $offer->starts_at->format('d M Y, h:i A') : '-' }}
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4 mb-4">
+                                                <!-- End Date -->
+                                                <label class="form-label fw-bold">End Date:</label>
+                                                <div>
+                                                    {{ $offer->ends_at ? $offer->ends_at->format('d M Y, h:i A') : '-' }}
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4 mb-4">
+                                                <!-- Status -->
+                                                
+                                                <label class="form-label fw-bold">Status:</label>
+                                                <div>{!! $offer->status_badge !!}</div>
+                                            </div>
+
                                         </div>
 
-                                        <div class="mb-4">
-                                            <label class="form-label fw-bold">End Date:</label>
-                                            <div>{{ $offer->ends_at ? $offer->ends_at->format('d M Y, h:i A') : '-' }}</div>
-                                        </div>
+
+
+
+
+
+
+
                                     </div>
 
                                     <!-- Right Column -->
@@ -95,13 +120,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Bottom Row -->
-                                <div class="row mt-4">
-                                    <div class="col-md-3">
-                                        <label class="form-label fw-bold">Status:</label>
-                                        <div>{!! $offer->status_badge !!}</div>
-                                    </div>
-                                </div>
+                                
                             </div>
                         </div>
 
