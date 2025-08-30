@@ -10,164 +10,101 @@
                     <div class="card">
 
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">View Staff</h5>
+                            <h5 class="mb-0">View Offer</h5>
                             <div>
 
-                                {!! render_delete_button($user->id, route('staff.destroy', $user->id), false) !!}
-                                {!! render_edit_button(route('staff.edit', $user->slug), false) !!}
-                                {!! render_index_button(route('staff.index'), 'All Staff', false) !!}
+                                {!! render_delete_button($offer->id, route('offers.destroy', $offer->id), false) !!}
+                                {!! render_edit_button(route('offers.edit', $offer->slug), false) !!}
+                                {!! render_index_button(route('offers.index'), 'All Offers', false) !!}
                             </div>
                         </div>
 
-                        <div class="card-body">
-                            <div class="row">
-                                <!-- Left Column -->
-                                <div class="col-md-8">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <div class="row">
+                                    <!-- Left Column -->
+                                    <div class="col-md-8">
 
-                                    <div class="row mb-4">
-                                        <div class="col-md-6">
-                                            <label class="form-label fw-bold">Name:</label>
-                                            <div>{{ $user->name }}</div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label fw-bold">Email:</label>
-                                            <div>{{ $user->email }}</div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Left Column: Staff Details -->
-                                    <div class="row mb-4">
-
-                                        <!-- Address -->
-                                        <div class="col-md-6">
-                                            <label class="form-label fw-bold">Address:</label>
-                                            <div>{{ $user->staff->address ?? '-' }}</div>
+                                        <!-- Offer Name -->
+                                        <div class="mb-4">
+                                            <label class="form-label fw-bold">Offer Name:</label>
+                                            <div>{{ $offer->name }}</div>
                                         </div>
 
-                                    </div>
-                                    <!-- Dates Row -->
-                                    <div class="row mb-4">
-                                        <div class="col-md-6">
-                                            <label class="form-label fw-bold">Phone:</label>
-                                            <div>{{ $user->staff->phone ?? '-' }}</div>
+                                        <!-- Offer Code -->
+                                        <div class="mb-4">
+                                            <label class="form-label fw-bold">Offer Code:</label>
+                                            <div>{{ $offer->offer_code ?? '-' }}</div>
                                         </div>
 
-
-                                        <div class="col-md-4">
-                                            <label class="form-label fw-bold">Date of Birth:</label>
-                                            <div>{{ $user->staff->date_of_birth?->format('d M Y') ?? '-' }}</div>
+                                        <!-- Description -->
+                                        <div class="mb-4">
+                                            <label class="form-label fw-bold">Description:</label>
+                                            <div>{{ $offer->description ?? '-' }}</div>
                                         </div>
 
-                                    </div>
-
-
-
-                                    <!-- CNIC & Emergency Contact -->
-                                    <div class="row mb-4">
-                                        <div class="col-md-6">
-                                            <label class="form-label fw-bold">CNIC:</label>
-                                            <div>{{ $user->staff->cnic ?? '-' }}</div>
+                                        <!-- Type -->
+                                        <div class="mb-4">
+                                            <label class="form-label fw-bold">Type:</label>
+                                            <div class="text-capitalize">{{ $offer->type }}</div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label fw-bold">Emergency Contact:</label>
-                                            <div>{{ $user->staff->emergency_contact ?? '-' }}</div>
-                                        </div>
-                                    </div>
 
-                                    <!-- Shift & Working Days -->
-                                    <div class="row mb-4">
-                                        <div class="col-md-6">
-                                            <label class="form-label fw-bold">Shift:</label>
-                                            <div>{{ $user->staff->shift?->name ?? '-' }}</div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label fw-bold">Working Days:</label>
+                                        <!-- Value -->
+                                        <div class="mb-4">
+                                            <label class="form-label fw-bold">Value:</label>
                                             <div>
-
-                                                @if ($user->staff->working_days)
-                                                    {{ implode(', ', $user->staff->working_days) }}
+                                                @if ($offer->type === 'percentage')
+                                                    {{ $offer->value }}%
                                                 @else
-                                                    -
+                                                    Rs {{ number_format($offer->value, 2) }}
                                                 @endif
-
                                             </div>
+                                        </div>
+
+                                        <!-- Max Total Uses -->
+                                        <div class="mb-4">
+                                            <label class="form-label fw-bold">Max Total Uses:</label>
+                                            <div>{{ $offer->max_total_uses ?? '-' }}</div>
+                                        </div>
+
+                                        <!-- Dates -->
+                                        <div class="mb-4">
+                                            <label class="form-label fw-bold">Start Date:</label>
+                                            <div>{{ $offer->starts_at ? $offer->starts_at->format('d M Y, h:i A') : '-' }}
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-4">
+                                            <label class="form-label fw-bold">End Date:</label>
+                                            <div>{{ $offer->ends_at ? $offer->ends_at->format('d M Y, h:i A') : '-' }}</div>
                                         </div>
                                     </div>
 
-                                    <!-- Salary & Payment Info -->
-                                    <div class="row mb-4">
-                                        <div class="col-md-6">
-                                            <label class="form-label fw-bold">Salary:</label>
-                                            <div>
-                                                {{ $user->staff->salary ? 'PKR ' . number_format($user->staff->salary, 2) : '-' }}
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label fw-bold">Payment Schedule:</label>
-                                            <div>{{ ucfirst($user->staff->payment_schedule) }}</div>
-                                        </div>
+                                    <!-- Right Column -->
+                                    <div class="col-md-4 text-center">
+                                        <label class="form-label fw-bold">Offer Image:</label><br>
+
+                                        @if (!empty($offer->image) && file_exists(public_path('storage/' . $offer->image)))
+                                            <img src="{{ asset('storage/' . $offer->image) }}" alt="Offer Image"
+                                                data-url="{{ asset('storage/' . $offer->image) }}" data-type="image"
+                                                class="img-fluid rounded shadow-sm js-media-preview"
+                                                style="max-height:200px; object-fit:cover;">
+                                        @else
+                                            <div class="text-muted">No image uploaded</div>
+                                        @endif
                                     </div>
-
-
                                 </div>
 
-                                <!-- Right Column: Profile Image -->
-                                <div class="col-md-4">
-                                    <label class="form-label fw-bold">Profile Photo:</label><br>
-                                    @if (!empty($user->staff->image) && file_exists(public_path('storage/' . $user->staff->image)))
-                                        <img src="{{ asset('storage/' . $user->staff->image) }}" alt="Staff Image"
-                                            {{-- data-url="{{ asset('storage/' . $user->staff->image) }}" data-type="image" --}}
-                                            class="rounded shadow-sm js-media-preview"
-                                            style="width: 250px; object-fit: cover;">
-                                    @else
-                                        <div class="text-muted">No image uploaded</div>
-                                    @endif
-                                </div>
-                            </div>
-
-
-                            <div class="row mb-4">
-                                <div class="col-md-3">
-                                    <label class="form-label fw-bold">Payment Method:</label>
-                                    <div>{{ $user->staff->paymentMethod?->name ?? '-' }}</div>
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="form-label fw-bold">Bank Account #:</label>
-                                    <div>{{ $user->staff->bank_account_number ?? '-' }}</div>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <label class="form-label fw-bold">Is Head:</label>
-                                    <div>{{ $user->staff->is_head ? 'Yes' : 'No' }}</div>
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="form-label fw-bold">Verified:</label>
-                                    <div>{{ $user->staff->is_verified ? 'Yes' : 'No' }}</div>
-                                </div>
-                            </div>
-
-                            <div class="row mb-4">
-                                <div class="col-md-3">
-                                    <label class="form-label fw-bold">Joining Date:</label>
-                                    <div>{{ $user->staff->joining_date?->format('d M Y') ?? '-' }}</div>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <label class="form-label fw-bold">Leaving Date:</label>
-                                    <div>{{ $user->staff->leaving_date?->format('d M Y') ?? '-' }}</div>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <label class="form-label fw-bold">Status:</label>
-                                    <div>{{ ucfirst($user->staff->status) }}</div>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <label class="form-label fw-bold">Created At:</label>
-                                    <div>{{ $user->staff->created_at->format('d M Y') }}</div>
+                                <!-- Bottom Row -->
+                                <div class="row mt-4">
+                                    <div class="col-md-3">
+                                        <label class="form-label fw-bold">Status:</label>
+                                        <div>{!! $offer->status_badge !!}</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
 
 
 
