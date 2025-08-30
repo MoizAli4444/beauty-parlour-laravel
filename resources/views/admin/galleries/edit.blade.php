@@ -58,6 +58,24 @@
                                     @enderror
                                 </div>
 
+                                <!-- Service (if gallery belongs to service) -->
+                                <div class="mb-4">
+                                    <label class="form-label" for="service_id">Service</label>
+                                    <select name="service_id" id="service_id" class="form-select">
+                                        <option value="">-- Select Service --</option>
+                                        @foreach ($services as $service)
+                                            <option value="{{ $service->id }}"
+                                                {{ old('service_id', $gallery->service_id) == $service->id ? 'selected' : '' }}>
+                                                {{ $service->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('service_id')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+
                                 <!-- File Upload & Preview -->
                                 <div class="mb-3">
                                     <label for="file_path" class="form-label fw-semibold">Replace Media (optional)</label>
@@ -78,30 +96,14 @@
                                                 style="max-height:200px;">
                                         @elseif($gallery->media_type === 'video')
                                             <video width="320" height="200" controls class="rounded">
-                                                <source src="{{ asset('storage/' . $gallery->file_path) }}" type="video/mp4">
+                                                <source src="{{ asset('storage/' . $gallery->file_path) }}"
+                                                    type="video/mp4">
                                                 Your browser does not support the video tag.
                                             </video>
                                         @else
                                             <span class="text-muted">No media available</span>
                                         @endif
                                     </div>
-                                </div>
-
-                                <!-- Media Type -->
-                                <div class="mb-3">
-                                    <label for="media_type" class="form-label fw-semibold">Media Type</label>
-                                    <select name="media_type" id="media_type"
-                                        class="form-select shadow-sm @error('media_type') is-invalid @enderror">
-                                        <option value="image"
-                                            {{ old('media_type', $gallery->media_type) == 'image' ? 'selected' : '' }}>
-                                            Image</option>
-                                        <option value="video"
-                                            {{ old('media_type', $gallery->media_type) == 'video' ? 'selected' : '' }}>
-                                            Video</option>
-                                    </select>
-                                    @error('media_type')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
                                 </div>
 
                                 <!-- Alt Text -->
@@ -144,7 +146,7 @@
                                 <!-- Submit -->
                                 <div class="text-end">
                                     <button type="submit" class="btn btn-success px-4">
-                                         Update Gallery
+                                        Update Gallery
                                     </button>
                                 </div>
                             </form>

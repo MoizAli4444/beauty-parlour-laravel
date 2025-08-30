@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Gallery\StoreGalleryRequest;
+use App\Http\Requests\Gallery\UpdateGalleryRequest;
 use App\Models\Gallery;
 use App\Models\ServiceVariant;
 use Illuminate\Http\Request;
 use App\Repositories\Gallery\GalleryRepositoryInterface;
+use Illuminate\Support\Facades\Storage;
 
 class GalleryController extends Controller
 {
@@ -97,10 +99,31 @@ class GalleryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Gallery $gallery)
+    public function update(UpdateGalleryRequest $request, $id)
     {
-        //
+        $validated = $request->validated();
+
+        $gallery = $this->repository->find($id);
+
+        if (!$gallery) {
+            return redirect()->route('galleries.index')->with('error', 'Gallery not found.');
+        }
+
+        // Handle file upload if a new one is provided
+        if ($request->hasFile('file')) {
+            // ✅ Optionally delete old file if exists
+            if ($gallery->file && Storage::exists($gallery->file)) {
+                Storage::delete($gallery->file);
+            }
+
+            $validated['file'] = $request->file('file');
+        }
+
+        $this->repository->update($id, $validated);
+
+        return redirect()->route('galleries.index')->with('success', 'Gallery updated successfully.');
     }
+
 
     /**
      * Remove the specified resource from storage.

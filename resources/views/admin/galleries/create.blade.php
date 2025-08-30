@@ -66,22 +66,6 @@
                                     @enderror
                                 </div>
 
-                                <!-- Media Type -->
-                                {{-- <div class="mb-4">
-                                    <label class="form-label" for="media_type">Media Type</label>
-                                    <select name="media_type" id="media_type" class="form-select">
-                                        <option value="image"
-                                            {{ old('media_type', $gallery->media_type ?? '') == 'image' ? 'selected' : '' }}>
-                                            Image</option>
-                                        <option value="video"
-                                            {{ old('media_type', $gallery->media_type ?? '') == 'video' ? 'selected' : '' }}>
-                                            Video</option>
-                                    </select>
-                                    @error('media_type')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div> --}}
-
                                 <!-- Alt Text -->
                                 <div class="mb-4">
                                     <label class="form-label" for="alt_text">Alt Text</label>
