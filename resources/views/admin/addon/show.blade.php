@@ -94,7 +94,7 @@
             <!-- / Content -->
 
             <!-- Media Preview Modal -->
-            @include('admin.galleries.partials.preview_modal')
+            @include('admin.pages-partials.preview_modal')
 
         </div>
     @endsection
