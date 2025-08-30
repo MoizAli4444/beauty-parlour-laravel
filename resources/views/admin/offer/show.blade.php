@@ -116,7 +116,9 @@
                                     <label class="form-label fw-bold">Profile Photo:</label><br>
                                     @if (!empty($user->staff->image) && file_exists(public_path('storage/' . $user->staff->image)))
                                         <img src="{{ asset('storage/' . $user->staff->image) }}" alt="Staff Image"
-                                            class="rounded shadow-sm" style="width: 250px; object-fit: cover;">
+                                            {{-- data-url="{{ asset('storage/' . $user->staff->image) }}" data-type="image" --}}
+                                            class="rounded shadow-sm js-media-preview"
+                                            style="width: 250px; object-fit: cover;">
                                     @else
                                         <div class="text-muted">No image uploaded</div>
                                     @endif
@@ -175,5 +177,9 @@
             </div>
         </div>
         <!-- / Content -->
+
+        <!-- Media Preview Modal -->
+        @include('admin.galleries.partials.preview_modal')
+
     </div>
 @endsection

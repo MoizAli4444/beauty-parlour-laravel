@@ -57,7 +57,9 @@
 
                                     @if (!empty($addon->image) && file_exists(public_path('storage/' . $addon->image)))
                                         <img src="{{ asset('storage/' . $addon->image) }}" alt="Addon Image"
-                                            class="rounded shadow-sm" style="width: 250px; object-fit: cover;">
+                                            data-url="{{ asset('storage/' . $addon->image) }}" data-type="image"
+                                            class="rounded shadow-sm js-media-preview"
+                                            style="width: 250px; object-fit: cover;">
                                     @else
                                         <div class="text-muted">No image uploaded</div>
                                     @endif
@@ -90,5 +92,9 @@
                 </div>
             </div>
             <!-- / Content -->
+
+            <!-- Media Preview Modal -->
+            @include('admin.galleries.partials.preview_modal')
+
         </div>
     @endsection
