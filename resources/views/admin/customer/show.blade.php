@@ -81,7 +81,8 @@
                                     <label class="form-label fw-bold">Customer Image:</label><br>
                                     @if (!empty($user->customer->image) && file_exists(public_path('storage/' . $user->customer->image)))
                                         <img src="{{ asset('storage/' . $user->customer->image) }}" alt="Customer Image"
-                                             class="rounded shadow-sm" style="width: 250px; object-fit: cover;">
+                                            data-url="{{ asset('storage/' . $user->customer->image) }}" data-type="image"
+                                            class="rounded shadow-sm js-media-preview" style="width: 250px; object-fit: cover;">
                                     @else
                                         <div class="text-muted">No image uploaded</div>
                                     @endif
@@ -94,5 +95,9 @@
             </div>
         </div>
         <!-- / Content -->
+
+        <!-- Media Preview Modal -->
+        @include('admin.galleries.partials.preview_modal')
+
     </div>
 @endsection
