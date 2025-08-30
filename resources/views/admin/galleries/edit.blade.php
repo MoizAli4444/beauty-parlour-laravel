@@ -107,17 +107,16 @@
                                 </div>
 
                                 <!-- Alt Text -->
-                                <div class="mb-3">
-                                    <label for="alt_text" class="form-label fw-semibold">Alt Text (SEO &
-                                        Accessibility)</label>
-                                    <input type="text" name="alt_text" id="alt_text"
-                                        class="form-control shadow-sm @error('alt_text') is-invalid @enderror"
+                                <div class="mb-4">
+                                    <label class="form-label" for="alt_text">Alt Text</label>
+                                    <input type="text" name="alt_text" class="form-control" id="alt_text"
                                         value="{{ old('alt_text', $gallery->alt_text) }}"
-                                        placeholder="E.g. 'Salon hairstyle photo'">
+                                        placeholder="For SEO & accessibility">
                                     @error('alt_text')
-                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
+
 
                                 <!-- Featured -->
                                 <div class="form-check form-switch mb-3">
