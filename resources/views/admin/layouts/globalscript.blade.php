@@ -221,4 +221,27 @@
             }
         });
     });
+
+
+
+
+     $(document).on('click', '.js-media-preview', function() {
+            let type = $(this).data('type');
+            let src = $(this).data('url'); // not data('src')
+            let html = '';
+
+            if (type === 'image') {
+                html = `<img src="${src}" class="img-fluid rounded" alt="Preview">`;
+            } else if (type === 'video') {
+                html = `
+            <video controls autoplay class="w-100 rounded">
+                <source src="${src}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        `;
+            }
+
+            $('#mediaContainer').html(html);
+            $('#mediaModal').modal('show');
+        });
 </script>

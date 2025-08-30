@@ -103,25 +103,30 @@
 
                                 </div>
 
+
+
                                 <!-- Right Column (Media Preview) -->
                                 <div class="col-md-4 text-center">
                                     <label class="form-label fw-bold">Media Preview:</label><br>
 
                                     @if ($gallery->media_type === 'image' && file_exists(public_path('storage/' . $gallery->file_path)))
                                         <img src="{{ asset('storage/' . $gallery->file_path) }}"
-                                            alt="{{ $gallery->alt_text }}" class="img-fluid rounded shadow-sm mb-2"
-                                            style="max-height:200px; object-fit:cover;">
+                                            alt="{{ $gallery->alt_text }}"
+                                            class="img-fluid rounded shadow-sm mb-2 js-media-preview"
+                                            style="max-height:200px; object-fit:cover;"
+                                            data-url="{{ asset('storage/' . $gallery->file_path) }}" data-type="image">
                                     @elseif($gallery->media_type === 'video' && file_exists(public_path('storage/' . $gallery->file_path)))
-                                        <video controls class="img-fluid rounded shadow-sm mb-2"
-                                            style="max-height:200px; object-fit:cover;">
+                                        <video controls class="img-fluid rounded shadow-sm mb-2 js-media-preview"
+                                            style="max-height:200px; object-fit:cover;"
+                                            data-url="{{ asset('storage/' . $gallery->file_path) }}" data-type="video">
                                             <source src="{{ asset('storage/' . $gallery->file_path) }}" type="video/mp4">
                                             Your browser does not support the video tag.
                                         </video>
                                     @else
                                         <div class="text-muted">No media uploaded</div>
                                     @endif
-
                                 </div>
+
                             </div>
                         </div>
 
@@ -132,5 +137,9 @@
                 </div>
             </div>
             <!-- / Content -->
+
+            <!-- Media Preview Modal -->
+            @include('admin.galleries.partials.preview_modal')
+
         </div>
     @endsection

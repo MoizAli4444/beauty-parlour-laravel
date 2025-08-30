@@ -58,11 +58,6 @@
                 {
                     data: 'featured',
                     name: 'featured',
-                    // render: function(data) {
-                    //     return data == 1 ?
-                    //         '<span class="badge bg-success">Yes</span>' :
-                    //         '<span class="badge bg-secondary">No</span>';
-                    // }
                 },
                 {
                     data: 'alt_text',
@@ -71,11 +66,6 @@
                 {
                     data: 'file_size',
                     name: 'file_size',
-                    // render: function(data) {
-                    //     if (!data) return 'N/A';
-                    //     let sizeKB = (data / 1024).toFixed(2);
-                    //     return sizeKB + ' KB';
-                    // }
                 },
                 {
                     data: 'status',
@@ -96,25 +86,25 @@
 
 
 
-        $(document).on('click', '.js-media-preview', function() {
-            let type = $(this).data('type');
-            let src = $(this).data('url'); // not data('src')
-            let html = '';
+        // $(document).on('click', '.js-media-preview', function() {
+        //     let type = $(this).data('type');
+        //     let src = $(this).data('url'); // not data('src')
+        //     let html = '';
 
-            if (type === 'image') {
-                html = `<img src="${src}" class="img-fluid rounded" alt="Preview">`;
-            } else if (type === 'video') {
-                html = `
-            <video controls autoplay class="w-100 rounded">
-                <source src="${src}" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        `;
-            }
+        //     if (type === 'image') {
+        //         html = `<img src="${src}" class="img-fluid rounded" alt="Preview">`;
+        //     } else if (type === 'video') {
+        //         html = `
+        //     <video controls autoplay class="w-100 rounded">
+        //         <source src="${src}" type="video/mp4">
+        //         Your browser does not support the video tag.
+        //     </video>
+        // `;
+        //     }
 
-            $('#mediaContainer').html(html);
-            $('#mediaModal').modal('show');
-        });
+        //     $('#mediaContainer').html(html);
+        //     $('#mediaModal').modal('show');
+        // });
 
 
 

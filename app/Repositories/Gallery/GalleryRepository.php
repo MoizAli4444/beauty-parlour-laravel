@@ -83,12 +83,6 @@ class GalleryRepository implements GalleryRepositoryInterface
                     return 'N/A';
                 })
 
-                // ->addColumn(
-                //     'file_size',
-                //     fn($row) =>
-                //     $row->file_size ? number_format($row->file_size / 1024, 2) . ' KB' : 'N/A'
-                // )
-
                 ->addColumn('file_size', function ($row) {
                     if (!is_numeric($row->file_size)) {
                         return 'N/A';
