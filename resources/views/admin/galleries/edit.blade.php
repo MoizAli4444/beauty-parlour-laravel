@@ -11,12 +11,12 @@
                     <div class="card">
 
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">Edit Addon</h5>
+                            <h5 class="mb-0">Edit Gallery</h5>
 
                             <div>
-                                {!! render_delete_button($addon->id, route('addons.destroy', $addon->id), false) !!}
-                                {!! render_view_button(route('addons.show', $addon->slug), false) !!}
-                                {!! render_index_button(route('addons.index'), 'All Addons', false) !!}
+                                {!! render_delete_button($gallery->id, route('galleries.destroy', $gallery->id), false) !!}
+                                {!! render_view_button(route('galleries.show', $gallery->slug), false) !!}
+                                {!! render_index_button(route('galleries.index'), 'All Galleries', false) !!}
 
                             </div>
                         </div>

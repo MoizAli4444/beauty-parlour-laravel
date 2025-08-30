@@ -49,15 +49,7 @@ class GalleryController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(StoreGalleryRequest $request)
-    // public function store(Request $request)
     {
-        // dd(request()->file('file')->getSize() / 1024 / 1024 . ' MB');
-        // dd(phpinfo());
-        // dd(php_ini_loaded_file());
-
-
-        // dd(request()->file('file')->getError(), request()->file('file')->getErrorMessage());
-
 
         $validated = $request->validated();
 
@@ -88,9 +80,9 @@ class GalleryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit($slug)
     {
-        $gallery = Gallery::find($id);
+        $gallery = $this->repository->findBySlug($slug);
 
         if (!$gallery) {
             return redirect()->route('galleries.index')->with('error', 'Gallery not found');
