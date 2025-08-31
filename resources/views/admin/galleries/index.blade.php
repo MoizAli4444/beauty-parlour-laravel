@@ -15,11 +15,36 @@
                         </div>
                         <div class="card-body">
 
-                            @include('admin.pages-partials.bulk-actions', [
+                            {{-- @include('admin.pages-partials.bulk-actions', [
                                 'deleteUrl' => route('galleries.bulkDelete'),
                                 'statusUrl' => route('galleries.bulkStatus'),
                                 'itemType' => 'galleries', // optional
+                            ]) --}}
+
+                            @include('admin.pages-partials.bulk-actions', [
+                                'itemType' => 'galleries',
+                                'actions' => [
+                                    [
+                                        'text' => 'Delete Selected',
+                                        'value' => 'delete',
+                                        'class' => 'btn-danger',
+                                        'url' => route('galleries.bulkDelete'),
+                                    ],
+                                    [
+                                        'text' => 'Mark as Active',
+                                        'value' => 'active',
+                                        'class' => 'btn-success',
+                                        'url' => route('galleries.bulkStatus'),
+                                    ],
+                                    [
+                                        'text' => 'Mark as Inactive',
+                                        'value' => 'inactive',
+                                        'class' => 'btn-warning',
+                                        'url' => route('galleries.bulkStatus'),
+                                    ],
+                                ],
                             ])
+
 
                             <div class="table-responsive">
                                 <table id="indexPageDataTable" class="table table-bordered">
@@ -55,7 +80,7 @@
     <!-- Media Preview Modal -->
     @include('admin.pages-partials.preview_modal')
 
-   
+
 
 
 
