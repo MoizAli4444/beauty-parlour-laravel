@@ -22,11 +22,11 @@ class UpdateGalleryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'service_id'  => 'nullable|exists:services,id',
+            'service_id'  => 'nullable|exists:service_variants,id',
             'title'       => 'required|string|max:255',
             'description' => 'nullable|string',
-            'file'        => 'nullable|file|mimes:jpg,jpeg,png,mp4|max:5120', // file optional on update
-            'media_type'  => 'required|in:image,video',
+            'file'        => 'nullable|file|mimes:jpg,jpeg,png,gif,mp4|max:102400', // file optional on update
+            // 'media_type'  => 'required|in:image,video',
             'featured'    => 'nullable|boolean',
             'alt_text'    => 'nullable|string|max:255',
             'status'      => 'required|in:active,inactive',
