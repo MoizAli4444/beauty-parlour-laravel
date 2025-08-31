@@ -20,9 +20,7 @@
 
 
                             {{-- @include('admin.pages-partials.bulk-actions', [
-                                'deleteUrl' => route('bookings.bulkDelete'),
-                                'statusUrl' => route('bookings.bulkStatus'),
-                                'itemType' => 'bookings', // optional
+                                no need here
                             ]) --}}
 
                             <table id="indexPageDataTable" class="table table-bordered">
