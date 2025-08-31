@@ -26,7 +26,6 @@ class UpdateGalleryRequest extends FormRequest
             'title'       => 'required|string|max:255',
             'description' => 'nullable|string',
             'file'        => 'nullable|file|mimes:jpg,jpeg,png,gif,mp4|max:102400', // file optional on update
-            // 'media_type'  => 'required|in:image,video',
             'featured'    => 'nullable|boolean',
             'alt_text'    => 'nullable|string|max:255',
             'status'      => 'required|in:active,inactive',
