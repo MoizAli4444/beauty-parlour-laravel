@@ -15,10 +15,28 @@
                         </div>
                         <div class="card-body">
 
-                            @include('admin.pages-partials.bulk-actions', [
-                                'deleteUrl' => route('staff.bulkDelete'),
-                                'statusUrl' => route('staff.bulkStatus'),
-                                'itemType' => 'staff', // optional
+                             @include('admin.pages-partials.bulk-actions', [
+                                'itemType' => 'staff',
+                                'actions' => [
+                                    [
+                                        'text' => 'Delete Selected',
+                                        'value' => 'delete',
+                                        'class' => 'btn-danger',
+                                        'url' => route('staff.bulkDelete'),
+                                    ],
+                                    [
+                                        'text' => 'Mark as Active',
+                                        'value' => 'active',
+                                        'class' => 'btn-success',
+                                        'url' => route('staff.bulkStatus'),
+                                    ],
+                                    [
+                                        'text' => 'Mark as Inactive',
+                                        'value' => 'inactive',
+                                        'class' => 'btn-warning',
+                                        'url' => route('staff.bulkStatus'),
+                                    ],
+                                ],
                             ])
 
                             <div class="table-responsive">
