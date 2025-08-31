@@ -34,7 +34,7 @@
                                     [
                                         'text' => 'Mark as Inactive',
                                         'value' => 'inactive',
-                                        'class' => 'btn-warning',
+                                        'class' => 'btn-secondary',
                                         'url' => route('offers.bulkStatus'),
                                     ],
                                 ],

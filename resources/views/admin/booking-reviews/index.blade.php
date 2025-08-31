@@ -29,7 +29,7 @@
                                     [
                                         'text' => 'Mark as Rejected',
                                         'value' => 'rejected',
-                                        'class' => 'btn-warning',
+                                        'class' => 'btn-secondary',
                                         'url' => route('booking-reviews.bulkStatus'),
                                     ],
                                 ],
