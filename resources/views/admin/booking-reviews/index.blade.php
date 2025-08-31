@@ -1,7 +1,6 @@
 @extends('admin.layouts.app')
 
 @section('content')
-
     <!-- Content wrapper -->
     <div class="content-wrapper">
         <!-- Content -->
@@ -18,10 +17,22 @@
                             {{-- ✅ Include Filter Partial --}}
                             @include('admin.booking-reviews.partials.filters')
 
-
                             @include('admin.pages-partials.bulk-actions', [
-                                'statusUrl' => route('booking-reviews.bulkStatus'),
-                                'itemType' => 'bookings', // optional
+                                'itemType' => 'bookings',
+                                'actions' => [
+                                    [
+                                        'text' => 'Mark as Approved',
+                                        'value' => 'approved',
+                                        'class' => 'btn-success',
+                                        'url' => route('booking-reviews.bulkStatus'),
+                                    ],
+                                    [
+                                        'text' => 'Mark as Rejected',
+                                        'value' => 'rejected',
+                                        'class' => 'btn-warning',
+                                        'url' => route('booking-reviews.bulkStatus'),
+                                    ],
+                                ],
                             ])
 
                             <div class="table-responsive">
