@@ -15,12 +15,6 @@
                         </div>
                         <div class="card-body">
 
-                            {{-- @include('admin.pages-partials.bulk-actions', [
-                                'deleteUrl' => route('galleries.bulkDelete'),
-                                'statusUrl' => route('galleries.bulkStatus'),
-                                'itemType' => 'galleries', // optional
-                            ]) --}}
-
                             @include('admin.pages-partials.bulk-actions', [
                                 'itemType' => 'galleries',
                                 'actions' => [
