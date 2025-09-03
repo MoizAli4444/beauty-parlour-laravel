@@ -20,7 +20,8 @@ class DealController extends Controller
      */
     public function create()
     {
-        //
+        // $services = ServiceVariant::active()->get();
+        return view('admin.deals.create');
     }
 
     /**

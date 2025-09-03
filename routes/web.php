@@ -4,6 +4,7 @@ use App\Http\Controllers\AddonController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\BookingReviewController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DealController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\PermissionController;
@@ -253,6 +254,26 @@ Route::middleware('auth')->group(function () {
 
     // Resource Routes
     Route::resource('galleries', GalleryController::class);
+
+
+
+    // ==============================
+    // Deal Module Routes
+    // ==============================
+    Route::prefix('deals')->name('deals.')->group(function () {
+        // For DataTables AJAX loading
+        Route::get('datatable', [DealController::class, 'datatable'])->name('datatable');
+
+        // For toggling status
+        Route::patch('{id}/toggle-status', [DealController::class, 'toggleStatus'])->name('toggle-status');
+
+        // Bulk actions
+        Route::post('bulk-delete', [DealController::class, 'bulkDelete'])->name('bulkDelete');
+        Route::post('bulk-status', [DealController::class, 'bulkStatus'])->name('bulkStatus');
+    });
+
+    // Resource Routes
+    Route::resource('deals', DealController::class);
 
 
 
