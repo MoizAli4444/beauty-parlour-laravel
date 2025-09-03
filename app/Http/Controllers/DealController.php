@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Deal;
+use App\Models\ServiceVariant;
 use Illuminate\Http\Request;
 
 class DealController extends Controller
@@ -20,8 +21,8 @@ class DealController extends Controller
      */
     public function create()
     {
-        // $services = ServiceVariant::active()->get();
-        return view('admin.deals.create');
+        $services = ServiceVariant::active()->get();
+        return view('admin.deals.create', compact('services'));
     }
 
     /**

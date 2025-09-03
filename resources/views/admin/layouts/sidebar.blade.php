@@ -169,6 +169,13 @@
             </a>
         </li>
 
+        <li class="menu-item {{ request()->routeIs('deals.*') ? 'active' : '' }}">
+            <a href="{{ route('deals.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-gift"></i>
+                <div class="text-truncate" data-i18n="deal">Deals</div>
+            </a>
+        </li>
+
 
 
 
