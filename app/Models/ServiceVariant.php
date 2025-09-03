@@ -94,6 +94,10 @@ class ServiceVariant extends Model
     {
         return $this->belongsTo(Staff::class);
     }
-    
-    
+
+    public function deals()
+    {
+        return $this->belongsToMany(Deal::class, 'deal_service')
+            ->withTimestamps();
+    }
 }
