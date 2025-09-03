@@ -32,7 +32,7 @@
                                 </div>
                             @endif
 
-                            <form action="{{ route('admin.deals.update', $deal->id) }}" method="POST"
+                            <form action="{{ route('deals.update', $deal->id) }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
@@ -164,7 +164,7 @@
 
                                 <div class="text-end">
                                     <button type="submit" class="btn btn-warning">Update Deal</button>
-                                    <a href="{{ route('admin.deals.index') }}" class="btn btn-secondary">Cancel</a>
+                                    <a href="{{ route('deals.index') }}" class="btn btn-secondary">Cancel</a>
                                 </div>
                             </form>
 

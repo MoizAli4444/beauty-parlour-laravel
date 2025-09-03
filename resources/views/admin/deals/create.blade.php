@@ -17,7 +17,7 @@
 
                         <div class="card-body">
 
-                            <form action="{{ route('admin.deals.store') }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('deals.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
 
                                 {{-- Name --}}
@@ -139,7 +139,7 @@
 
                                 <div class="text-end">
                                     <button type="submit" class="btn btn-primary">Create Deal</button>
-                                    <a href="{{ route('admin.deals.index') }}" class="btn btn-secondary">Cancel</a>
+                                    <a href="{{ route('deals.index') }}" class="btn btn-secondary">Cancel</a>
                                 </div>
                             </form>
 
