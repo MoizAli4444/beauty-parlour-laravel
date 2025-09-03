@@ -31,18 +31,6 @@
                                     @enderror
                                 </div>
 
-                                {{-- Slug --}}
-                                <div class="mb-3">
-                                    <label class="form-label">Slug</label>
-                                    <input type="text" name="slug"
-                                        class="form-control @error('slug') is-invalid @enderror"
-                                        value="{{ old('slug') }}">
-                                    @error('slug')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                    <small class="text-muted">Leave empty to auto-generate</small>
-                                </div>
-
                                 {{-- Description --}}
                                 <div class="mb-3">
                                     <label class="form-label">Description</label>

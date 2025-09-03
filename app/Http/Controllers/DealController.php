@@ -4,10 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Deal;
 use App\Models\ServiceVariant;
+use App\Repositories\Deal\DealRepositoryInterface;
 use Illuminate\Http\Request;
 
 class DealController extends Controller
 {
+    protected $repository;
+
+    public function __construct(DealRepositoryInterface $repository)
+    {
+        $this->repository = $repository;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -28,9 +36,18 @@ class DealController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreGalleryRequest $request)
     {
-        //
+
+        $validated = $request->validated();
+
+        if ($request->hasFile('file')) {
+            $validated['file'] = $request->file('file');
+        }
+
+        $this->repository->create($validated);
+
+        return redirect()->route('galleries.index')->with('success', 'Gallery created successfully.');
     }
 
     /**
