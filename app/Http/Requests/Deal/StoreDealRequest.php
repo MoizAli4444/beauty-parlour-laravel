@@ -11,7 +11,7 @@ class StoreDealRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -33,5 +33,14 @@ class StoreDealRequest extends FormRequest
             'service_variant_ids' => 'required|array|min:1',
             'service_variant_ids.*' => 'exists:service_variants,id',
         ];
+    }
+
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if ($this->services_total !== null && $this->price > $this->services_total) {
+                $validator->errors()->add('price', 'Deal price cannot be greater than the total of selected services.');
+            }
+        });
     }
 }
