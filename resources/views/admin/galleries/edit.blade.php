@@ -32,112 +32,109 @@
                                 </div>
                             @endif
 
-                            <form action="{{ route('admin.deals.update', $deal->id) }}" method="POST"
+                            <form action="{{ route('galleries.update', $gallery->id) }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
 
-                                {{-- Name --}}
+                                <!-- Title -->
                                 <div class="mb-3">
-                                    <label class="form-label">Deal Name <span class="text-danger">*</span></label>
-                                    <input type="text" name="name"
-                                        class="form-control @error('name') is-invalid @enderror"
-                                        value="{{ old('name', $deal->name) }}" required>
-                                    @error('name')
+                                    <label for="title" class="form-label fw-semibold">Title</label>
+                                    <input type="text" name="title" id="title"
+                                        class="form-control shadow-sm @error('title') is-invalid @enderror"
+                                        value="{{ old('title', $gallery->title) }}" placeholder="Enter gallery title">
+                                    @error('title')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
-                                {{-- Slug --}}
+                                <!-- Description -->
                                 <div class="mb-3">
-                                    <label class="form-label">Slug</label>
-                                    <input type="text" name="slug"
-                                        class="form-control @error('slug') is-invalid @enderror"
-                                        value="{{ old('slug', $deal->slug) }}">
-                                    @error('slug')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                {{-- Description --}}
-                                <div class="mb-3">
-                                    <label class="form-label">Description</label>
-                                    <textarea name="description" rows="3" class="form-control @error('description') is-invalid @enderror">{{ old('description', $deal->description) }}</textarea>
+                                    <label for="description" class="form-label fw-semibold">Description</label>
+                                    <textarea name="description" id="description" class="form-control shadow-sm @error('description') is-invalid @enderror"
+                                        rows="3" placeholder="Write a short description...">{{ old('description', $gallery->description) }}</textarea>
                                     @error('description')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
-                                {{-- Image --}}
+                                <!-- Service (if gallery belongs to service) -->
+                                <div class="mb-4">
+                                    <label class="form-label" for="service_id">Service</label>
+                                    <select name="service_id" id="service_id" class="form-select">
+                                        <option value="">-- Select Service --</option>
+                                        @foreach ($services as $service)
+                                            <option value="{{ $service->id }}"
+                                                {{ old('service_id', $gallery->service_id) == $service->id ? 'selected' : '' }}>
+                                                {{ $service->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('service_id')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+
+                                <!-- File Upload & Preview -->
                                 <div class="mb-3">
-                                    <label class="form-label">Deal Image</label>
-                                    <input type="file" name="image"
-                                        class="form-control @error('image') is-invalid @enderror">
-                                    @error('image')
+                                    <label for="file_path" class="form-label fw-semibold">Replace Media (optional)</label>
+                                    <input type="file" name="file_path" id="file_path"
+                                        class="form-control shadow-sm @error('file_path') is-invalid @enderror">
+                                    @error('file_path')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
-
-                                    @if ($deal->image)
-                                        <div class="mt-2">
-                                            <img src="{{ asset('storage/' . $deal->image) }}" alt="Deal Image"
-                                                class="img-thumbnail" style="max-width: 150px;">
-                                        </div>
-                                    @endif
                                 </div>
 
-                                {{-- Price & Services Total --}}
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">Final Price</label>
-                                        <input type="number" step="0.01" name="price"
-                                            class="form-control @error('price') is-invalid @enderror"
-                                            value="{{ old('price', $deal->price) }}">
-                                        @error('price')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">Total Services Price</label>
-                                        <input type="number" step="0.01" name="services_total"
-                                            class="form-control @error('services_total') is-invalid @enderror"
-                                            value="{{ old('services_total', $deal->services_total) }}">
-                                        @error('services_total')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                {{-- Date Range --}}
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">Start Date</label>
-                                        <input type="date" name="start_date"
-                                            class="form-control @error('start_date') is-invalid @enderror"
-                                            value="{{ old('start_date', $deal->start_date) }}">
-                                        @error('start_date')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">End Date</label>
-                                        <input type="date" name="end_date"
-                                            class="form-control @error('end_date') is-invalid @enderror"
-                                            value="{{ old('end_date', $deal->end_date) }}">
-                                        @error('end_date')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                {{-- Status --}}
+                                <!-- Current Media Preview -->
                                 <div class="mb-3">
-                                    <label class="form-label">Status</label>
-                                    <select name="status" class="form-select @error('status') is-invalid @enderror">
+                                    <label class="form-label fw-semibold">Current Media</label>
+                                    <div class="border rounded p-3 bg-light text-center shadow-sm">
+                                        @if ($gallery->media_type === 'image')
+                                            <img src="{{ asset('storage/' . $gallery->file_path) }}"
+                                                alt="{{ $gallery->alt_text }}" class="img-fluid rounded"
+                                                style="max-height:200px;">
+                                        @elseif($gallery->media_type === 'video')
+                                            <video width="320" height="200" controls class="rounded">
+                                                <source src="{{ asset('storage/' . $gallery->file_path) }}"
+                                                    type="video/mp4">
+                                                Your browser does not support the video tag.
+                                            </video>
+                                        @else
+                                            <span class="text-muted">No media available</span>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <!-- Alt Text -->
+                                <div class="mb-4">
+                                    <label class="form-label" for="alt_text">Alt Text</label>
+                                    <input type="text" name="alt_text" class="form-control" id="alt_text"
+                                        value="{{ old('alt_text', $gallery->alt_text) }}"
+                                        placeholder="For SEO & accessibility">
+                                    @error('alt_text')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+
+                                <!-- Featured -->
+                                <div class="form-check form-switch mb-3">
+                                    <input class="form-check-input" type="checkbox" id="featured" name="featured"
+                                        value="1" {{ old('featured', $gallery->featured) ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="featured">Mark as Featured ⭐</label>
+                                </div>
+
+                                <!-- Status -->
+                                <div class="mb-4">
+                                    <label for="status" class="form-label fw-semibold">Status</label>
+                                    <select name="status" id="status"
+                                        class="form-select shadow-sm @error('status') is-invalid @enderror">
                                         <option value="active"
-                                            {{ old('status', $deal->status) == 'active' ? 'selected' : '' }}>Active
+                                            {{ old('status', $gallery->status) == 'active' ? 'selected' : '' }}>Active
                                         </option>
                                         <option value="inactive"
-                                            {{ old('status', $deal->status) == 'inactive' ? 'selected' : '' }}>Inactive
+                                            {{ old('status', $gallery->status) == 'inactive' ? 'selected' : '' }}>Inactive
                                         </option>
                                     </select>
                                     @error('status')
@@ -145,28 +142,14 @@
                                     @enderror
                                 </div>
 
-                                {{-- Services --}}
-                                <div class="mb-3">
-                                    <label class="form-label">Select Services</label>
-                                    <select name="services[]" class="form-select @error('services') is-invalid @enderror"
-                                        multiple>
-                                        @foreach ($services as $service)
-                                            <option value="{{ $service->id }}"
-                                                {{ in_array($service->id, old('services', $deal->services->pluck('id')->toArray())) ? 'selected' : '' }}>
-                                                {{ $service->name }} ({{ $service->price }})
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('services')
-                                        <div class="invalid-feedback d-block">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
+                                <!-- Submit -->
                                 <div class="text-end">
-                                    <button type="submit" class="btn btn-warning">Update Deal</button>
-                                    <a href="{{ route('admin.deals.index') }}" class="btn btn-secondary">Cancel</a>
+                                    <button type="submit" class="btn btn-success px-4">
+                                        Update Gallery
+                                    </button>
                                 </div>
                             </form>
+
 
                         </div>
                     </div>
