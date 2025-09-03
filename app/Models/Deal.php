@@ -32,6 +32,17 @@ class Deal extends Model
                     ->withTimestamps();
     }
 
+    ///////////// fixed model functions //////////////
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'name',
+                'onUpdate' => true
+            ]
+        ];
+    }
+
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');
@@ -41,4 +52,31 @@ class Deal extends Model
     {
         return $this->belongsTo(User::class, 'updated_by');
     }
+
+    // public function getStatusBadgeAttribute()
+    // {
+    //     return render_status_badge($this->status, $this->id, route('bookings.toggle-status', $this->id));
+    // }
+
+    public function getEditButtonAttribute()
+    {
+        return render_edit_button(route('bookings.edit', $this->id));
+    }
+
+    public function getViewButtonAttribute()
+    {
+        return render_view_button(route('bookings.show', $this->id));
+    }
+
+
+    public function getDeleteButtonAttribute()
+    {
+        return render_delete_button($this->id, route('bookings.destroy', $this->id));
+    }
+
+    // {!! render_delete_button($service->id, route('bookings.destroy', $service->id)) !!}
+    ///////////// fixed model functions //////////////
+
+
+
 }
