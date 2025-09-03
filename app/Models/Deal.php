@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Deal extends Model
 {
- use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -19,9 +19,15 @@ class Deal extends Model
         'start_date',
         'end_date',
         'status',
+        'image',
         'created_by',
         'updated_by',
     ];
+
+    // 🔹 Status constants
+    const STATUS_ACTIVE   = 'active';
+    const STATUS_INACTIVE = 'inactive';
+
 
     /**
      * Relationships
@@ -29,7 +35,7 @@ class Deal extends Model
     public function serviceVariants()
     {
         return $this->belongsToMany(ServiceVariant::class, 'deal_service')
-                    ->withTimestamps();
+            ->withTimestamps();
     }
 
     ///////////// fixed model functions //////////////

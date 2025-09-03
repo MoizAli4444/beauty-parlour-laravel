@@ -188,48 +188,40 @@ class DealRepository implements DealRepositoryInterface
         return $deal->delete();
     }
 
-
     public function toggleStatus($id)
     {
-        $gallery = Gallery::findOrFail($id);
+        $deal = Deal::findOrFail($id);
 
-        $gallery->status = $gallery->status === Gallery::STATUS_ACTIVE
-            ? Gallery::STATUS_INACTIVE
-            : Gallery::STATUS_ACTIVE;
+        $deal->status = $deal->status === Deal::STATUS_ACTIVE
+            ? Deal::STATUS_INACTIVE
+            : Deal::STATUS_ACTIVE;
 
-        $gallery->save();
+        $deal->save();
 
-        return $gallery;
+        return $deal;
     }
-
-    public function toggleFeatured($id)
-    {
-        $gallery = Gallery::findOrFail($id);
-        $gallery->featured = !$gallery->featured;
-        $gallery->save();
-
-        return $gallery;
-    }
-
-
 
     public function bulkDelete(array $ids)
     {
-        $galleries = Gallery::whereIn('id', $ids)->get();
+        $deals = Deal::whereIn('id', $ids)->get();
 
-        foreach ($galleries as $gallery) {
-            if ($gallery->file_path && Storage::disk('public')->exists($gallery->file_path)) {
-                Storage::disk('public')->delete($gallery->file_path);
+        foreach ($deals as $deal) {
+            // remove image if exists
+            if ($deal->image_path && Storage::disk('public')->exists($deal->image_path)) {
+                Storage::disk('public')->delete($deal->image_path);
             }
-            $gallery->delete();
+
+            // detach related services
+            $deal->serviceVariants()->detach();
+
+            $deal->delete();
         }
 
         return true;
     }
 
-
     public function bulkStatus(array $ids, string $status)
     {
-        return Gallery::whereIn('id', $ids)->update(['status' => $status]);
+        return Deal::whereIn('id', $ids)->update(['status' => $status]);
     }
 }

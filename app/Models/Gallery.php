@@ -15,18 +15,6 @@ class Gallery extends Model
     const STATUS_ACTIVE = 'active';
     const STATUS_INACTIVE = 'inactive';
 
-    // protected $fillable = [
-    //     'service_id',
-    //     'title',
-    //     'slug',
-    //     'description',
-    //     'file_path',
-    //     'media_type',
-    //     'featured',
-    //     'alt_text',
-    //     'file_size',
-    //     'status',
-    // ];
     protected $fillable = [
         'service_id',
         'title',
