@@ -13,6 +13,24 @@ return new class extends Migration
     {
         Schema::create('deals', function (Blueprint $table) {
             $table->id();
+
+            // Basic info
+            $table->string('name');
+            $table->string('slug')->unique();
+            $table->text('description')->nullable();
+
+            $table->decimal('price', 10, 2);
+            $table->decimal('services_total', 10, 2)->nullable()
+                ->comment('Sum of services without discount');
+
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
+
+            $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('updated_by')->nullable()->constrained('users')->nullOnDelete();
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }
