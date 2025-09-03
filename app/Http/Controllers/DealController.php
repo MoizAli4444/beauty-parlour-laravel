@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Deal\StoreDealRequest;
 use App\Models\Deal;
 use App\Models\ServiceVariant;
 use App\Repositories\Deal\DealRepositoryInterface;
@@ -36,7 +37,7 @@ class DealController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreGalleryRequest $request)
+    public function store(StoreDealRequest $request)
     {
 
         $validated = $request->validated();
@@ -47,7 +48,7 @@ class DealController extends Controller
 
         $this->repository->create($validated);
 
-        return redirect()->route('galleries.index')->with('success', 'Gallery created successfully.');
+        return redirect()->route('deals.index')->with('success', 'Deal created successfully.');
     }
 
     /**
