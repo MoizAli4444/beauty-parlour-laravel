@@ -47,16 +47,10 @@
                                             <th><input type="checkbox" id="select-all"></th> {{-- universal checkbox --}}
                                             <th>ID</th>
                                             <th>Name</th>
-                                            <th>Slug</th>
-                                            <th>Description</th>
                                             <th>Image</th>
                                             <th>Price</th>
-                                            <th>Services Total</th>
-                                            <th>Start Date</th>
-                                            <th>End Date</th>
+                                            <th>Validity</th> {{-- start_date - end_date --}}
                                             <th>Status</th>
-                                            <th>Created By</th>
-                                            <th>Updated By</th>
                                             <th>Created At</th>
                                             <th>Action</th>
                                         </tr>

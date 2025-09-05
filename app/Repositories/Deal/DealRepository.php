@@ -8,6 +8,7 @@ use App\Repositories\Deal\DealRepositoryInterface;
 use Yajra\DataTables\Facades\DataTables;
 use App\Traits\TracksUser;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class DealRepository implements DealRepositoryInterface
 {
@@ -71,8 +72,7 @@ class DealRepository implements DealRepositoryInterface
                 )
 
                 ->editColumn('status', function ($row) {
-                    $badgeClass = $row->status === 'active' ? 'success' : 'secondary';
-                    return '<span class="badge bg-' . $badgeClass . '">' . ucfirst($row->status) . '</span>';
+                    return $row->status_badge; // uses model accessor
                 })
 
                 ->addColumn(
@@ -84,6 +84,25 @@ class DealRepository implements DealRepositoryInterface
                     'end_date',
                     fn($row) => $row->end_date ? $row->end_date->format('d M Y') : 'N/A'
                 )
+
+                ->addColumn('validity', function ($row) {
+                    $start = $row->start_date ? $row->start_date->format('d M Y') : 'N/A';
+                    $end = $row->end_date ? $row->end_date->format('d M Y') : 'N/A';
+                    return $start . ' - ' . $end;
+                })
+
+
+                ->addColumn('image_preview', function ($row) {
+                    if (!$row->image) {
+                        return 'N/A';
+                    }
+
+                    $url = asset('storage/' . $row->image);
+                    return '<img src="' . $url . '" width="60" height="60" 
+                class="rounded border" 
+                style="object-fit:cover;cursor:pointer;">';
+                })
+
 
                 ->addColumn(
                     'created_by',
@@ -106,7 +125,7 @@ class DealRepository implements DealRepositoryInterface
                     view('admin.deals.action', ['deal' => $row])->render()
                 )
 
-                ->rawColumns(['checkbox', 'status', 'action'])
+                ->rawColumns(['checkbox', 'status', 'image_preview','validity', 'action'])
                 ->make(true);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);

@@ -1,9 +1,9 @@
 <script>
     $(document).ready(function() {
-        $('#indexPageDataTable').DataTable({
+        $('#dealsDataTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '{{ route('galleries.datatable') }}',
+            ajax: '{{ route('deals.datatable') }}',
             columns: [{
                     data: 'checkbox',
                     name: 'checkbox',
@@ -15,57 +15,22 @@
                     name: 'id'
                 },
                 {
-                    data: 'title',
-                    name: 'title'
+                    data: 'name',
+                    name: 'name'
                 },
-                //     {
-                //         data: 'file_path',
-                //         name: 'file_path',
-                //         render: function(data, type, row) {
-                //             if (row.media_type === 'image') {
-                //                 return `
-                //     <img src="/storage/${data}" 
-                //          alt="preview" width="50" height="50" style="object-fit:cover; cursor:pointer;" 
-                //          class="media-preview" 
-                //          data-type="image" 
-                //          data-src="/storage/${data}">
-                // `;
-                //             } else if (row.media_type === 'video') {
-                //                 return `
-                //     <video width="80" height="50" style="cursor:pointer;" class="media-preview" 
-                //            data-type="video" 
-                //            data-src="/storage/${data}">
-                //         <source src="/storage/${data}" type="video/mp4">
-                //     </video>
-                // `;
-                //             } else {
-                //                 return `<a href="/storage/${data}" target="_blank">Download</a>`;
-                //             }
-                //         }
-                //     },
-
                 {
-                    data: 'media_preview', // 👈 from your addColumn() in Controller
-                    name: 'media_preview',
+                    data: 'image_preview', // 👈 build this in controller
+                    name: 'image_preview',
                     orderable: false,
                     searchable: false
                 },
-
                 {
-                    data: 'media_type',
-                    name: 'media_type'
+                    data: 'price',
+                    name: 'price'
                 },
                 {
-                    data: 'featured',
-                    name: 'featured',
-                },
-                {
-                    data: 'alt_text',
-                    name: 'alt_text'
-                },
-                {
-                    data: 'file_size',
-                    name: 'file_size',
+                    data: 'validity', // 👈 you can build "start_date - end_date" in controller
+                    name: 'validity'
                 },
                 {
                     data: 'status',
@@ -83,30 +48,5 @@
                 }
             ]
         });
-
-
-
-        // $(document).on('click', '.js-media-preview', function() {
-        //     let type = $(this).data('type');
-        //     let src = $(this).data('url'); // not data('src')
-        //     let html = '';
-
-        //     if (type === 'image') {
-        //         html = `<img src="${src}" class="img-fluid rounded" alt="Preview">`;
-        //     } else if (type === 'video') {
-        //         html = `
-        //     <video controls autoplay class="w-100 rounded">
-        //         <source src="${src}" type="video/mp4">
-        //         Your browser does not support the video tag.
-        //     </video>
-        // `;
-        //     }
-
-        //     $('#mediaContainer').html(html);
-        //     $('#mediaModal').modal('show');
-        // });
-
-
-
     });
 </script>

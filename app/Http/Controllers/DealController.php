@@ -17,12 +17,23 @@ class DealController extends Controller
         $this->repository = $repository;
     }
 
+    public function datatable(Request $request)
+    {
+        if ($request->ajax()) {
+            $filters = $request->only(['status', 'start_date', 'end_date']);
+            return $this->repository->getDatatableData($filters);
+        }
+
+        return abort(403, 'Unauthorized action.');
+    }
+
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return view('admin.deals.index');
     }
 
     /**
