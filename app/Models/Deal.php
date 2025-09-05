@@ -15,15 +15,17 @@ class Deal extends Model
         'name',
         'slug',
         'description',
+        'image',
         'price',
         'services_total',
         'start_date',
         'end_date',
         'status',
-        'image',
+        'image',       // duplicate 👈
         'created_by',
         'updated_by',
     ];
+
 
     // 🔹 Status constants
     const STATUS_ACTIVE   = 'active';

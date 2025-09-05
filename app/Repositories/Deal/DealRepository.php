@@ -125,7 +125,7 @@ class DealRepository implements DealRepositoryInterface
                     view('admin.deals.action', ['deal' => $row])->render()
                 )
 
-                ->rawColumns(['checkbox', 'status', 'image_preview','validity', 'action'])
+                ->rawColumns(['checkbox', 'status', 'image_preview', 'validity', 'action'])
                 ->make(true);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -155,8 +155,7 @@ class DealRepository implements DealRepositoryInterface
         if (isset($data['image'])) {
             $file = $data['image'];
             $filename = time() . '.' . $file->getClientOriginalExtension();
-            $data['image_path'] = $file->storeAs('uploads/deals', $filename, 'public');
-            unset($data['image']);
+            $data['image'] = $file->storeAs('deals', $filename, 'public');
         }
 
         $deal = Deal::create($data);
@@ -174,11 +173,11 @@ class DealRepository implements DealRepositoryInterface
         $deal = Deal::findOrFail($id);
         $data = $this->addUpdatedBy($data);
 
-        if (isset($data['image'])) {
-            $file = $data['image'];
+        if (isset($data['file'])) {
+            $file = $data['file'];
             $filename = time() . '.' . $file->getClientOriginalExtension();
-            $data['image_path'] = $file->storeAs('uploads/deals', $filename, 'public');
-            unset($data['image']);
+            $data['image'] = $file->storeAs('uploads/deals', $filename, 'public');
+            unset($data['file']);
         }
 
         $deal->update($data);
@@ -197,8 +196,8 @@ class DealRepository implements DealRepositoryInterface
         $deal = Deal::findOrFail($id);
 
         // remove image if exists
-        if ($deal->image_path && Storage::disk('public')->exists($deal->image_path)) {
-            Storage::disk('public')->delete($deal->image_path);
+        if ($deal->image && Storage::disk('public')->exists($deal->image)) {
+            Storage::disk('public')->delete($deal->image);
         }
 
         // detach services
@@ -226,8 +225,8 @@ class DealRepository implements DealRepositoryInterface
 
         foreach ($deals as $deal) {
             // remove image if exists
-            if ($deal->image_path && Storage::disk('public')->exists($deal->image_path)) {
-                Storage::disk('public')->delete($deal->image_path);
+            if ($deal->image && Storage::disk('public')->exists($deal->image)) {
+                Storage::disk('public')->delete($deal->image);
             }
 
             // detach related services
