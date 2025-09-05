@@ -10,54 +10,59 @@
                 <div class="col-xl">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">All Galleries</h5>
-                            <a href="{{ route('galleries.create') }}" class="btn btn-warning">Create</a>
+                            <h5 class="mb-0">All Deals</h5>
+                            <a href="{{ route('deals.create') }}" class="btn btn-warning">Create</a>
                         </div>
                         <div class="card-body">
 
                             @include('admin.pages-partials.bulk-actions', [
-                                'itemType' => 'galleries',
+                                'itemType' => 'deals',
                                 'actions' => [
                                     [
                                         'text' => 'Delete Selected',
                                         'value' => 'delete',
                                         'class' => 'btn-danger',
-                                        'url' => route('galleries.bulkDelete'),
+                                        'url' => route('deals.bulkDelete'),
                                     ],
                                     [
                                         'text' => 'Mark as Active',
                                         'value' => 'active',
                                         'class' => 'btn-success',
-                                        'url' => route('galleries.bulkStatus'),
+                                        'url' => route('deals.bulkStatus'),
                                     ],
                                     [
                                         'text' => 'Mark as Inactive',
                                         'value' => 'inactive',
                                         'class' => 'btn-secondary',
-                                        'url' => route('galleries.bulkStatus'),
+                                        'url' => route('deals.bulkStatus'),
                                     ],
                                 ],
                             ])
 
 
                             <div class="table-responsive">
-                                <table id="indexPageDataTable" class="table table-bordered">
+                                <table id="dealsDataTable" class="table table-bordered">
                                     <thead>
                                         <tr>
                                             <th><input type="checkbox" id="select-all"></th> {{-- universal checkbox --}}
                                             <th>ID</th>
-                                            <th>Title</th>
-                                            <th>Media</th>
-                                            <th>Media Type</th>
-                                            <th>Featured</th>
-                                            <th>Alt Text</th>
-                                            <th>File Size</th>
+                                            <th>Name</th>
+                                            <th>Slug</th>
+                                            <th>Description</th>
+                                            <th>Image</th>
+                                            <th>Price</th>
+                                            <th>Services Total</th>
+                                            <th>Start Date</th>
+                                            <th>End Date</th>
                                             <th>Status</th>
+                                            <th>Created By</th>
+                                            <th>Updated By</th>
                                             <th>Created At</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                 </table>
+
                             </div>
 
                         </div>
@@ -82,5 +87,5 @@
 @endsection
 
 @push('scripts')
-    @include('admin.galleries.js.script')
+    @include('admin.deals.js.script')
 @endpush
