@@ -89,9 +89,13 @@ class DealController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Deal $deal)
+    public function destroy($id)
     {
-        //
+        $this->repository->delete($id);
+        return response()->json([
+            'status' => true,
+            'message' => 'Deal deleted successfully.',
+        ]);
     }
 
     public function toggleStatus($id)
