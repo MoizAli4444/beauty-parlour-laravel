@@ -41,7 +41,7 @@
 
 
                             <div class="table-responsive">
-                                <table id="dealsDataTable" class="table table-bordered">
+                                <table id="indexPageDataTable" class="table table-bordered">
                                     <thead>
                                         <tr>
                                             <th><input type="checkbox" id="select-all"></th> {{-- universal checkbox --}}

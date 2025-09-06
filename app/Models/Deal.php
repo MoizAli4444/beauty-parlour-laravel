@@ -89,6 +89,11 @@ class Deal extends Model
         return render_delete_button($this->id, route('deals.destroy', $this->id));
     }
 
+    public function scopeActive($query)
+    {
+        return $query->where('status', 'active');
+    }
+
     ///////////// fixed model functions //////////////
 
 
