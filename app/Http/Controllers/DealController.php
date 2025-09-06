@@ -93,4 +93,31 @@ class DealController extends Controller
     {
         //
     }
+
+    public function toggleStatus($id)
+    {
+        $offer = $this->repository->toggleStatus($id);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Status updated successfully.',
+            'new_status' => $offer->status,
+            'badge' => $offer->status_badge,
+        ]);
+    }
+
+
+    public function bulkDelete(Request $request)
+    {
+        $this->repository->bulkDelete($request->ids);
+
+        return response()->json(['message' => 'Selected deals deleted successfully.']);
+    }
+
+    public function bulkStatus(Request $request)
+    {
+        $this->repository->bulkStatus($request->ids, $request->status);
+
+        return response()->json(['message' => 'Status updated']);
+    }
 }
