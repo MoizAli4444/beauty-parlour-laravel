@@ -65,9 +65,15 @@ class DealController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Deal $deal)
+    public function show($slug)
     {
-        //
+        $deal = $this->repository->findBySlug($slug);
+
+        if (!$deal) {
+            return redirect()->route('deals.index')->with('error', 'Deal record not found.');
+        }
+
+        return view('admin.deals.show', compact('deal'));
     }
 
     /**
