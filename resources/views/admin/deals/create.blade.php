@@ -87,16 +87,17 @@
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Start Date</label>
-                                        <input type="date" name="start_date"
+                                        <input type="datetime-local" name="start_date"
                                             class="form-control @error('start_date') is-invalid @enderror"
                                             value="{{ old('start_date') }}">
                                         @error('start_date')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
+
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">End Date</label>
-                                        <input type="date" name="end_date"
+                                        <input type="datetime-local" name="end_date"
                                             class="form-control @error('end_date') is-invalid @enderror"
                                             value="{{ old('end_date') }}">
                                         @error('end_date')
@@ -104,6 +105,7 @@
                                         @enderror
                                     </div>
                                 </div>
+
 
                                 {{-- Status --}}
                                 <div class="mb-3">

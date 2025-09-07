@@ -33,9 +33,10 @@ class Deal extends Model
 
     // ✅ Cast dates to Carbon
     protected $casts = [
-        'start_date' => 'date',
-        'end_date'   => 'date',
+        'start_date' => 'datetime',
+        'end_date'   => 'datetime',
     ];
+
 
 
     /**
@@ -96,5 +97,5 @@ class Deal extends Model
 
     ///////////// fixed model functions //////////////
 
-    
+
 }

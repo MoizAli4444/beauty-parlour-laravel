@@ -86,7 +86,7 @@ class DealController extends Controller
         if (!$deal) {
             return redirect()->route('deals.index')->with('error', 'Deal not found');
         }
-
+        
         $services = ServiceVariant::active()->get(); // assuming you have an `active()` scope
 
         return view('admin.deals.edit', compact('deal', 'services'));

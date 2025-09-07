@@ -24,8 +24,8 @@ return new class extends Migration
             $table->decimal('services_total', 10, 2)->nullable()
                 ->comment('Sum of services without discount');
 
-            $table->date('start_date')->nullable();
-            $table->date('end_date')->nullable();
+            $table->dateTime('start_date')->nullable();
+            $table->dateTime('end_date')->nullable();
 
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
