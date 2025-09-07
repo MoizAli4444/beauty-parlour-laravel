@@ -80,7 +80,9 @@
                                     @if ($deal->image)
                                         <div class="mt-2">
                                             <img src="{{ asset('storage/' . $deal->image) }}" alt="Deal Image"
-                                                class="img-thumbnail" style="max-width: 150px;">
+                                                class="img-thumbnail img-fluid rounded shadow-sm mb-2 js-media-preview"
+                                                style="max-width: 150px;"
+                                                data-url="{{ asset('storage/' . $deal->image) }}" data-type="image">
                                         </div>
                                     @endif
                                 </div>
@@ -178,6 +180,9 @@
             </div>
         </div>
         <!-- / Content -->
+
+        <!-- Media Preview Modal -->
+        @include('admin.pages-partials.preview_modal')
 
     </div>
     <!-- Content wrapper -->
