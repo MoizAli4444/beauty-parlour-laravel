@@ -79,9 +79,17 @@ class DealController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Deal $deal)
+    public function edit($slug)
     {
-        //
+        $deal = $this->repository->findBySlug($slug);
+
+        if (!$deal) {
+            return redirect()->route('deals.index')->with('error', 'Deal not found');
+        }
+
+        $services = ServiceVariant::active()->get(); // assuming you have an `active()` scope
+
+        return view('admin.deals.edit', compact('deal', 'services'));
     }
 
     /**

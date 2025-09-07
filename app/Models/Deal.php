@@ -96,6 +96,5 @@ class Deal extends Model
 
     ///////////// fixed model functions //////////////
 
-
-
+    
 }

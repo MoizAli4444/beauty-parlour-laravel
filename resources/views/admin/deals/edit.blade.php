@@ -11,12 +11,12 @@
                     <div class="card">
 
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">Edit Gallery</h5>
+                            <h5 class="mb-0">Edit Deal</h5>
 
                             <div>
-                                {!! render_delete_button($gallery->id, route('galleries.destroy', $gallery->id), false) !!}
-                                {!! render_view_button(route('galleries.show', $gallery->slug), false) !!}
-                                {!! render_index_button(route('galleries.index'), 'All Galleries', false) !!}
+                                {!! render_delete_button($deal->id, route('deals.destroy', $deal->id), false) !!}
+                                {!! render_view_button(route('deals.show', $deal->slug), false) !!}
+                                {!! render_index_button(route('deals.index'), 'All Deals', false) !!}
 
                             </div>
                         </div>
@@ -152,7 +152,7 @@
                                         multiple>
                                         @foreach ($services as $service)
                                             <option value="{{ $service->id }}"
-                                                {{ in_array($service->id, old('services', $deal->services->pluck('id')->toArray())) ? 'selected' : '' }}>
+                                                {{ in_array($service->id, old('services', $deal->serviceVariants ? $deal->serviceVariants->pluck('id')->toArray() : [])) ? 'selected' : '' }}>
                                                 {{ $service->name }} ({{ $service->price }})
                                             </option>
                                         @endforeach
