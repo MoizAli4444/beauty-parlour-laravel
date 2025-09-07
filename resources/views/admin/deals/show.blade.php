@@ -20,113 +20,76 @@
                         </div>
 
                         <div class="card-body">
-                            <div class="row">
-                                <!-- Left Column -->
-                                <div class="col-md-8">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-8">
+                                    <!-- Deal Card -->
+                                    <div class="card shadow-lg border-0 rounded-4">
+                                        @if ($deal->image)
+                                            <img src="{{ asset('storage/' . $deal->image) }}"
+                                                class="card-img-top rounded-top-4" alt="{{ $deal->name }}">
+                                        @endif
 
-                                    <!-- Title -->
-                                    <div class="mb-4">
-                                        <label class="form-label fw-bold">Title:</label>
-                                        <div>{{ $gallery->title ?? '-' }}</div>
-                                    </div>
+                                        <div class="card-body p-4">
+                                            <!-- Deal Title -->
+                                            <h2 class="card-title fw-bold mb-3">{{ $deal->name }}</h2>
 
-                                    <!-- Description -->
-                                    <div class="mb-4">
-                                        <label class="form-label fw-bold">Description:</label>
-                                        <div>{{ $gallery->description ?? '-' }}</div>
-                                    </div>
+                                            <!-- Status Badge -->
+                                            <span
+                                                class="badge bg-{{ $deal->status === 'active' ? 'success' : 'secondary' }} mb-3 px-3 py-2">
+                                                {{ ucfirst($deal->status) }}
+                                            </span>
 
-                                    <!-- Featured & File size -->
-                                    <div class="row mb-4">
-                                        <div class="col-md-6">
+                                            <!-- Deal Info -->
+                                            <p class="card-text text-muted">
+                                                {{ $deal->description ?? 'No description available.' }}</p>
 
-                                            <label class="form-label fw-bold">Featured:</label>
-                                            <div>{!! $gallery->featured_badge !!}</div>
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <h6 class="fw-semibold">Price:</h6>
+                                                    <p class="text-primary fw-bold">${{ number_format($deal->price, 2) }}
+                                                    </p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h6 class="fw-semibold">Services Total:</h6>
+                                                    <p>${{ number_format($deal->services_total ?? 0, 2) }}</p>
+                                                </div>
+                                            </div>
 
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <h6 class="fw-semibold">Start Date:</h6>
+                                                    <p>{{ $deal->start_date ? \Carbon\Carbon::parse($deal->start_date)->format('M d, Y') : '—' }}
+                                                    </p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h6 class="fw-semibold">End Date:</h6>
+                                                    <p>{{ $deal->end_date ? \Carbon\Carbon::parse($deal->end_date)->format('M d, Y') : '—' }}
+                                                    </p>
+                                                </div>
+                                            </div>
 
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label fw-bold">File Size:</label>
-                                            <div>
-                                                @if ($gallery->file_size)
-                                                    @php
-                                                        $sizeKB = $gallery->file_size / 1024;
-                                                        $sizeDisplay =
-                                                            $sizeKB < 1024
-                                                                ? number_format($sizeKB, 2) . ' KB'
-                                                                : number_format($sizeKB / 1024, 2) . ' MB';
-                                                    @endphp
-                                                    {{ $sizeDisplay }}
-                                                @else
-                                                    N/A
-                                                @endif
+                                            <!-- Created/Updated -->
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <small class="text-muted">Created by:
+                                                        {{ optional($deal->creator)->name ?? 'System' }}</small>
+                                                </div>
+                                                <div class="col-md-6 text-md-end">
+                                                    <small class="text-muted">Last updated:
+                                                        {{ $deal->updated_at->diffForHumans() }}</small>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <!-- File Size & Status -->
-                                    <div class="row mb-4">
-                                        <div class="col-md-6">
-                                            <label class="form-label fw-bold">File Size:</label>
-                                            <div>
-                                                @if ($gallery->file_size)
-                                                    @php
-                                                        $sizeKB = $gallery->file_size / 1024;
-                                                        $sizeDisplay =
-                                                            $sizeKB < 1024
-                                                                ? number_format($sizeKB, 2) . ' KB'
-                                                                : number_format($sizeKB / 1024, 2) . ' MB';
-                                                    @endphp
-                                                    {{ $sizeDisplay }}
-                                                @else
-                                                    N/A
-                                                @endif
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label fw-bold">Status:</label>
-                                            <div>{!! $gallery->status_badge !!}</div>
+                                        <!-- Footer -->
+                                        <div class="card-footer bg-light text-center">
+                                            <a href="{{ route('deals.index') }}"
+                                                class="btn btn-outline-secondary btn-sm rounded-pill px-4">Back to Deals</a>
+                                            <a href="{{ route('deals.edit', $deal->id) }}"
+                                                class="btn btn-primary btn-sm rounded-pill px-4">Edit Deal</a>
                                         </div>
                                     </div>
-
-                                    <!-- Created & Updated At -->
-                                    <div class="row mb-4">
-                                        <div class="col-md-6">
-                                            <label class="form-label fw-bold">Created At:</label>
-                                            <div>{{ $gallery->created_at->format('d M Y, h:i A') }}</div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label fw-bold">Updated At:</label>
-                                            <div>{{ $gallery->updated_at->format('d M Y, h:i A') }}</div>
-                                        </div>
-                                    </div>
-
                                 </div>
-
-
-
-                                <!-- Right Column (Media Preview) -->
-                                <div class="col-md-4 text-center">
-                                    <label class="form-label fw-bold">Media Preview:</label><br>
-
-                                    @if ($gallery->media_type === 'image' && file_exists(public_path('storage/' . $gallery->file_path)))
-                                        <img src="{{ asset('storage/' . $gallery->file_path) }}"
-                                            alt="{{ $gallery->alt_text }}"
-                                            class="img-fluid rounded shadow-sm mb-2 js-media-preview"
-                                            style="max-height:200px; object-fit:cover;"
-                                            data-url="{{ asset('storage/' . $gallery->file_path) }}" data-type="image">
-                                    @elseif($gallery->media_type === 'video' && file_exists(public_path('storage/' . $gallery->file_path)))
-                                        <video controls class="img-fluid rounded shadow-sm mb-2 js-media-preview"
-                                            style="max-height:200px; object-fit:cover;"
-                                            data-url="{{ asset('storage/' . $gallery->file_path) }}" data-type="video">
-                                            <source src="{{ asset('storage/' . $gallery->file_path) }}" type="video/mp4">
-                                            Your browser does not support the video tag.
-                                        </video>
-                                    @else
-                                        <div class="text-muted">No media uploaded</div>
-                                    @endif
-                                </div>
-
                             </div>
                         </div>
 

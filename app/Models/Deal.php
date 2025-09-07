@@ -75,12 +75,12 @@ class Deal extends Model
 
     public function getEditButtonAttribute()
     {
-        return render_edit_button(route('deals.edit', $this->id));
+        return render_edit_button(route('deals.edit', $this->slug));
     }
 
     public function getViewButtonAttribute()
     {
-        return render_view_button(route('deals.show', $this->id));
+        return render_view_button(route('deals.show', $this->slug));
     }
 
 
