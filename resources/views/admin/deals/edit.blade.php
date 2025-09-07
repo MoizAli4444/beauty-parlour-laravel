@@ -81,8 +81,8 @@
                                         <div class="mt-2">
                                             <img src="{{ asset('storage/' . $deal->image) }}" alt="Deal Image"
                                                 class="img-thumbnail img-fluid rounded shadow-sm mb-2 js-media-preview"
-                                                style="max-width: 150px;"
-                                                data-url="{{ asset('storage/' . $deal->image) }}" data-type="image">
+                                                style="max-width: 150px;" data-url="{{ asset('storage/' . $deal->image) }}"
+                                                data-type="image">
                                         </div>
                                     @endif
                                 </div>
@@ -150,7 +150,7 @@
                                 </div>
 
                                 {{-- Services --}}
-                                <div class="mb-3">
+                                {{-- <div class="mb-3">
                                     <label class="form-label">Select Services</label>
                                     <select name="services[]" class="form-select @error('services') is-invalid @enderror"
                                         multiple>
@@ -164,7 +164,55 @@
                                     @error('services')
                                         <div class="invalid-feedback d-block">{{ $message }}</div>
                                     @enderror
-                                </div>
+                                </div> --}}
+
+                                {{-- Services --}}
+                                {{-- Services --}}
+                                {{-- Services --}}
+                                <link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.bootstrap5.min.css"
+                                    rel="stylesheet">
+                                <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
+
+                                <select id="services" name="service_variant_ids[]" multiple>
+                                    @foreach ($services as $service)
+                                        <option value="{{ $service->id }}"
+                                            {{ in_array($service->id, old('services', $deal->serviceVariants ? $deal->serviceVariants->pluck('id')->toArray() : [])) ? 'selected' : '' }}>
+                                            {{ $service->name }} ({{ $service->price }})
+                                        </option>
+                                    @endforeach
+                                </select>
+
+                                <script>
+                                    new TomSelect("#services", {
+                                        plugins: ['remove_button'],
+                                        placeholder: "Select services"
+                                    });
+                                </script>
+
+
+                                {{-- <link rel="stylesheet"
+                                    href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+                                <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+
+                                <select id="services" name="services[]" multiple>
+                                    @foreach ($services as $service)
+                                        <option value="{{ $service->id }}"
+                                            {{ in_array($service->id, old('services', $deal->serviceVariants ? $deal->serviceVariants->pluck('id')->toArray() : [])) ? 'selected' : '' }}>
+                                            {{ $service->name }} ({{ $service->price }})
+                                        </option>
+                                    @endforeach
+                                </select>
+
+                                <script>
+                                    new Choices('#services', {
+                                        removeItemButton: true,
+                                        placeholderValue: 'Select services',
+                                        searchPlaceholderValue: 'Type to search...'
+                                    });
+                                </script> --}}
+
+
+
 
                                 <div class="text-end">
                                     <button type="submit" class="btn btn-warning">Update Deal</button>
@@ -183,6 +231,26 @@
 
         <!-- Media Preview Modal -->
         @include('admin.pages-partials.preview_modal')
+
+        {{-- Select2 CSS with Bootstrap 5 theme --}}
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css"
+            rel="stylesheet" />
+
+        {{-- jQuery + Select2 JS --}}
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+
+        <script>
+            $(document).ready(function() {
+                $('#services').select2({
+                    theme: 'bootstrap-5',
+                    placeholder: "Select services",
+                    allowClear: true
+                });
+            });
+        </script>
 
     </div>
     <!-- Content wrapper -->

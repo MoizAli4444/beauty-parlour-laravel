@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Deal\StoreDealRequest;
+use App\Http\Requests\Deal\UpdateDealRequest;
 use App\Models\Deal;
 use App\Models\ServiceVariant;
 use App\Repositories\Deal\DealRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class DealController extends Controller
 {
@@ -86,7 +88,7 @@ class DealController extends Controller
         if (!$deal) {
             return redirect()->route('deals.index')->with('error', 'Deal not found');
         }
-        
+
         $services = ServiceVariant::active()->get(); // assuming you have an `active()` scope
 
         return view('admin.deals.edit', compact('deal', 'services'));
@@ -95,10 +97,32 @@ class DealController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Deal $deal)
+    public function update(UpdateDealRequest $request, $id)
     {
-        //
+        $validated = $request->validated();
+
+        $deal = $this->repository->find($id);
+
+        if (!$deal) {
+            return redirect()->route('deals.index')->with('error', 'Deal not found.');
+        }
+
+        // Handle file upload if provided
+        if ($request->hasFile('image')) {
+            // Delete old image if exists
+
+            if ($deal->image && Storage::exists($deal->image)) {
+                Storage::delete($deal->image);
+            }
+
+            $validated['image'] = $request->file('image');
+        }
+
+        $this->repository->update($id, $validated);
+
+        return redirect()->route('deals.index')->with('success', 'Deal updated successfully.');
     }
+
 
     /**
      * Remove the specified resource from storage.
