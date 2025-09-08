@@ -3,6 +3,7 @@
 use App\Http\Controllers\AddonController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\BookingReviewController;
+use App\Http\Controllers\ContactMessageController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DealController;
 use App\Http\Controllers\FaqController;
@@ -295,6 +296,26 @@ Route::middleware('auth')->group(function () {
 
     // Resource Routes
     Route::resource('faqs', FaqController::class);
+
+
+    // ==============================
+    // Contact Messages Module Routes
+    // ==============================
+    Route::prefix('contact-messages')->name('contact-messages.')->group(function () {
+        // For DataTables AJAX loading
+        Route::get('datatable', [ContactMessageController::class, 'datatable'])->name('datatable');
+
+        // For toggling status (pending/resolved/closed)
+        Route::patch('{id}/toggle-status', [ContactMessageController::class, 'toggleStatus'])->name('toggle-status');
+
+        // Bulk actions
+        Route::post('bulk-delete', [ContactMessageController::class, 'bulkDelete'])->name('bulkDelete');
+        Route::post('bulk-status', [ContactMessageController::class, 'bulkStatus'])->name('bulkStatus');
+    });
+
+    // Resource Routes
+    Route::resource('contact-messages', ContactMessageController::class)->except(['create', 'store']);
+
 
 
 

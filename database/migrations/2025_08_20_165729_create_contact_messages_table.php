@@ -14,10 +14,13 @@ return new class extends Migration
         Schema::create('contact_messages', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email');
+            $table->string('phone')->nullable(); // make any phone/email field nullable
+            $table->string('email')->nullable(); // make any phone/email field nullable
             $table->string('subject')->nullable();
             $table->text('message');
+            $table->enum('priority', ['low', 'medium', 'high'])->default('low');
             $table->enum('status', ['pending', 'resolved', 'closed'])->default('pending');
+            $table->text('response')->nullable(); // reply from admin
             $table->softDeletes();
             $table->timestamps();
         });
