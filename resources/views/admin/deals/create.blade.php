@@ -1,5 +1,9 @@
 @extends('admin.layouts.app')
 
+@push('styles')
+    <link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet">
+@endpush
+
 @section('content')
     <!-- Content wrapper -->
     <div class="content-wrapper">
@@ -74,7 +78,7 @@
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Total Services Price</label>
-                                        <input type="number" step="0.01" name="services_total"
+                                        <input type="number" step="0.01" id="services_total" name="services_total"
                                             class="form-control @error('services_total') is-invalid @enderror"
                                             value="{{ old('services_total') }}">
                                         @error('services_total')
@@ -122,16 +126,12 @@
                                 </div>
 
                                 {{-- Services --}}
-                                <link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.bootstrap5.min.css"
-                                    rel="stylesheet">
-                                <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
-
                                 <div class="mb-3">
                                     <label class="form-label">Select Services</label>
                                     <select id="services" name="service_variant_ids[]"
                                         class="form-select @error('service_variant_ids') is-invalid @enderror" multiple>
                                         @foreach ($services as $service)
-                                            <option value="{{ $service->id }}"
+                                            <option value="{{ $service->id }}" data-price="{{ $service->price }}"
                                                 {{ in_array($service->id, old('service_variant_ids', [])) ? 'selected' : '' }}>
                                                 {{ $service->name }} ({{ $service->price }})
                                             </option>
@@ -141,13 +141,6 @@
                                         <div class="invalid-feedback d-block">{{ $message }}</div>
                                     @enderror
                                 </div>
-
-                                <script>
-                                    new TomSelect("#services", {
-                                        plugins: ['remove_button'],
-                                        placeholder: "Select services"
-                                    });
-                                </script>
 
 
                                 <div class="text-end">
@@ -170,3 +163,35 @@
     </div>
     <!-- Content wrapper -->
 @endsection
+
+
+
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
+    <script>
+        let serviceSelect = new TomSelect("#services", {
+            plugins: ['remove_button'],
+            placeholder: "Select services"
+        });
+
+        function updateTotal() {
+            let total = 0;
+            let selectedOptions = serviceSelect.getValue();
+
+            selectedOptions.forEach(id => {
+                let option = document.querySelector(`#services option[value="${id}"]`);
+                if (option) {
+                    total += parseFloat(option.getAttribute('data-price')) || 0;
+                }
+            });
+
+            document.getElementById('services_total').value = total.toFixed(2);
+        }
+
+        // Run when changed
+        serviceSelect.on('change', updateTotal);
+
+        // Run on page load (in case of edit with pre-selected services)
+        updateTotal();
+    </script>
+@endpush
