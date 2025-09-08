@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Cviebrock\EloquentSluggable\Sluggable;
 
 class Faq extends Model
 {
-    use HasFactory, SoftDeletes;
+    use Sluggable, HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -30,7 +31,7 @@ class Faq extends Model
     {
         return [
             'slug' => [
-                'source' => 'name',
+                'source' => 'question',
                 'onUpdate' => true
             ]
         ];

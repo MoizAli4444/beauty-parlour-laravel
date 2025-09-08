@@ -32,84 +32,28 @@
                                 </div>
                             @endif
 
-                            <form action="{{ route('deals.store') }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('faqs.store') }}" method="POST">
                                 @csrf
 
-                                {{-- Name --}}
+                                {{-- Question --}}
                                 <div class="mb-3">
-                                    <label class="form-label">Deal Name <span class="text-danger">*</span></label>
-                                    <input type="text" name="name"
-                                        class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}"
-                                        required>
-                                    @error('name')
+                                    <label class="form-label">Question <span class="text-danger">*</span></label>
+                                    <input type="text" name="question"
+                                        class="form-control @error('question') is-invalid @enderror"
+                                        value="{{ old('question') }}" required>
+                                    @error('question')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
-                                {{-- Description --}}
+                                {{-- Answer --}}
                                 <div class="mb-3">
-                                    <label class="form-label">Description</label>
-                                    <textarea name="description" rows="3" class="form-control @error('description') is-invalid @enderror">{{ old('description') }}</textarea>
-                                    @error('description')
+                                    <label class="form-label">Answer <span class="text-danger">*</span></label>
+                                    <textarea name="answer" rows="5" class="form-control @error('answer') is-invalid @enderror" required>{{ old('answer') }}</textarea>
+                                    @error('answer')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
-
-                                {{-- Image --}}
-                                <div class="mb-3">
-                                    <label class="form-label">Deal Image</label>
-                                    <input type="file" name="image"
-                                        class="form-control @error('image') is-invalid @enderror">
-                                    @error('image')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                {{-- Price & Services Total --}}
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">Final Price <span class="text-danger">*</span></label>
-                                        <input type="number" step="0.01" name="price"
-                                            class="form-control @error('price') is-invalid @enderror"
-                                            value="{{ old('price') }}" required>
-                                        @error('price')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">Total Services Price</label>
-                                        <input type="number" step="0.01" id="services_total" name="services_total"
-                                            class="form-control @error('services_total') is-invalid @enderror"
-                                            value="{{ old('services_total') }}">
-                                        @error('services_total')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                {{-- Date Range --}}
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">Start Date</label>
-                                        <input type="datetime-local" name="start_date"
-                                            class="form-control @error('start_date') is-invalid @enderror"
-                                            value="{{ old('start_date') }}">
-                                        @error('start_date')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">End Date</label>
-                                        <input type="datetime-local" name="end_date"
-                                            class="form-control @error('end_date') is-invalid @enderror"
-                                            value="{{ old('end_date') }}">
-                                        @error('end_date')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-
 
                                 {{-- Status --}}
                                 <div class="mb-3">
@@ -125,30 +69,9 @@
                                     @enderror
                                 </div>
 
-                                {{-- Services --}}
-                                <div class="mb-3">
-                                    <label class="form-label">Select Services</label>
-                                    <select id="services" name="service_variant_ids[]"
-                                        class="form-select @error('service_variant_ids') is-invalid @enderror" multiple>
-                                        @foreach ($services as $service)
-                                            <option value="{{ $service->id }}" data-price="{{ $service->price }}"
-                                                {{ in_array($service->id, old('service_variant_ids', [])) ? 'selected' : '' }}>
-                                                {{ $service->name }} ({{ $service->price }})
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('service_variant_ids')
-                                        <div class="invalid-feedback d-block">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-
-                                <div class="text-end">
-                                    <button type="submit" class="btn btn-primary">Create Deal</button>
-                                    <a href="{{ route('deals.index') }}" class="btn btn-secondary">Cancel</a>
-                                </div>
+                                {{-- Submit --}}
+                                <button type="submit" class="btn btn-primary">Create FAQ</button>
                             </form>
-
 
 
 

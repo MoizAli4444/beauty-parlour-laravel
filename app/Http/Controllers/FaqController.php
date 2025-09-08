@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FaqRequest;
 use App\Models\Faq;
 use App\Repositories\Faq\FaqRepositoryInterface;
 use Illuminate\Http\Request;
@@ -44,9 +45,13 @@ class FaqController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(FaqRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        $this->repository->create($validated);
+
+        return redirect()->route('faqs.index')->with('success', 'Faq created successfully.');
     }
 
     /**
@@ -76,12 +81,16 @@ class FaqController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Faq $faq)
+    public function destroy($id)
     {
-        //
+        $this->repository->delete($id);
+        return response()->json([
+            'status' => true,
+            'message' => 'Faq deleted successfully.',
+        ]);
     }
 
-     public function toggleStatus($id)
+    public function toggleStatus($id)
     {
         $faq = $this->repository->toggleStatus($id);
 

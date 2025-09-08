@@ -87,21 +87,9 @@ class FaqRepository implements FaqRepositoryInterface
 
     public function create(array $data)
     {
-        $data = $this->addCreatedBy($data);
+        // $data = $this->addCreatedBy($data);
 
-        if (isset($data['image'])) {
-            $file = $data['image'];
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $data['image'] = $file->storeAs('faqs', $filename, 'public');
-        }
-
-        $deal = Faq::create($data);
-
-        if (!empty($data['service_variant_ids'])) {
-            $deal->serviceVariants()->attach($data['service_variant_ids']);
-        }
-
-        return $deal;
+        return Faq::create($data);
     }
 
 
@@ -129,17 +117,8 @@ class FaqRepository implements FaqRepositoryInterface
 
     public function delete($id)
     {
-        $deal = Faq::findOrFail($id);
-
-        // remove image if exists
-        if ($deal->image && Storage::disk('public')->exists($deal->image)) {
-            Storage::disk('public')->delete($deal->image);
-        }
-
-        // detach services
-        $deal->serviceVariants()->detach();
-
-        return $deal->delete();
+        $addon = Faq::findOrFail($id);
+        return $addon->delete(); // uses softDeletes
     }
 
     public function toggleStatus($id)
