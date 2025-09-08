@@ -157,21 +157,7 @@ class FaqRepository implements FaqRepositoryInterface
 
     public function bulkDelete(array $ids)
     {
-        $faqs = Faq::whereIn('id', $ids)->get();
-
-        foreach ($faqs as $deal) {
-            // remove image if exists
-            if ($deal->image && Storage::disk('public')->exists($deal->image)) {
-                Storage::disk('public')->delete($deal->image);
-            }
-
-            // detach related services
-            $deal->serviceVariants()->detach();
-
-            $deal->delete();
-        }
-
-        return true;
+        return Faq::whereIn('id', $ids)->delete();
     }
 
     public function bulkStatus(array $ids, string $status)

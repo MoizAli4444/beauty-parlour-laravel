@@ -80,4 +80,31 @@ class FaqController extends Controller
     {
         //
     }
+
+     public function toggleStatus($id)
+    {
+        $faq = $this->repository->toggleStatus($id);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Status updated successfully.',
+            'new_status' => $faq->status,
+            'badge' => $faq->status_badge,
+        ]);
+    }
+
+
+    public function bulkDelete(Request $request)
+    {
+        $this->repository->bulkDelete($request->ids);
+
+        return response()->json(['message' => 'Selected faqs deleted successfully.']);
+    }
+
+    public function bulkStatus(Request $request)
+    {
+        $this->repository->bulkStatus($request->ids, $request->status);
+
+        return response()->json(['message' => 'Status updated']);
+    }
 }
