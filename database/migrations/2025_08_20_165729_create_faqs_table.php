@@ -14,7 +14,10 @@ return new class extends Migration
         Schema::create('faqs', function (Blueprint $table) {
             $table->id();
             $table->string('question');
+            $table->string('slug')->unique();
             $table->text('answer');
+            $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
