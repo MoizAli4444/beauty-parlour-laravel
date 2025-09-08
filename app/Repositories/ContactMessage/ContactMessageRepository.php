@@ -58,9 +58,16 @@ class ContactMessageRepository implements ContactMessageRepositoryInterface
                 // Customer Info
                 ->addColumn('customer', function ($row) {
                     return '<strong>' . e($row->name) . '</strong><br>' .
-                        ($row->email ? '<small>Email: ' . e($row->email) . '</small><br>' : '') .
-                        ($row->phone ? '<small>Phone: ' . e($row->phone) . '</small>' : '');
+                        ($row->contact_info);
                 })
+                ->filterColumn('customer', function ($query, $keyword) {
+                    $query->where(function ($q) use ($keyword) {
+                        $q->where('name', 'like', "%{$keyword}%")
+                            ->orWhere('email', 'like', "%{$keyword}%")
+                            ->orWhere('phone', 'like', "%{$keyword}%");
+                    });
+                })
+
 
                 // Subject
                 ->editColumn(
@@ -78,21 +85,12 @@ class ContactMessageRepository implements ContactMessageRepositoryInterface
 
                 // Priority badge
                 ->editColumn('priority', function ($row) {
-                    $badgeClass = match ($row->priority) {
-                        'high' => 'badge bg-danger',
-                        'medium' => 'badge bg-warning',
-                        'low' => 'badge bg-success',
-                        default => 'badge bg-secondary',
-                    };
-                    return '<span class="' . $badgeClass . '">' . ucfirst($row->priority) . '</span>';
+                    return $row->priority_badge;
                 })
 
                 // Status badge
                 ->editColumn('status', function ($row) {
-                    $badgeClass = $row->status === 'resolved'
-                        ? 'badge bg-success'
-                        : 'badge bg-secondary';
-                    return '<span class="' . $badgeClass . '">' . ucfirst($row->status) . '</span>';
+                    return $row->status_badge;
                 })
 
                 // Created At
