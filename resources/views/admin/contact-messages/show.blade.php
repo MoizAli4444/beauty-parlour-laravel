@@ -19,95 +19,63 @@
                             </div>
                         </div>
 
-                      
-
-
                         <div class="card-body">
                             <div class="row justify-content-center">
-                                <div class="col-lg-10">
 
-                                    <div class="card shadow-lg border-0 rounded-3">
-                                        
-                                        <div class="card-body">
-                                            <div class="row justify-content-center">
+                                <!-- Left Column -->
+                                <div class="col-md-8">
 
-                                                <!-- Left Column -->
-                                                <div class="col-md-8">
+                                    <!-- Name -->
+                                    <div class="mb-4">
+                                        <label class="form-label fw-bold">Name:</label>
+                                        <div>{{ $message->name ?? '-' }}</div>
+                                    </div>
 
-                                                    <!-- Name -->
-                                                    <div class="mb-4">
-                                                        <label class="form-label fw-bold">Name:</label>
-                                                        <div>{{ $message->name ?? '-' }}</div>
-                                                    </div>
+                                    <!-- Email -->
+                                    <div class="mb-4">
+                                        <label class="form-label fw-bold">Email:</label>
+                                        <div>{{ $message->email ?? '-' }}</div>
+                                    </div>
 
-                                                    <!-- Email -->
-                                                    <div class="mb-4">
-                                                        <label class="form-label fw-bold">Email:</label>
-                                                        <div>{{ $message->email ?? '-' }}</div>
-                                                    </div>
+                                    <!-- Phone -->
+                                    <div class="mb-4">
+                                        <label class="form-label fw-bold">Phone:</label>
+                                        <div>{{ $message->phone ?? '-' }}</div>
+                                    </div>
 
-                                                    <!-- Phone -->
-                                                    <div class="mb-4">
-                                                        <label class="form-label fw-bold">Phone:</label>
-                                                        <div>{{ $message->phone ?? '-' }}</div>
-                                                    </div>
+                                    <!-- Subject -->
+                                    <div class="mb-4">
+                                        <label class="form-label fw-bold">Subject:</label>
+                                        <div>{{ $message->subject ?? '-' }}</div>
+                                    </div>
 
-                                                    <!-- Subject -->
-                                                    <div class="mb-4">
-                                                        <label class="form-label fw-bold">Subject:</label>
-                                                        <div>{{ $message->subject ?? '-' }}</div>
-                                                    </div>
-
-                                                    <!-- Message -->
-                                                    <div class="mb-4">
-                                                        <label class="form-label fw-bold">Message:</label>
-                                                        <div class="p-3 bg-light rounded shadow-sm">
-                                                            {{ $message->message ?? '-' }}
-                                                        </div>
-                                                    </div>
-
-                                                    <!-- Received At -->
-                                                    <div class="mb-4">
-                                                        <label class="form-label fw-bold">Received At:</label>
-                                                        <div>{{ $message->created_at?->format('d M Y h:i A') }}</div>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Right Column (Optional Preview or Status) -->
-                                                <div class="col-md-4 text-center">
-                                                    <label class="form-label fw-bold">Status:</label><br>
-                                                    @if ($message->is_read)
-                                                        <span class="badge bg-success">Read</span>
-                                                    @else
-                                                        <span class="badge bg-warning text-dark">Unread</span>
-                                                    @endif
-                                                </div>
-
-                                            </div>
+                                    <!-- Message -->
+                                    <div class="mb-4">
+                                        <label class="form-label fw-bold">Message:</label>
+                                        <div class="p-3 bg-light rounded shadow-sm">
+                                            {{ $message->message ?? '-' }}
                                         </div>
+                                    </div>
 
-                                        <div class="card-footer text-center bg-light">
-                                            <a href="{{ route('contact-messages.index') }}"
-                                                class="btn btn-secondary btn-sm">
-                                                <i class="bi bi-arrow-left"></i> Back
-                                            </a>
-                                            <form action="{{ route('contact-messages.destroy', $message->id) }}"
-                                                method="POST" class="d-inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm"
-                                                    onclick="return confirm('Are you sure you want to delete this message?')">
-                                                    <i class="bi bi-trash"></i> Delete
-                                                </button>
-                                            </form>
-                                        </div>
-
+                                    <!-- Received At -->
+                                    <div class="mb-4">
+                                        <label class="form-label fw-bold">Received At:</label>
+                                        <div>{{ $message->created_at?->format('d M Y h:i A') }}</div>
                                     </div>
                                 </div>
+
+                                <!-- Right Column (Optional Preview or Status) -->
+                                <div class="col-md-4 text-center">
+                                    <label class="form-label fw-bold">Status:</label><br>
+                                    @if ($message->is_read)
+                                        <span class="badge bg-success">Read</span>
+                                    @else
+                                        <span class="badge bg-warning text-dark">Unread</span>
+                                    @endif
+                                </div>
+
                             </div>
                         </div>
-
-
 
 
                     </div>
