@@ -32,12 +32,12 @@
 
                                             {{-- Profile --}}
                                             <div class="text-center mb-4">
-                                                <img src="{{ $customer->profile_image ?? 'https://via.placeholder.com/120' }}"
+                                                <img src="{{ $message->profile_image ?? 'https://via.placeholder.com/120' }}"
                                                     class="rounded-circle shadow-sm" width="120" height="120"
                                                     alt="Customer Image">
-                                                <h5 class="mt-3">{{ $customer->name }}</h5>
+                                                <h5 class="mt-3">{{ $message->name }}</h5>
                                                 <span
-                                                    class="badge bg-success">{{ ucfirst($customer->status ?? 'active') }}</span>
+                                                    class="badge bg-success">{{ ucfirst($message->status ?? 'active') }}</span>
                                             </div>
 
                                             {{-- Details Table --}}
@@ -46,19 +46,19 @@
                                                     <tbody>
                                                         <tr>
                                                             <th width="30%">Email</th>
-                                                            <td>{{ $customer->email ?? 'N/A' }}</td>
+                                                            <td>{{ $message->email ?? 'N/A' }}</td>
                                                         </tr>
                                                         <tr>
                                                             <th>Phone</th>
-                                                            <td>{{ $customer->phone ?? 'N/A' }}</td>
+                                                            <td>{{ $message->phone ?? 'N/A' }}</td>
                                                         </tr>
                                                         <tr>
                                                             <th>Address</th>
-                                                            <td>{{ $customer->address ?? 'N/A' }}</td>
+                                                            <td>{{ $message->address ?? 'N/A' }}</td>
                                                         </tr>
                                                         <tr>
                                                             <th>Created At</th>
-                                                            <td>{{ $customer->created_at?->format('d M Y, h:i A') }}</td>
+                                                            <td>{{ $message->created_at?->format('d M Y, h:i A') }}</td>
                                                         </tr>
                                                         <tr>
                                                             <th>Updated At</th>
@@ -98,92 +98,88 @@
 
                         <div class="card-body">
                             <div class="row justify-content-center">
+                                <div class="col-lg-10">
 
-                                <!-- Left Column -->
-                                <div class="col-md-8">
+                                    <div class="card shadow-lg border-0 rounded-3">
+                                        <div class="card-header bg-primary text-white">
+                                            <h4 class="mb-0">Contact Message Details</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row justify-content-center">
 
-                                    <!-- Title -->
-                                    <div class="mb-4">
-                                        <label class="form-label fw-bold">Deal Name:</label>
-                                        <div>{{ $deal->name ?? '-' }}</div>
-                                    </div>
+                                                <!-- Left Column -->
+                                                <div class="col-md-8">
 
-                                    <!-- Description -->
-                                    <div class="mb-4">
-                                        <label class="form-label fw-bold">Description:</label>
-                                        <div>{{ $deal->description ?? '-' }}</div>
-                                    </div>
+                                                    <!-- Name -->
+                                                    <div class="mb-4">
+                                                        <label class="form-label fw-bold">Name:</label>
+                                                        <div>{{ $message->name ?? '-' }}</div>
+                                                    </div>
 
-                                    <!-- Price & Services Total -->
-                                    <div class="row mb-4">
-                                        <div class="col-md-6">
-                                            <label class="form-label fw-bold">Price:</label>
-                                            <div class="text-primary fw-semibold">
-                                                Rs {{ number_format($deal->price, 2) }}
+                                                    <!-- Email -->
+                                                    <div class="mb-4">
+                                                        <label class="form-label fw-bold">Email:</label>
+                                                        <div>{{ $message->email ?? '-' }}</div>
+                                                    </div>
+
+                                                    <!-- Phone -->
+                                                    <div class="mb-4">
+                                                        <label class="form-label fw-bold">Phone:</label>
+                                                        <div>{{ $message->phone ?? '-' }}</div>
+                                                    </div>
+
+                                                    <!-- Subject -->
+                                                    <div class="mb-4">
+                                                        <label class="form-label fw-bold">Subject:</label>
+                                                        <div>{{ $message->subject ?? '-' }}</div>
+                                                    </div>
+
+                                                    <!-- Message -->
+                                                    <div class="mb-4">
+                                                        <label class="form-label fw-bold">Message:</label>
+                                                        <div class="p-3 bg-light rounded shadow-sm">
+                                                            {{ $message->message ?? '-' }}
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Received At -->
+                                                    <div class="mb-4">
+                                                        <label class="form-label fw-bold">Received At:</label>
+                                                        <div>{{ $message->created_at?->format('d M Y h:i A') }}</div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Right Column (Optional Preview or Status) -->
+                                                <div class="col-md-4 text-center">
+                                                    <label class="form-label fw-bold">Status:</label><br>
+                                                    @if ($message->is_read)
+                                                        <span class="badge bg-success">Read</span>
+                                                    @else
+                                                        <span class="badge bg-warning text-dark">Unread</span>
+                                                    @endif
+                                                </div>
+
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label fw-bold">Services Total:</label>
-                                            <div>
-                                                Rs {{ number_format($deal->services_total ?? 0, 2) }}
-                                            </div>
+
+                                        <div class="card-footer text-center bg-light">
+                                            <a href="{{ route('contact-messages.index') }}"
+                                                class="btn btn-secondary btn-sm">
+                                                <i class="bi bi-arrow-left"></i> Back
+                                            </a>
+                                            <form action="{{ route('contact-messages.destroy', $message->id) }}"
+                                                method="POST" class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm"
+                                                    onclick="return confirm('Are you sure you want to delete this message?')">
+                                                    <i class="bi bi-trash"></i> Delete
+                                                </button>
+                                            </form>
                                         </div>
+
                                     </div>
-
-                                    <!-- Dates -->
-                                    <div class="row mb-4">
-                                        <div class="col-md-6">
-                                            <label class="form-label fw-bold">Start Date:</label>
-                                            <div>
-                                                {{ $deal->start_date ? \Carbon\Carbon::parse($deal->start_date)->format('d M Y h:i A') : '—' }}
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label fw-bold">End Date:</label>
-                                            <div>
-                                                {{ $deal->end_date ? \Carbon\Carbon::parse($deal->end_date)->format('d M Y h:i A') : '—' }}
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                    <!-- Status -->
-                                    <div class="mb-4">
-                                        <label class="form-label fw-bold">Status:</label>
-                                        <div>{!! $deal->status_badge !!}</div>
-                                    </div>
-
-                                    <!-- Services -->
-                                    <div class="mb-4">
-                                        <label class="form-label fw-bold">Services:</label>
-                                        <div>
-                                            @forelse($deal->serviceVariants as $service)
-                                                <span class="badge bg-info text-dark me-1 mb-1">
-                                                    {{ $service->name }} (Rs {{ number_format($service->price, 2) }})
-                                                </span>
-                                            @empty
-                                                <span>—</span>
-                                            @endforelse
-                                        </div>
-                                    </div>
-
-
                                 </div>
-
-                                <!-- Right Column (Image Preview) -->
-                                <div class="col-md-4 text-center">
-                                    <label class="form-label fw-bold">Media Preview:</label><br>
-
-                                    @if ($deal->image && file_exists(public_path('storage/' . $deal->image)))
-                                        <img src="{{ asset('storage/' . $deal->image) }}" alt="{{ $deal->name }}"
-                                            class="img-fluid rounded shadow-sm mb-2 js-media-preview"
-                                            style="max-height:200px; object-fit:cover;"
-                                            data-url="{{ asset('storage/' . $deal->image) }}" data-type="image">
-                                    @else
-                                        <div class="text-muted">No image uploaded</div>
-                                    @endif
-                                </div>
-
                             </div>
                         </div>
 

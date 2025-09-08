@@ -53,9 +53,15 @@ class ContactMessageController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ContactMessage $contactMessage)
+    public function show($slug)
     {
-        //
+        $message = $this->repository->find($slug);
+
+        if (!$message) {
+            return redirect()->route('contact-messages.index')->with('error', 'Message record not found.');
+        }
+
+        return view('admin.contact-messages.show', compact('message'));
     }
 
     /**
