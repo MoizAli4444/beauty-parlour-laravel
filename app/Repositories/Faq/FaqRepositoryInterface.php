@@ -4,7 +4,7 @@ namespace App\Repositories\Faq;
 
 interface FaqRepositoryInterface
 {
-    public function getDatatableData(array $data);
+    public function getDatatableData();
     public function all();
     public function find($id);
     public function findBySlug($slug);

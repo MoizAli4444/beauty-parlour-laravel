@@ -3,16 +3,34 @@
 namespace App\Http\Controllers;
 
 use App\Models\Faq;
+use App\Repositories\Deal\DealRepositoryInterface;
 use Illuminate\Http\Request;
 
 class FaqController extends Controller
 {
+    protected $repository;
+
+    public function __construct(DealRepositoryInterface $repository)
+    {
+        $this->repository = $repository;
+    }
+
+    public function datatable(Request $request)
+    {
+
+        if ($request->ajax()) {
+            return $this->repository->getDatatableData();
+        }
+
+        return abort(403);
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return view('admin.faqs.index');
     }
 
     /**
@@ -20,7 +38,7 @@ class FaqController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.faqs.create');
     }
 
     /**

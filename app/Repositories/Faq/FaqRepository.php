@@ -23,116 +23,51 @@ class FaqRepository implements FaqRepositoryInterface
 
     use TracksUser;
 
-    public function getDatatableData(array $filters)
+    public function getDatatableData()
     {
         try {
-            $query = Faq::with(['creator', 'updater'])
-                ->latest();
+            $query = Faq::latest();
 
-            // ✅ Filters
-            if (!empty($filters['status'])) {
-                $query->where('status', $filters['status']);
-            }
-
-            if (!empty($filters['start_date'])) {
-                $query->whereDate('start_date', '>=', $filters['start_date']);
-            }
-
-            if (!empty($filters['end_date'])) {
-                $query->whereDate('end_date', '<=', $filters['end_date']);
-            }
-
-            if (!empty($filters['created_by'])) {
-                $query->where('created_by', $filters['created_by']);
-            }
-
-            // ✅ DataTable response
             return DataTables::of($query)
 
+                // Checkbox for bulk delete
                 ->addColumn(
                     'checkbox',
                     fn($row) =>
                     '<input type="checkbox" class="row-checkbox" value="' . $row->id . '">'
                 )
 
-                ->addColumn('id', fn($row) => $row->id)
+                // Question
+                ->addColumn('question', function ($row) {
+                    return strlen($row->question) > 100 ? substr($row->question, 0, 100) . '...' : $row->question;
+                })
 
-                ->addColumn('name', fn($row) => $row->name)
-
-                ->addColumn('slug', fn($row) => $row->slug)
-
-                ->addColumn('price', fn($row) => number_format($row->price, 2))
-
-                ->addColumn(
-                    'services_total',
-                    fn($row) =>
-                    $row->services_total
-                        ? number_format($row->services_total, 2)
-                        : 'N/A'
-                )
-
+                // Status badge (active / inactive)
                 ->editColumn('status', function ($row) {
                     return $row->status_badge; // uses model accessor
                 })
 
-                ->addColumn(
-                    'start_date',
-                    fn($row) => $row->start_date ? $row->start_date->format('d M Y') : 'N/A'
-                )
-
-                ->addColumn(
-                    'end_date',
-                    fn($row) => $row->end_date ? $row->end_date->format('d M Y') : 'N/A'
-                )
-
-                ->addColumn('validity', function ($row) {
-                    $start = $row->start_date ? $row->start_date->format('d M Y') : 'N/A';
-                    $end = $row->end_date ? $row->end_date->format('d M Y') : 'N/A';
-                    return $start . ' - ' . $end;
-                })
-
-
-                ->addColumn('image_preview', function ($row) {
-                    if (!$row->image) {
-                        return 'N/A';
-                    }
-
-                    $url = asset('storage/' . $row->image);
-                    return '<img src="' . $url . '" width="60" height="60" 
-                            class="rounded border js-media-preview" 
-                            data-url="' . $url . '" 
-                            data-type="image"
-                            style="object-fit:cover;cursor:pointer;">';
-                    })
-
-
-                ->addColumn(
-                    'created_by',
-                    fn($row) => $row->creator?->name ?? 'N/A'
-                )
-
-                ->addColumn(
-                    'updated_by',
-                    fn($row) => $row->updater?->name ?? 'N/A'
-                )
-
+                // Created At
                 ->addColumn(
                     'created_at',
-                    fn($row) => $row->created_at->format('d M Y')
+                    fn($row) =>
+                    $row->created_at->format('d M Y, h:i A')
                 )
 
+                // Actions (edit, delete, view)
                 ->addColumn(
                     'action',
                     fn($row) =>
-                    view('admin.faqs.action', ['deal' => $row])->render()
+                    view('admin.faqs.action', ['faq' => $row])->render()
                 )
 
-                ->rawColumns(['checkbox', 'status', 'image_preview', 'validity', 'action'])
+                ->rawColumns(['checkbox', 'status', 'action'])
                 ->make(true);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
 
     public function all()
     {
