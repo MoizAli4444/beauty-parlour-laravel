@@ -42,6 +42,7 @@ class DatabaseSeeder extends Seeder
             GallerySeeder::class,
             // deal seeder missing
             FaqSeeder::class,
+            ContactMessageSeeder::class,
 
 
         ]);
