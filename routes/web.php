@@ -5,6 +5,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\BookingReviewController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DealController;
+use App\Http\Controllers\FaqController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\PermissionController;
