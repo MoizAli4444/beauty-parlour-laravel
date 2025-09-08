@@ -124,7 +124,7 @@ class FaqRepository implements FaqRepositoryInterface
                 ->addColumn(
                     'action',
                     fn($row) =>
-                    view('admin.deals.action', ['deal' => $row])->render()
+                    view('admin.faqs.action', ['deal' => $row])->render()
                 )
 
                 ->rawColumns(['checkbox', 'status', 'image_preview', 'validity', 'action'])
@@ -157,7 +157,7 @@ class FaqRepository implements FaqRepositoryInterface
         if (isset($data['image'])) {
             $file = $data['image'];
             $filename = time() . '.' . $file->getClientOriginalExtension();
-            $data['image'] = $file->storeAs('deals', $filename, 'public');
+            $data['image'] = $file->storeAs('faqs', $filename, 'public');
         }
 
         $deal = Faq::create($data);
@@ -178,7 +178,7 @@ class FaqRepository implements FaqRepositoryInterface
         if (isset($data['image'])) {
             $file = $data['image'];
             $filename = time() . '.' . $file->getClientOriginalExtension();
-            $data['image'] = $file->storeAs('deals', $filename, 'public');
+            $data['image'] = $file->storeAs('faqs', $filename, 'public');
         }
 
         $deal->update($data);
@@ -222,9 +222,9 @@ class FaqRepository implements FaqRepositoryInterface
 
     public function bulkDelete(array $ids)
     {
-        $deals = Faq::whereIn('id', $ids)->get();
+        $faqs = Faq::whereIn('id', $ids)->get();
 
-        foreach ($deals as $deal) {
+        foreach ($faqs as $deal) {
             // remove image if exists
             if ($deal->image && Storage::disk('public')->exists($deal->image)) {
                 Storage::disk('public')->delete($deal->image);
