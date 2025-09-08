@@ -40,6 +40,8 @@ class DatabaseSeeder extends Seeder
             // booking seeder missing
             BookingReviewSeeder::class,
             GallerySeeder::class,
+            // deal seeder missing
+            FaqSeeder::class,
 
 
         ]);

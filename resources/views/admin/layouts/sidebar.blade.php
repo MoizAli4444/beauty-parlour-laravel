@@ -176,6 +176,14 @@
             </a>
         </li>
 
+        <li class="menu-item {{ request()->routeIs('faqs.*') ? 'active' : '' }}">
+            <a href="{{ route('faqs.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-question-mark"></i>
+                <div class="text-truncate" data-i18n="faq">FAQ</div>
+            </a>
+        </li>
+
+
 
 
 

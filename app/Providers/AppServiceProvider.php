@@ -17,6 +17,8 @@ use App\Repositories\BookingReview\BookingReviewRepositoryInterface;
 use App\Repositories\CustomerRepository;
 use App\Repositories\Deal\DealRepository;
 use App\Repositories\Deal\DealRepositoryInterface;
+use App\Repositories\Faq\FaqRepository;
+use App\Repositories\Faq\FaqRepositoryInterface;
 use App\Repositories\Gallery\GalleryRepository;
 use App\Repositories\Gallery\GalleryRepositoryInterface;
 use App\Repositories\OfferRepository;
@@ -61,6 +63,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             DealRepositoryInterface::class,
             DealRepository::class
+        );
+
+        $this->app->bind(
+            FaqRepositoryInterface::class,
+            FaqRepository::class
         );
     }
 

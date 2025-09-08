@@ -24,13 +24,55 @@ class Faq extends Model
     const STATUS_ACTIVE   = 'active';
     const STATUS_INACTIVE = 'inactive';
 
-    /**
-     * Scope: Get only active FAQs.
-     */
+
+    ///////////// fixed model functions //////////////
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'name',
+                'onUpdate' => true
+            ]
+        ];
+    }
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function updater()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    public function getStatusBadgeAttribute()
+    {
+        return render_status_badge($this->status, $this->id, route('faqs.toggle-status', $this->id));
+    }
+
+    public function getEditButtonAttribute()
+    {
+        return render_edit_button(route('faqs.edit', $this->slug));
+    }
+
+    public function getViewButtonAttribute()
+    {
+        return render_view_button(route('faqs.show', $this->slug));
+    }
+
+
+    public function getDeleteButtonAttribute()
+    {
+        return render_delete_button($this->id, route('faqs.destroy', $this->id));
+    }
+
     public function scopeActive($query)
     {
         return $query->where('status', 'active');
     }
+
+    ///////////// fixed model functions //////////////
 
     /**
      * Accessor: Format created_at nicely.

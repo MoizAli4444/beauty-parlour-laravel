@@ -3,7 +3,7 @@
         $('#indexPageDataTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '{{ route('faqs.datatable') }}',
+            ajax: '{{ route('deals.datatable') }}',
             columns: [{
                     data: 'checkbox',
                     name: 'checkbox',
@@ -15,8 +15,22 @@
                     name: 'id'
                 },
                 {
-                    data: 'question',
-                    name: 'question'
+                    data: 'name',
+                    name: 'name'
+                },
+                {
+                    data: 'image_preview', // 👈 build this in controller
+                    name: 'image_preview',
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: 'price',
+                    name: 'price'
+                },
+                {
+                    data: 'validity', // 👈 you can build "start_date - end_date" in controller
+                    name: 'validity'
                 },
                 {
                     data: 'status',
