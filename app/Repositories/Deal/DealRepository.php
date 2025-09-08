@@ -99,9 +99,11 @@ class DealRepository implements DealRepositoryInterface
 
                     $url = asset('storage/' . $row->image);
                     return '<img src="' . $url . '" width="60" height="60" 
-                class="rounded border" 
-                style="object-fit:cover;cursor:pointer;">';
-                })
+                            class="rounded border js-media-preview" 
+                            data-url="' . $url . '" 
+                            data-type="image"
+                            style="object-fit:cover;cursor:pointer;">';
+                    })
 
 
                 ->addColumn(
@@ -173,11 +175,10 @@ class DealRepository implements DealRepositoryInterface
         $deal = Deal::findOrFail($id);
         $data = $this->addUpdatedBy($data);
 
-        if (isset($data['file'])) {
-            $file = $data['file'];
+        if (isset($data['image'])) {
+            $file = $data['image'];
             $filename = time() . '.' . $file->getClientOriginalExtension();
-            $data['image'] = $file->storeAs('uploads/deals', $filename, 'public');
-            unset($data['file']);
+            $data['image'] = $file->storeAs('deals', $filename, 'public');
         }
 
         $deal->update($data);
