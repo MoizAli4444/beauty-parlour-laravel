@@ -19,7 +19,7 @@
 
                             <div>
                                 {!! render_delete_button($faq->id, route('faqs.destroy', $faq->id), false) !!}
-                                {!! render_view_button(route('faqs.show', $faq->slug), false) !!}
+                                {{-- {!! render_view_button(route('faqs.show', $faq->slug), false) !!} --}}
                                 {!! render_index_button(route('faqs.index'), 'All FAQs', false) !!}
 
                             </div>

@@ -62,6 +62,17 @@ class Faq extends Model
         return render_view_button(route('faqs.show', $this->slug));
     }
 
+    public function renderButton($isOutline = true): string
+    {
+        $route = route('faqs.edit', $this->slug);
+
+        $btnClass = $isOutline ? 'btn-sm btn-outline-info' : 'btn-info';
+
+        return "<a href='{$route}' class='btn {$btnClass} me-2'>
+                    <i class='fas fa-eye'></i> View / Edit
+                </a>";
+    }
+
 
     public function getDeleteButtonAttribute()
     {
