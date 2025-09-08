@@ -58,4 +58,24 @@ class ContactMessage extends Model
         $email = $this->email ? "{$this->email}" : '';
         return trim("<small> Phone: {$phone} </small><br> <small> Email: {$email} </small>");
     }
+
+     ///////////// fixed model functions //////////////
+
+    public function getEditButtonAttribute()
+    {
+        return render_edit_button(route('contact-messages.edit', $this->id));
+    }
+
+    public function getViewButtonAttribute()
+    {
+        return render_view_button(route('contact-messages.show', $this->id));
+    }
+
+
+    public function getDeleteButtonAttribute()
+    {
+        return render_delete_button($this->id, route('contact-messages.destroy', $this->id));
+    }
+
+    ///////////// fixed model functions //////////////
 }

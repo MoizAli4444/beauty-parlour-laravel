@@ -21,6 +21,83 @@
 
                         <div class="card-body">
                             <div class="row justify-content-center">
+                                <div class="col-lg-8">
+
+                                    {{-- Card --}}
+                                    <div class="card shadow-lg border-0 rounded-3">
+                                        <div class="card-header bg-primary text-white text-center">
+                                            <h4 class="mb-0">Customer Details</h4>
+                                        </div>
+                                        <div class="card-body p-4">
+
+                                            {{-- Profile --}}
+                                            <div class="text-center mb-4">
+                                                <img src="{{ $customer->profile_image ?? 'https://via.placeholder.com/120' }}"
+                                                    class="rounded-circle shadow-sm" width="120" height="120"
+                                                    alt="Customer Image">
+                                                <h5 class="mt-3">{{ $customer->name }}</h5>
+                                                <span
+                                                    class="badge bg-success">{{ ucfirst($customer->status ?? 'active') }}</span>
+                                            </div>
+
+                                            {{-- Details Table --}}
+                                            <div class="table-responsive">
+                                                <table class="table table-striped table-borderless align-middle">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th width="30%">Email</th>
+                                                            <td>{{ $customer->email ?? 'N/A' }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Phone</th>
+                                                            <td>{{ $customer->phone ?? 'N/A' }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Address</th>
+                                                            <td>{{ $customer->address ?? 'N/A' }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Created At</th>
+                                                            <td>{{ $customer->created_at?->format('d M Y, h:i A') }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Updated At</th>
+                                                            <td>{{ $customer->updated_at?->format('d M Y, h:i A') }}</td>
+                                                        </tr>
+                                                        {{-- Add more fields if needed --}}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        {{-- Footer --}}
+                                        <div class="card-footer text-center bg-light">
+                                            <a href="{{ route('customers.index') }}" class="btn btn-secondary btn-sm">
+                                                <i class="bi bi-arrow-left"></i> Back
+                                            </a>
+                                            <a href="{{ route('customers.edit', $customer->id) }}"
+                                                class="btn btn-warning btn-sm">
+                                                <i class="bi bi-pencil-square"></i> Edit
+                                            </a>
+                                            <form action="{{ route('customers.destroy', $customer->id) }}" method="POST"
+                                                class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm"
+                                                    onclick="return confirm('Are you sure you want to delete this customer?')">
+                                                    <i class="bi bi-trash"></i> Delete
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="card-body">
+                            <div class="row justify-content-center">
 
                                 <!-- Left Column -->
                                 <div class="col-md-8">
