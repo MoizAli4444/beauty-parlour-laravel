@@ -65,18 +65,39 @@ class FaqController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Faq $faq)
+    public function edit($slug)
     {
-        //
+        $faq = $this->repository->findBySlug($slug);
+
+        if (!$faq) {
+            return redirect()->route('faqs.index')->with('error', 'Faq not found');
+        }
+
+        return view('admin.faqs.edit', compact('faq'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Faq $faq)
+    public function update(FaqRequest $request, $id)
     {
-        //
+        
+        // Find the FAQ in the repository
+        $faq = $this->repository->find($id);
+        
+        if (!$faq) {
+            return redirect()->route('faqs.index')->with('error', 'FAQ not found.');
+        }
+        
+        // Validate input via FaqRequest
+        $validated = $request->validated();
+
+        // Update the FAQ
+        $this->repository->update($id, $validated);
+
+        return redirect()->route('faqs.index')->with('success', 'FAQ updated successfully.');
     }
+
 
     /**
      * Remove the specified resource from storage.
