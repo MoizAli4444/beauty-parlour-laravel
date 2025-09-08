@@ -14,6 +14,8 @@ use App\Repositories\AddonRepository;
 use App\Repositories\BookingRepository;
 use App\Repositories\BookingReview\BookingReviewRepository;
 use App\Repositories\BookingReview\BookingReviewRepositoryInterface;
+use App\Repositories\ContactMessage\ContactMessageRepository;
+use App\Repositories\ContactMessage\ContactMessageRepositoryInterface;
 use App\Repositories\CustomerRepository;
 use App\Repositories\Deal\DealRepository;
 use App\Repositories\Deal\DealRepositoryInterface;
@@ -34,10 +36,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // $this->app->bind(
-        //     \App\Interfaces\BookingRepositoryInterface::class,
-        //     \App\Repositories\BookingRepository::class
-        // );
+
         $this->app->bind(ServiceRepositoryInterface::class, ServiceRepository::class);
         $this->app->bind(ServiceVariantRepositoryInterface::class, ServiceVariantRepository::class);
         $this->app->bind(StaffRepositoryInterface::class, StaffRepository::class);
@@ -45,30 +44,17 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(AddonRepositoryInterface::class, AddonRepository::class);
 
         $this->app->bind(OfferRepositoryInterface::class, OfferRepository::class);
-        $this->app->bind(
-            BookingRepositoryInterface::class,
-            BookingRepository::class
-        );
+        $this->app->bind(BookingRepositoryInterface::class, BookingRepository::class);
 
-        $this->app->bind(
-            BookingReviewRepositoryInterface::class,
-            BookingReviewRepository::class
-        );
+        $this->app->bind(BookingReviewRepositoryInterface::class, BookingReviewRepository::class);
 
-        $this->app->bind(
-            GalleryRepositoryInterface::class,
-            GalleryRepository::class
-        );
+        $this->app->bind(GalleryRepositoryInterface::class, GalleryRepository::class);
 
-        $this->app->bind(
-            DealRepositoryInterface::class,
-            DealRepository::class
-        );
+        $this->app->bind(DealRepositoryInterface::class, DealRepository::class);
 
-        $this->app->bind(
-            FaqRepositoryInterface::class,
-            FaqRepository::class
-        );
+        $this->app->bind(FaqRepositoryInterface::class, FaqRepository::class);
+
+        $this->app->bind(ContactMessageRepositoryInterface::class, ContactMessageRepository::class);
     }
 
     /**

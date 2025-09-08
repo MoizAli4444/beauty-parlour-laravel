@@ -184,6 +184,14 @@
         </li>
 
 
+        <li class="menu-item {{ request()->routeIs('contact-messages.*') ? 'active' : '' }}">
+            <a href="{{ route('contact-messages.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-message-dots"></i>
+                <div class="text-truncate" data-i18n="contact-messages">Contact Messages</div>
+            </a>
+        </li>
+
+
 
 
 
