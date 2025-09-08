@@ -277,6 +277,27 @@ Route::middleware('auth')->group(function () {
 
 
 
+    // ==============================
+    // FAQ Module Routes
+    // ==============================
+    Route::prefix('faqs')->name('faqs.')->group(function () {
+        // For DataTables AJAX loading
+        Route::get('datatable', [FaqController::class, 'datatable'])->name('datatable');
+
+        // For toggling status
+        Route::patch('{id}/toggle-status', [FaqController::class, 'toggleStatus'])->name('toggle-status');
+
+        // Bulk actions
+        Route::post('bulk-delete', [FaqController::class, 'bulkDelete'])->name('bulkDelete');
+        Route::post('bulk-status', [FaqController::class, 'bulkStatus'])->name('bulkStatus');
+    });
+
+    // Resource Routes
+    Route::resource('faqs', FaqController::class);
+
+
+
+
 
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
