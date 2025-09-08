@@ -1,8 +1,8 @@
 <div class="d-flex" role="group">
 
-    {!! $deal->edit_button !!}
-    {!! $deal->view_button !!}
-    {!! $deal->delete_button !!}
+    {!! $message->edit_button !!}
+    {!! $message->view_button !!}
+    {!! $message->delete_button !!}
 
 </div>
 

@@ -106,7 +106,7 @@ class ContactMessageRepository implements ContactMessageRepositoryInterface
                 ->addColumn(
                     'action',
                     fn($row) =>
-                    view('admin.contact_messages.action', ['message' => $row])->render()
+                    view('admin.contact-messages.action', ['message' => $row])->render()
                 )
 
                 ->rawColumns(['checkbox', 'customer', 'subject', 'priority', 'status', 'action'])
