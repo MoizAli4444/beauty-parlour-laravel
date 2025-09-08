@@ -10,90 +10,16 @@
                     <div class="card">
 
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">View Deal</h5>
+                            <h5 class="mb-0">View Message</h5>
                             <div>
 
-                                {!! render_delete_button($deal->id, route('deals.destroy', $deal->id), false) !!}
-                                {!! render_edit_button(route('deals.edit', $deal->slug), false) !!}
-                                {!! render_index_button(route('deals.index'), 'All Deals', false) !!}
+                                {!! render_delete_button($message->id, route('contact-messages.destroy', $message->id), false) !!}
+                                {!! render_edit_button(route('contact-messages.edit', $message->id), false) !!}
+                                {!! render_index_button(route('contact-messages.index'), 'All Messages', false) !!}
                             </div>
                         </div>
 
-                        <div class="card-body">
-                            <div class="row justify-content-center">
-                                <div class="col-lg-8">
-
-                                    {{-- Card --}}
-                                    <div class="card shadow-lg border-0 rounded-3">
-                                        <div class="card-header bg-primary text-white text-center">
-                                            <h4 class="mb-0">Customer Details</h4>
-                                        </div>
-                                        <div class="card-body p-4">
-
-                                            {{-- Profile --}}
-                                            <div class="text-center mb-4">
-                                                <img src="{{ $message->profile_image ?? 'https://via.placeholder.com/120' }}"
-                                                    class="rounded-circle shadow-sm" width="120" height="120"
-                                                    alt="Customer Image">
-                                                <h5 class="mt-3">{{ $message->name }}</h5>
-                                                <span
-                                                    class="badge bg-success">{{ ucfirst($message->status ?? 'active') }}</span>
-                                            </div>
-
-                                            {{-- Details Table --}}
-                                            <div class="table-responsive">
-                                                <table class="table table-striped table-borderless align-middle">
-                                                    <tbody>
-                                                        <tr>
-                                                            <th width="30%">Email</th>
-                                                            <td>{{ $message->email ?? 'N/A' }}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>Phone</th>
-                                                            <td>{{ $message->phone ?? 'N/A' }}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>Address</th>
-                                                            <td>{{ $message->address ?? 'N/A' }}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>Created At</th>
-                                                            <td>{{ $message->created_at?->format('d M Y, h:i A') }}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>Updated At</th>
-                                                            <td>{{ $customer->updated_at?->format('d M Y, h:i A') }}</td>
-                                                        </tr>
-                                                        {{-- Add more fields if needed --}}
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-
-                                        {{-- Footer --}}
-                                        <div class="card-footer text-center bg-light">
-                                            <a href="{{ route('customers.index') }}" class="btn btn-secondary btn-sm">
-                                                <i class="bi bi-arrow-left"></i> Back
-                                            </a>
-                                            <a href="{{ route('customers.edit', $customer->id) }}"
-                                                class="btn btn-warning btn-sm">
-                                                <i class="bi bi-pencil-square"></i> Edit
-                                            </a>
-                                            <form action="{{ route('customers.destroy', $customer->id) }}" method="POST"
-                                                class="d-inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm"
-                                                    onclick="return confirm('Are you sure you want to delete this customer?')">
-                                                    <i class="bi bi-trash"></i> Delete
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
+                      
 
 
                         <div class="card-body">
@@ -101,9 +27,7 @@
                                 <div class="col-lg-10">
 
                                     <div class="card shadow-lg border-0 rounded-3">
-                                        <div class="card-header bg-primary text-white">
-                                            <h4 class="mb-0">Contact Message Details</h4>
-                                        </div>
+                                        
                                         <div class="card-body">
                                             <div class="row justify-content-center">
 
