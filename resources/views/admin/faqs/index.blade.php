@@ -46,10 +46,7 @@
                                         <tr>
                                             <th><input type="checkbox" id="select-all"></th> {{-- universal checkbox --}}
                                             <th>ID</th>
-                                            <th>Name</th>
-                                            <th>Image</th>
-                                            <th>Price</th>
-                                            <th>Validity</th> {{-- start_date - end_date --}}
+                                            <th>Question</th>
                                             <th>Status</th>
                                             <th>Created At</th>
                                             <th>Action</th>
@@ -71,7 +68,7 @@
     </div>
 
     <!-- Media Preview Modal -->
-    @include('admin.pages-partials.preview_modal')
+    {{-- @include('admin.pages-partials.preview_modal') --}}
 
 
 

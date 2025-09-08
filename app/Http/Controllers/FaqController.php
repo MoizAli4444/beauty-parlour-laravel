@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Faq;
-use App\Repositories\Deal\DealRepositoryInterface;
+use App\Repositories\Faq\FaqRepositoryInterface;
 use Illuminate\Http\Request;
 
 class FaqController extends Controller
 {
     protected $repository;
 
-    public function __construct(DealRepositoryInterface $repository)
+    public function __construct(FaqRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
