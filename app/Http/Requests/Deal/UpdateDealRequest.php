@@ -25,7 +25,6 @@ class UpdateDealRequest extends FormRequest
 
         return [
             'name'          => 'required|string|max:255|unique:deals,name,' . $dealId,
-            'slug'          => 'nullable|string|max:255|unique:deals,slug,' . $dealId,
             'description'   => 'nullable|string',
             'price'         => 'required|numeric|min:0',
             'services_total' => 'nullable|numeric|min:0',
@@ -36,5 +35,14 @@ class UpdateDealRequest extends FormRequest
             'service_variant_ids' => 'required|array|min:1',
             'service_variant_ids.*' => 'exists:service_variants,id',
         ];
+    }
+
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if ($this->services_total !== null && $this->price > $this->services_total) {
+                $validator->errors()->add('price', 'Deal price cannot be greater than the total of selected services.');
+            }
+        });
     }
 }

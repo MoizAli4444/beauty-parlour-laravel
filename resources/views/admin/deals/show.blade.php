@@ -42,13 +42,13 @@
                                         <div class="col-md-6">
                                             <label class="form-label fw-bold">Price:</label>
                                             <div class="text-primary fw-semibold">
-                                                ${{ number_format($deal->price, 2) }}
+                                                Rs {{ number_format($deal->price, 2) }}
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-label fw-bold">Services Total:</label>
                                             <div>
-                                                ${{ number_format($deal->services_total ?? 0, 2) }}
+                                                Rs {{ number_format($deal->services_total ?? 0, 2) }}
                                             </div>
                                         </div>
                                     </div>
@@ -58,39 +58,38 @@
                                         <div class="col-md-6">
                                             <label class="form-label fw-bold">Start Date:</label>
                                             <div>
-                                                {{ $deal->start_date ? \Carbon\Carbon::parse($deal->start_date)->format('d M Y') : '—' }}
+                                                {{ $deal->start_date ? \Carbon\Carbon::parse($deal->start_date)->format('d M Y h:i A') : '—' }}
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-label fw-bold">End Date:</label>
                                             <div>
-                                                {{ $deal->end_date ? \Carbon\Carbon::parse($deal->end_date)->format('d M Y') : '—' }}
+                                                {{ $deal->end_date ? \Carbon\Carbon::parse($deal->end_date)->format('d M Y h:i A') : '—' }}
                                             </div>
                                         </div>
                                     </div>
 
+
                                     <!-- Status -->
                                     <div class="mb-4">
                                         <label class="form-label fw-bold">Status:</label>
+                                        <div>{!! $deal->status_badge !!}</div>
+                                    </div>
+
+                                    <!-- Services -->
+                                    <div class="mb-4">
+                                        <label class="form-label fw-bold">Services:</label>
                                         <div>
-                                            <span
-                                                class="badge bg-{{ $deal->status === 'active' ? 'success' : 'secondary' }} px-3 py-2">
-                                                {{ ucfirst($deal->status) }}
-                                            </span>
+                                            @forelse($deal->serviceVariants as $service)
+                                                <span class="badge bg-info text-dark me-1 mb-1">
+                                                    {{ $service->name }} (Rs {{ number_format($service->price, 2) }})
+                                                </span>
+                                            @empty
+                                                <span>—</span>
+                                            @endforelse
                                         </div>
                                     </div>
 
-                                    <!-- Created & Updated At -->
-                                    <div class="row mb-4">
-                                        <div class="col-md-6">
-                                            <label class="form-label fw-bold">Created At:</label>
-                                            <div>{{ $deal->created_at->format('d M Y, h:i A') }}</div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label fw-bold">Updated At:</label>
-                                            <div>{{ $deal->updated_at->format('d M Y, h:i A') }}</div>
-                                        </div>
-                                    </div>
 
                                 </div>
 
@@ -108,14 +107,6 @@
                                     @endif
                                 </div>
 
-
-                                <!-- Back & Edit Buttons -->
-                                <div class="mt-4 text-center">
-                                    <a href="{{ route('deals.index') }}"
-                                        class="btn btn-outline-secondary rounded-pill px-4">Back to Deals</a>
-                                    <a href="{{ route('deals.edit', $deal->id) }}"
-                                        class="btn btn-primary rounded-pill px-4">Edit Deal</a>
-                                </div>
                             </div>
                         </div>
 
