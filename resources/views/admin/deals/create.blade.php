@@ -122,7 +122,7 @@
                                 </div>
 
                                 {{-- Services --}}
-                                <div class="mb-3">
+                                {{-- <div class="mb-3">
                                     <label class="form-label">Select Services</label>
                                     <select name="service_variant_ids[]"
                                         class="form-select @error('service_variant_ids') is-invalid @enderror" multiple>
@@ -136,7 +136,36 @@
                                     @error('service_variant_ids')
                                         <div class="invalid-feedback d-block">{{ $message }}</div>
                                     @enderror
+                                </div> --}}
+
+                                {{-- Services --}}
+                                <link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.bootstrap5.min.css"
+                                    rel="stylesheet">
+                                <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Select Services</label>
+                                    <select id="services" name="service_variant_ids[]"
+                                        class="form-select @error('service_variant_ids') is-invalid @enderror" multiple>
+                                        @foreach ($services as $service)
+                                            <option value="{{ $service->id }}"
+                                                {{ in_array($service->id, old('service_variant_ids', [])) ? 'selected' : '' }}>
+                                                {{ $service->name }} ({{ $service->price }})
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('service_variant_ids')
+                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                    @enderror
                                 </div>
+
+                                <script>
+                                    new TomSelect("#services", {
+                                        plugins: ['remove_button'],
+                                        placeholder: "Select services"
+                                    });
+                                </script>
+
 
                                 <div class="text-end">
                                     <button type="submit" class="btn btn-primary">Create Deal</button>

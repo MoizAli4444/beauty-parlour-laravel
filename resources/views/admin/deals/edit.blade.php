@@ -48,16 +48,6 @@
                                     @enderror
                                 </div>
 
-                                {{-- Slug --}}
-                                <div class="mb-3">
-                                    <label class="form-label">Slug</label>
-                                    <input type="text" name="slug"
-                                        class="form-control @error('slug') is-invalid @enderror"
-                                        value="{{ old('slug', $deal->slug) }}">
-                                    @error('slug')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
 
                                 {{-- Description --}}
                                 <div class="mb-3">
