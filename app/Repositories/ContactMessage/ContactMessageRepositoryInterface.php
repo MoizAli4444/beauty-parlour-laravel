@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Repositories\Faq;
+namespace App\Repositories\ContactMessage;
 
-interface FaqRepositoryInterface
+interface ContactMessageRepositoryInterface
 {
-    public function getDatatableData();
+    public function getDatatableData(array $filters);
     public function all();
     public function find($id);
     public function findBySlug($slug);

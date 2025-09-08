@@ -3,16 +3,35 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContactMessage;
+use App\Repositories\ContactMessage\ContactMessageRepositoryInterface;
 use Illuminate\Http\Request;
 
 class ContactMessageController extends Controller
 {
+    protected $repository;
+
+    public function __construct(ContactMessageRepositoryInterface $repository)
+    {
+        $this->repository = $repository;
+    }
+
+    public function datatable(Request $request)
+    {
+        if ($request->ajax()) {
+            $filters = $request->only(['status', 'priority', 'start_date', 'end_date']);
+            return $this->repository->getDatatableData($filters);
+        }
+
+        return abort(403);
+    }
+
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return view('admin.contact-messages.index');
     }
 
     /**
