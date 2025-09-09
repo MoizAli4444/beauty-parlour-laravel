@@ -22,69 +22,58 @@
                         <div class="card-body">
                             <div class="row justify-content-center">
 
-                                <!-- Left Column -->
-                                <div class="col-md-8">
-
-                                    <!-- Name -->
-                                    <div class="mb-4">
-                                        <label class="form-label fw-bold">Name:</label>
-                                        <div>{{ $message->name ?? '-' }}</div>
-                                    </div>
-
-                                    <!-- Email -->
-                                    <div class="mb-4">
-                                        <label class="form-label fw-bold">Email:</label>
-                                        <div>{{ $message->email ?? '-' }}</div>
-                                    </div>
-
-                                    <!-- Phone -->
-                                    <div class="mb-4">
-                                        <label class="form-label fw-bold">Phone:</label>
-                                        <div>{{ $message->phone ?? '-' }}</div>
-                                    </div>
-
-                                    <!-- Subject -->
-                                    <div class="mb-4">
-                                        <label class="form-label fw-bold">Subject:</label>
-                                        <div>{{ $message->subject ?? '-' }}</div>
-                                    </div>
-
-                                    <!-- Message -->
-                                    <div class="mb-4">
-                                        <label class="form-label fw-bold">Message:</label>
-                                        <div class="p-3 bg-light rounded shadow-sm">
-                                            {{ $message->message ?? '-' }}
-                                        </div>
-                                    </div>
-
-                                    <!-- Received At -->
-                                    <div class="mb-4">
-                                        <label class="form-label fw-bold">Received At:</label>
-                                        <div>{{ $message->created_at?->format('d M Y h:i A') }}</div>
+                                <div class="mb-3 col-4">
+                                    <label class="form-label fw-bold">Name:</label>
+                                    <div>{{ $message->name ?? '-' }}</div>
+                                </div>
+                                <div class="mb-3 col-4">
+                                    <label class="form-label fw-bold">Email:</label>
+                                    <div>{{ $message->email ?? '-' }}</div>
+                                </div>
+                                <div class="mb-3 col-4">
+                                    <label class="form-label fw-bold">Phone:</label>
+                                    <div>{{ $message->phone ?? '-' }}</div>
+                                </div>
+                                <div class="mb-3 col-12">
+                                    <label class="form-label fw-bold">Subject:</label>
+                                    <div>{{ $message->subject ?? '-' }}</div>
+                                </div>
+                                <div class="mb-3 col-12">
+                                    <label class="form-label fw-bold">Message:</label>
+                                    <div class="p-3 bg-light rounded border">
+                                        {{ $message->message ?? '-' }}
                                     </div>
                                 </div>
+                                <div class="mb-3 col-12">
+                                    <label class="form-label fw-bold">Response:</label>
+                                    <div class="p-3 bg-white rounded border border-info">
+                                        {{ $message->response ?? '-' }}
+                                    </div>
+                                </div>
+                                <div class="mb-3 col-4">
+                                    <label class="form-label fw-bold">Status:</label>
+                                    <div>{!! $message->status_badge !!}</div>
+                                </div>
+                                <div class="mb-3 col-4">
+                                    <label class="form-label fw-bold">Priority:</label>
+                                    <div>{!! $message->priority_badge !!}</div>
+                                </div>
+                                <div class="mb-3 col-4">
+                                    <label class="form-label fw-bold">Received At:</label>
+                                    <div>{{ $message->created_at?->format('d M Y h:i A') }}</div>
 
-                                <!-- Right Column (Optional Preview or Status) -->
-                                <div class="col-md-4 text-center">
-                                    <label class="form-label fw-bold">Status:</label><br>
-                                    @if ($message->is_read)
-                                        <span class="badge bg-success">Read</span>
-                                    @else
-                                        <span class="badge bg-warning text-dark">Unread</span>
-                                    @endif
                                 </div>
 
                             </div>
+
+
                         </div>
-
-
                     </div>
                 </div>
+                <!-- / Content -->
+
+                <!-- Media Preview Modal -->
+                @include('admin.pages-partials.preview_modal')
+
             </div>
-            <!-- / Content -->
-
-            <!-- Media Preview Modal -->
-            @include('admin.pages-partials.preview_modal')
-
-        </div>
-    @endsection
+        @endsection
