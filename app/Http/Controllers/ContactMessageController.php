@@ -103,7 +103,7 @@ class ContactMessageController extends Controller
         $this->repository->delete($id);
         return response()->json([
             'status' => true,
-            'message' => 'Addon deleted successfully.',
+            'message' => 'Message deleted successfully.',
         ]);
     }
 }
