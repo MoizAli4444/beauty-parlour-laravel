@@ -162,8 +162,8 @@ class ContactMessageRepository implements ContactMessageRepositoryInterface
 
     public function delete($id)
     {
-        $addon = ContactMessage::findOrFail($id);
-        return $addon->delete(); // uses softDeletes
+        $message = ContactMessage::findOrFail($id);
+        return $message->delete(); // uses softDeletes
     }
 
     public function toggleStatus($id)

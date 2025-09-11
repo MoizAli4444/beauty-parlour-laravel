@@ -98,8 +98,12 @@ class ContactMessageController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ContactMessage $contactMessage)
+    public function destroy($id)
     {
-        //
+        $this->repository->delete($id);
+        return response()->json([
+            'status' => true,
+            'message' => 'Addon deleted successfully.',
+        ]);
     }
 }
