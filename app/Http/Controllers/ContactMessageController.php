@@ -106,4 +106,10 @@ class ContactMessageController extends Controller
             'message' => 'Message deleted successfully.',
         ]);
     }
+
+    public function bulkDelete(Request $request)
+    {
+        $this->repository->bulkDelete($request->ids);
+        return response()->json(['message' => 'Selected addons deleted successfully.']);
+    }
 }
