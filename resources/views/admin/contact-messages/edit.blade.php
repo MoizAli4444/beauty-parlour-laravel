@@ -84,7 +84,7 @@
                                     <label class="form-label">Status</label>
                                     <select name="status" class="form-select @error('status') is-invalid @enderror">
                                         <option value="open"
-                                            {{ old('status', $message->status) == 'open' ? 'selected' : '' }}>Open</option>
+                                            {{ old('status', $message->status) == 'pending' ? 'selected' : '' }}>Pending</option>
                                         <option value="in_progress"
                                             {{ old('status', $message->status) == 'in_progress' ? 'selected' : '' }}>In
                                             Progress</option>

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('subject')->nullable();
             $table->text('message');
             $table->enum('priority', ['low', 'medium', 'high'])->default('low');
-            $table->enum('status', ['pending', 'resolved', 'closed'])->default('pending');
+            $table->enum('status', ['pending', 'in_progress', 'closed'])->default('pending');
             $table->text('response')->nullable(); // reply from admin
             $table->softDeletes();
             $table->timestamps();

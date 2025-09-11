@@ -31,7 +31,7 @@ class ContactMessageSeeder extends Seeder
                 'subject' => 'Complaint',
                 'message' => 'I had a bad experience during my last visit, please contact me.',
                 'priority' => 'high',
-                'status' => 'pending',
+                'status' => 'closed',
                 'response' => null,
             ],
             [
@@ -41,7 +41,7 @@ class ContactMessageSeeder extends Seeder
                 'subject' => null,
                 'message' => 'Can you provide details about your bridal packages?',
                 'priority' => 'low',
-                'status' => 'resolved',
+                'status' => 'in_progress',
                 'response' => 'Hello Ali, yes we provide complete bridal packages. Please visit our packages page.',
             ],
         ];

@@ -23,7 +23,7 @@ class UpdateContactMessageRequest extends FormRequest
     {
         return [
             'response' => 'nullable|string|max:2000',
-            'status'   => 'required|in:pending,resolved,closed',
+            'status'   => 'required|in:pending,in_progress,closed',
             'priority' => 'nullable|in:low,medium,high', // adjust based on your system
         ];
     }

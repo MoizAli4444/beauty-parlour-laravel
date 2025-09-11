@@ -33,8 +33,8 @@ class ContactMessage extends Model
     {
         return match ($this->status) {
             'pending'  => '<span class="badge bg-primary">Pending</span>',
-            'resolved' => '<span class="badge bg-success">Resolved</span>',
-            'closed'   => '<span class="badge bg-secondary">Closed</span>',
+            'in_progress' => '<span class="badge bg-info">In Progress</span>',
+            'closed'   => '<span class="badge bg-success">Closed</span>',
             default    => '<span class="badge bg-dark">Unknown</span>',
         };
     }
