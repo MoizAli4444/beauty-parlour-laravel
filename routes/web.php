@@ -15,6 +15,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ServiceVariantController;
 use App\Http\Controllers\StaffController;
+use App\Http\Controllers\TestimonialController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -316,6 +317,24 @@ Route::middleware('auth')->group(function () {
     // Resource Routes
     Route::resource('contact-messages', ContactMessageController::class)->except(['create', 'store']);
 
+
+    // ==============================
+    // Testimonials Module Routes
+    // ==============================
+    Route::prefix('testimonials')->name('testimonials.')->group(function () {
+        // For DataTables AJAX loading
+        Route::get('datatable', [TestimonialController::class, 'datatable'])->name('datatable');
+
+        // For toggling status (pending/active/inactive)
+        Route::patch('{id}/toggle-status', [TestimonialController::class, 'toggleStatus'])->name('toggle-status');
+
+        // Bulk actions
+        Route::post('bulk-delete', [TestimonialController::class, 'bulkDelete'])->name('bulkDelete');
+        Route::post('bulk-status', [TestimonialController::class, 'bulkStatus'])->name('bulkStatus');
+    });
+
+    // Resource Routes
+    Route::resource('testimonials', TestimonialController::class);
 
 
 
