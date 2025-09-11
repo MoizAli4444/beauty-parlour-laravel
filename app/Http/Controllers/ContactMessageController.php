@@ -67,9 +67,15 @@ class ContactMessageController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ContactMessage $contactMessage)
+    public function edit($id)
     {
-        //
+        $message = $this->repository->find($id);
+
+        if (!$message) {
+            return redirect()->route('contact-messages.index')->with('error', 'Message not found');
+        }
+
+        return view('admin.contact-messages.edit', compact('message'));
     }
 
     /**

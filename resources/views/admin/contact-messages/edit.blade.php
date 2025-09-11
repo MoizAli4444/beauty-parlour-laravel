@@ -18,9 +18,9 @@
                             <h5 class="mb-0">Edit Deal</h5>
 
                             <div>
-                                {!! render_delete_button($deal->id, route('deals.destroy', $deal->id), false) !!}
-                                {!! render_view_button(route('deals.show', $deal->slug), false) !!}
-                                {!! render_index_button(route('deals.index'), 'All Deals', false) !!}
+                                {!! render_delete_button($deal->id, route('contact-messages.destroy', $deal->id), false) !!}
+                                {!! render_view_button(route('contact-messages.show', $deal->slug), false) !!}
+                                {!! render_index_button(route('contact-messages.index'), 'All Messages', false) !!}
 
                             </div>
                         </div>
