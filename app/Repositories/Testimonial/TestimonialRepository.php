@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Repositories\Gallery;
+namespace App\Repositories\Testimonial;
 
-use App\Models\Gallery;
+use App\Models\Testimonial;
 
-use App\Repositories\Gallery\GalleryRepositoryInterface;
+use App\Repositories\Testimonial\TestimonialRepositoryInterface;
 use Yajra\DataTables\Facades\DataTables;
 use App\Traits\TracksUser;
 use Illuminate\Support\Facades\Storage;
 
-class GalleryRepository implements GalleryRepositoryInterface
+class TestimonialRepository implements TestimonialRepositoryInterface
 {
 
     /**
@@ -25,7 +25,7 @@ class GalleryRepository implements GalleryRepositoryInterface
     public function getDatatableData(array $filters)
     {
         try {
-            $query = Gallery::with('service')->latest();
+            $query = Testimonial::with('service')->latest();
 
             // ✅ Filters
             if (!empty($filters['service_id'])) {
@@ -120,7 +120,7 @@ class GalleryRepository implements GalleryRepositoryInterface
                 ->addColumn(
                     'action',
                     fn($row) =>
-                    view('admin.galleries.action', ['gallery' => $row])->render()
+                    view('admin.galleries.action', ['testimonial' => $row])->render()
                 )
 
                 ->rawColumns(['checkbox', 'media_preview', 'status', 'featured', 'file_size', 'action'])
@@ -132,17 +132,17 @@ class GalleryRepository implements GalleryRepositoryInterface
 
     public function all()
     {
-        return Gallery::latest()->get();
+        return Testimonial::latest()->get();
     }
 
     public function find($id)
     {
-        return Gallery::findOrFail($id);
+        return Testimonial::findOrFail($id);
     }
 
     public function findBySlug($slug)
     {
-        return Gallery::where('slug', $slug)->first();
+        return Testimonial::where('slug', $slug)->first();
     }
 
 
@@ -155,7 +155,7 @@ class GalleryRepository implements GalleryRepositoryInterface
             $file = $data['file'];
 
             $filename = time() . '.' . $file->getClientOriginalExtension();
-            $data['file_path'] = $file->storeAs('uploads/gallery', $filename, 'public');
+            $data['file_path'] = $file->storeAs('uploads/testimonial', $filename, 'public');
             $data['file_size'] = $file->getSize();
             // ✅ Detect file type automatically
             $mimeType = $file->getMimeType(); // e.g. image/jpeg, video/mp4
@@ -170,13 +170,13 @@ class GalleryRepository implements GalleryRepositoryInterface
             unset($data['file']); // don’t try to insert file object into DB
         }
 
-        return Gallery::create($data);
+        return Testimonial::create($data);
     }
 
 
     public function update($id, array $data)
     {
-        $gallery = Gallery::findOrFail($id);
+        $testimonial = Testimonial::findOrFail($id);
 
         // Track who updated
         $data = $this->addUpdatedBy($data);
@@ -185,8 +185,8 @@ class GalleryRepository implements GalleryRepositoryInterface
         if (isset($data['file'])) {
             $file = $data['file'];
 
-            // Store file in public/uploads/gallery
-            $path = $file->store('uploads/gallery', 'public');
+            // Store file in public/uploads/testimonial
+            $path = $file->store('uploads/testimonial', 'public');
 
             // Update fields
             $data['file_path']  = $path;
@@ -196,57 +196,57 @@ class GalleryRepository implements GalleryRepositoryInterface
             unset($data['file']); // don’t try to save file object into DB
         }
 
-        $gallery->update($data);
+        $testimonial->update($data);
 
-        return $gallery;
+        return $testimonial;
     }
 
 
     public function delete($id)
     {
-        $gallery = Gallery::findOrFail($id);
+        $testimonial = Testimonial::findOrFail($id);
 
-        if ($gallery->file_path && Storage::disk('public')->exists($gallery->file_path)) {
-            Storage::disk('public')->delete($gallery->file_path);
+        if ($testimonial->file_path && Storage::disk('public')->exists($testimonial->file_path)) {
+            Storage::disk('public')->delete($testimonial->file_path);
         }
 
-        return $gallery->delete(); // uses softDeletes
+        return $testimonial->delete(); // uses softDeletes
     }
 
 
     public function toggleStatus($id)
     {
-        $gallery = Gallery::findOrFail($id);
+        $testimonial = Testimonial::findOrFail($id);
 
-        $gallery->status = $gallery->status === Gallery::STATUS_ACTIVE
-            ? Gallery::STATUS_INACTIVE
-            : Gallery::STATUS_ACTIVE;
+        $testimonial->status = $testimonial->status === Testimonial::STATUS_ACTIVE
+            ? Testimonial::STATUS_INACTIVE
+            : Testimonial::STATUS_ACTIVE;
 
-        $gallery->save();
+        $testimonial->save();
 
-        return $gallery;
+        return $testimonial;
     }
 
     public function toggleFeatured($id)
     {
-        $gallery = Gallery::findOrFail($id);
-        $gallery->featured = !$gallery->featured;
-        $gallery->save();
+        $testimonial = Testimonial::findOrFail($id);
+        $testimonial->featured = !$testimonial->featured;
+        $testimonial->save();
 
-        return $gallery;
+        return $testimonial;
     }
 
 
 
     public function bulkDelete(array $ids)
     {
-        $galleries = Gallery::whereIn('id', $ids)->get();
+        $galleries = Testimonial::whereIn('id', $ids)->get();
 
-        foreach ($galleries as $gallery) {
-            if ($gallery->file_path && Storage::disk('public')->exists($gallery->file_path)) {
-                Storage::disk('public')->delete($gallery->file_path);
+        foreach ($galleries as $testimonial) {
+            if ($testimonial->file_path && Storage::disk('public')->exists($testimonial->file_path)) {
+                Storage::disk('public')->delete($testimonial->file_path);
             }
-            $gallery->delete();
+            $testimonial->delete();
         }
 
         return true;
@@ -255,6 +255,6 @@ class GalleryRepository implements GalleryRepositoryInterface
 
     public function bulkStatus(array $ids, string $status)
     {
-        return Gallery::whereIn('id', $ids)->update(['status' => $status]);
+        return Testimonial::whereIn('id', $ids)->update(['status' => $status]);
     }
 }

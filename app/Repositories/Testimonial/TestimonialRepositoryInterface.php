@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repositories\Gallery;
+namespace App\Repositories\Testimonial;
 
-interface GalleryRepositoryInterface
+interface TestimonialRepositoryInterface
 {
     public function getDatatableData(array $data);
     public function all();
