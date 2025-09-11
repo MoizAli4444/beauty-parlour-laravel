@@ -82,5 +82,5 @@
 @endsection
 
 @push('scripts')
-    @include('admin.faqs.js.script')
+    @include('admin.testimonials.js.script')
 @endpush

@@ -27,6 +27,8 @@ use App\Repositories\OfferRepository;
 use App\Repositories\ServiceRepository;
 use App\Repositories\ServiceVariantRepository;
 use App\Repositories\StaffRepository;
+use App\Repositories\Testimonial\TestimonialRepository;
+use App\Repositories\Testimonial\TestimonialRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -55,6 +57,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(FaqRepositoryInterface::class, FaqRepository::class);
 
         $this->app->bind(ContactMessageRepositoryInterface::class, ContactMessageRepository::class);
+        
+        $this->app->bind(TestimonialRepositoryInterface::class, TestimonialRepository::class);
     }
 
     /**

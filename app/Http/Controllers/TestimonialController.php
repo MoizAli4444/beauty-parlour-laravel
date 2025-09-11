@@ -18,7 +18,8 @@ class TestimonialController extends Controller
     public function datatable(Request $request)
     {
         if ($request->ajax()) {
-            return $this->repository->getDatatableData();
+            $filters = $request->only(['status', 'name']);
+            return $this->repository->getDatatableData($filters);
         }
 
         return abort(403);

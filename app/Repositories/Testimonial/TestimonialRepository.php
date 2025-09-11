@@ -52,7 +52,7 @@ class TestimonialRepository implements TestimonialRepositoryInterface
                 ->addColumn('designation', fn($row) => $row->designation ?? 'N/A')
 
                 ->addColumn('testimonial', function ($row) {
-                    return \Str::limit($row->testimonial, 80); // short preview
+                    return strlen($row->testimonial) > 80 ? substr($row->testimonial, 0, 80) . '...' : $row->testimonial;
                 })
 
                 ->addColumn('image', function ($row) {
