@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ContactMessage\UpdateContactMessageRequest;
 use App\Models\ContactMessage;
 use App\Repositories\ContactMessage\ContactMessageRepositoryInterface;
 use Illuminate\Http\Request;
@@ -81,10 +82,18 @@ class ContactMessageController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ContactMessage $contactMessage)
+    public function update(UpdateContactMessageRequest $request, $id = null)
     {
-        //
+        $validated = $request->validated();
+
+        // Use repository update
+        $this->repository->update($id, $validated);
+
+        return redirect()
+            ->route('contact-messages.index')
+            ->with('success', 'Contact message updated successfully.');
     }
+
 
     /**
      * Remove the specified resource from storage.

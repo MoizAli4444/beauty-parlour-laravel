@@ -142,23 +142,21 @@ class ContactMessageRepository implements ContactMessageRepositoryInterface
 
     public function update($id, array $data)
     {
-        $deal = ContactMessage::findOrFail($id);
+        $message = ContactMessage::findOrFail($id);
+
+        // Track which admin updated it (optional helper you might already have)
         $data = $this->addUpdatedBy($data);
 
-        if (isset($data['image'])) {
-            $file = $data['image'];
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $data['image'] = $file->storeAs('faqs', $filename, 'public');
-        }
+        // Update only allowed fields
+        $message->update([
+            'response' => $data['response'] ?? $message->response,
+            'status'   => $data['status'] ?? $message->status,
+            'priority' => $data['priority'] ?? $message->priority,
+        ]);
 
-        $deal->update($data);
-
-        if (isset($data['service_variant_ids'])) {
-            $deal->serviceVariants()->sync($data['service_variant_ids']);
-        }
-
-        return $deal;
+        return $message;
     }
+
 
 
 
