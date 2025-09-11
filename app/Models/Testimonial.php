@@ -2,10 +2,25 @@
 
 namespace App\Models;
 
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Testimonial extends Model
 {
+
+    use HasFactory, SoftDeletes;
+
+    // Fillable fields
+    protected $fillable = [
+        'name',
+        'designation',
+        'testimonial',
+        'image',
+        'status',
+    ];
+
     ///////////// fixed model functions //////////////
     public function creator()
     {
@@ -43,5 +58,15 @@ class Testimonial extends Model
         return $query->where('status', 'active');
     }
     ///////////// fixed model functions //////////////
+
+    /**
+     * Return default image if none exists.
+     */
+    public function getImageUrlAttribute(): string
+    {
+        return $this->image
+            ? asset('storage/testimonials/' . $this->image)
+            : asset('images/default-avatar.png');
+    }
 
 }
