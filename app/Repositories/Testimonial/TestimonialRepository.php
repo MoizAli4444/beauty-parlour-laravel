@@ -25,23 +25,15 @@ class TestimonialRepository implements TestimonialRepositoryInterface
     public function getDatatableData(array $filters)
     {
         try {
-            $query = Testimonial::with('service')->latest();
+            $query = Testimonial::latest();
 
             // ✅ Filters
-            if (!empty($filters['service_id'])) {
-                $query->where('service_id', $filters['service_id']);
-            }
-
             if (!empty($filters['status'])) {
                 $query->where('status', $filters['status']);
             }
 
-            if (!empty($filters['media_type'])) {
-                $query->where('media_type', $filters['media_type']);
-            }
-
-            if (!empty($filters['featured'])) {
-                $query->where('featured', $filters['featured']);
+            if (!empty($filters['name'])) {
+                $query->where('name', 'like', '%' . $filters['name'] . '%');
             }
 
             // ✅ DataTable response
@@ -55,80 +47,47 @@ class TestimonialRepository implements TestimonialRepositoryInterface
 
                 ->addColumn('id', fn($row) => $row->id)
 
-                ->addColumn(
-                    'service',
-                    fn($row) =>
-                    $row->service ? $row->service->name : 'N/A'
-                )
+                ->addColumn('name', fn($row) => e($row->name))
 
-                ->addColumn('title', fn($row) => $row->title ?? 'N/A')
+                ->addColumn('designation', fn($row) => $row->designation ?? 'N/A')
 
+                ->addColumn('testimonial', function ($row) {
+                    return \Str::limit($row->testimonial, 80); // short preview
+                })
 
-
-                ->addColumn('media_preview', function ($row) {
-                    if ($row->media_type === 'image') {
-                        return '<i class="bi bi-image text-primary fs-3 js-media-preview"
-                    style="cursor:pointer"
-                    data-url="' . asset('storage/' . $row->file_path) . '" 
-                    data-type="image"></i>';
+                ->addColumn('image', function ($row) {
+                    if ($row->image) {
+                        return '<img src="' . asset('storage/' . $row->image) . '" 
+                            class="img-thumbnail js-media-preview" 
+                            style="max-width: 60px; cursor:pointer;"
+                            data-url="' . asset('storage/' . $row->image) . '" 
+                            data-type="image">';
                     }
-
-                    if ($row->media_type === 'video') {
-                        return '<i class="bi bi-play-btn text-danger fs-3 js-media-preview"
-                    style="cursor:pointer"
-                    data-url="' . asset('storage/' . $row->file_path) . '" 
-                    data-type="video"></i>';
-                    }
-
                     return 'N/A';
                 })
 
-                ->addColumn('file_size', function ($row) {
-                    if (!is_numeric($row->file_size)) {
-                        return 'N/A';
-                    }
-
-                    $sizeKB = $row->file_size / 1024;
-
-                    if ($sizeKB < 1024) {
-                        return number_format($sizeKB, 2) . ' KB';
-                    } else {
-                        $sizeMB = $sizeKB / 1024;
-                        return number_format($sizeMB, 2) . ' MB';
-                    }
-                })
-
-
                 ->editColumn('status', function ($row) {
-                    // dd($row->status);
-                    return $row->status_badge; // uses model accessor
+                    return $row->status_badge; // accessor on model
                 })
-
-
-                ->editColumn('featured', function ($row) {
-                    // dd($row->status);
-                    return $row->featured_badge; // uses model accessor
-                })
-
 
                 ->editColumn(
                     'created_at',
-                    fn($row) =>
-                    $row->created_at->format('d M Y')
+                    fn($row) => $row->created_at->format('d M Y')
                 )
 
                 ->addColumn(
                     'action',
                     fn($row) =>
-                    view('admin.galleries.action', ['testimonial' => $row])->render()
+                    view('admin.testimonials.action', ['testimonial' => $row])->render()
                 )
 
-                ->rawColumns(['checkbox', 'media_preview', 'status', 'featured', 'file_size', 'action'])
+                ->rawColumns(['checkbox', 'image', 'status', 'action'])
                 ->make(true);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
 
     public function all()
     {

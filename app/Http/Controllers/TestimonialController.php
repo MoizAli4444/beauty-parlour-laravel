@@ -3,21 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Testimonial;
+use App\Repositories\Testimonial\TestimonialRepositoryInterface;
 use Illuminate\Http\Request;
 
 class TestimonialController extends Controller
 {
-    protected $addonRepository;
+    protected $repository;
 
-    public function __construct(AddonRepositoryInterface $addonRepository)
+    public function __construct(TestimonialRepositoryInterface $repository)
     {
-        $this->addonRepository = $addonRepository;
+        $this->repository = $repository;
     }
 
     public function datatable(Request $request)
     {
         if ($request->ajax()) {
-            return $this->addonRepository->getDatatableData();
+            return $this->repository->getDatatableData();
         }
 
         return abort(403);
@@ -28,7 +29,7 @@ class TestimonialController extends Controller
      */
     public function index()
     {
-        return view('admin.addon.index');
+        return view('admin.testimonials.index');
     }
 
 
@@ -54,7 +55,7 @@ class TestimonialController extends Controller
             $validated['image'] = $file->storeAs('addons', $filename, 'public');
         }
 
-        $this->addonRepository->create($validated);
+        $this->repository->create($validated);
 
         return redirect()->route('addons.index')->with('success', 'Addon created successfully.');
     }
