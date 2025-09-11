@@ -18,8 +18,8 @@
                             <h5 class="mb-0">Edit Deal</h5>
 
                             <div>
-                                {!! render_delete_button($deal->id, route('contact-messages.destroy', $deal->id), false) !!}
-                                {!! render_view_button(route('contact-messages.show', $deal->slug), false) !!}
+                                {!! render_delete_button($message->id, route('contact-messages.destroy', $message->id), false) !!}
+                                {!! render_view_button(route('contact-messages.show', $message->id), false) !!}
                                 {!! render_index_button(route('contact-messages.index'), 'All Messages', false) !!}
 
                             </div>
