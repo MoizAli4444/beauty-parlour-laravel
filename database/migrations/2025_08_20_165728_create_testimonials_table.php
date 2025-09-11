@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('designation')->nullable();
             $table->text('testimonial');
             $table->string('image')->nullable();
-            $table->enum('status', ['active', 'inactive'])->default('pending');
+            $table->enum('status', ['pending', 'active', 'inactive'])->default('pending');
             $table->softDeletes();
             $table->timestamps();
         });
