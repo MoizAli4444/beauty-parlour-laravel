@@ -191,6 +191,14 @@
             </a>
         </li>
 
+        <li class="menu-item {{ request()->routeIs('testimonials.*') ? 'active' : '' }}">
+            <a href="{{ route('testimonials.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-star"></i>
+                <div class="text-truncate" data-i18n="testimonials">Testimonials</div>
+            </a>
+        </li>
+
+
 
 
 
