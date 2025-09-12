@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Testimonials\StoreTestimonialRequest;
+use App\Http\Requests\Testimonials\UpdateTestimonialRequest;
 use App\Models\Testimonial;
 use App\Repositories\Testimonial\TestimonialRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class TestimonialController extends Controller
 {
@@ -81,49 +83,52 @@ class TestimonialController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($slug)
+    public function edit($id)
     {
-        $addon = $this->addonRepository->findBySlug($slug);
+        $testimonial = $this->repository->find($id);
 
-        if (!$addon) {
-            return redirect()->route('addons.index')->with('error', 'Addon not found');
+        if (!$testimonial) {
+            return redirect()->route('testimonials.index')->with('error', 'testimonial not found');
         }
 
-        return view('admin.addon.edit', compact('addon'));
+        return view('admin.testimonials.edit', compact('testimonial'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateAddonRequest $request, $id = null)
+    public function update(UpdateTestimonialRequest $request, $id = null)
     {
         $validated = $request->validated();
 
-        $addon = $this->addonRepository->find($id);
+        $testimonial = $this->repository->find($id);
 
         // Handle image upload
         if ($request->hasFile('image')) {
             // Delete old image if exists
-            if ($addon->image && Storage::disk('public')->exists($addon->image)) {
-                Storage::disk('public')->delete($addon->image);
+            if ($testimonial->image && Storage::disk('public')->exists($testimonial->image)) {
+                Storage::disk('public')->delete($testimonial->image);
             }
 
             $file = $request->file('image');
             $filename = time() . '.' . $file->getClientOriginalExtension();
-            $validated['image'] = $file->storeAs('addons', $filename, 'public');
+            $validated['image'] = $file->storeAs('testimonials', $filename, 'public');
         }
 
-        $this->addonRepository->update($id, $validated);
+        $this->repository->update($id, $validated);
 
-        return redirect()->route('addons.index')->with('success', 'Addon updated successfully.');
+        return redirect()
+            ->route('testimonials.index')
+            ->with('success', 'Testimonial updated successfully.');
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy($id)
     {
-        $this->addonRepository->delete($id);
+        $this->repository->delete($id);
         return response()->json([
             'status' => true,
             'message' => 'Addon deleted successfully.',

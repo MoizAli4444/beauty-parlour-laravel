@@ -119,19 +119,20 @@ class TestimonialRepository implements TestimonialRepositoryInterface
         // Track who updated
         $data = $this->addUpdatedBy($data);
 
-        // If a new file is uploaded
+        // If a new file is uploaded (extra file handling if needed)
         if (isset($data['file'])) {
             $file = $data['file'];
 
-            // Store file in public/uploads/testimonial
-            $path = $file->store('uploads/testimonial', 'public');
+            // Store file in public/uploads/testimonials
+            $path = $file->store('uploads/testimonials', 'public');
 
-            // Update fields
             $data['file_path']  = $path;
             $data['file_size']  = $file->getSize();
-            $data['media_type'] = str_starts_with($file->getMimeType(), 'video') ? 'video' : 'image';
+            $data['media_type'] = str_starts_with($file->getMimeType(), 'video')
+                ? 'video'
+                : 'image';
 
-            unset($data['file']); // don’t try to save file object into DB
+            unset($data['file']); // avoid saving raw file object
         }
 
         $testimonial->update($data);
@@ -144,8 +145,8 @@ class TestimonialRepository implements TestimonialRepositoryInterface
     {
         $testimonial = Testimonial::findOrFail($id);
 
-        if ($testimonial->file_path && Storage::disk('public')->exists($testimonial->file_path)) {
-            Storage::disk('public')->delete($testimonial->file_path);
+        if ($testimonial->image && Storage::disk('public')->exists($testimonial->image)) {
+            Storage::disk('public')->delete($testimonial->image);
         }
 
         return $testimonial->delete(); // uses softDeletes
