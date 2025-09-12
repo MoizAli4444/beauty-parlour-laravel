@@ -10,31 +10,31 @@
                 <div class="col-xl">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">All FAQs</h5>
-                            <a href="{{ route('faqs.create') }}" class="btn btn-warning">Create</a>
+                            <h5 class="mb-0">All Testimonials</h5>
+                            <a href="{{ route('testimonials.create') }}" class="btn btn-warning">Create</a>
                         </div>
                         <div class="card-body">
 
                             @include('admin.pages-partials.bulk-actions', [
-                                'itemType' => 'faqs',
+                                'itemType' => 'testimonials',
                                 'actions' => [
                                     [
                                         'text' => 'Delete Selected',
                                         'value' => 'delete',
                                         'class' => 'btn-danger',
-                                        'url' => route('faqs.bulkDelete'),
+                                        'url' => route('testimonials.bulkDelete'),
                                     ],
                                     [
                                         'text' => 'Mark as Active',
                                         'value' => 'active',
                                         'class' => 'btn-success',
-                                        'url' => route('faqs.bulkStatus'),
+                                        'url' => route('testimonials.bulkStatus'),
                                     ],
                                     [
                                         'text' => 'Mark as Inactive',
                                         'value' => 'inactive',
                                         'class' => 'btn-secondary',
-                                        'url' => route('faqs.bulkStatus'),
+                                        'url' => route('testimonials.bulkStatus'),
                                     ],
                                 ],
                             ])

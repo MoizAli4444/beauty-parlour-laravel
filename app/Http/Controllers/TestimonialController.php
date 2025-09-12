@@ -141,14 +141,14 @@ class TestimonialController extends Controller
 
     public function bulkDelete(Request $request)
     {
-        $this->addonRepository->bulkDelete($request->ids);
+        $this->repository->bulkDelete($request->ids);
 
         return response()->json(['message' => 'Selected addons deleted successfully.']);
     }
 
     public function bulkStatus(Request $request)
     {
-        $this->addonRepository->bulkStatus($request->ids, $request->status);
+        $this->repository->bulkStatus($request->ids, $request->status);
 
         return response()->json(['message' => 'Status updated']);
     }

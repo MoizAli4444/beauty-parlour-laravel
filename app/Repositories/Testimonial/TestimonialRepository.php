@@ -199,11 +199,11 @@ class TestimonialRepository implements TestimonialRepositoryInterface
 
     public function bulkDelete(array $ids)
     {
-        $galleries = Testimonial::whereIn('id', $ids)->get();
+        $testimonials = Testimonial::whereIn('id', $ids)->get();
 
-        foreach ($galleries as $testimonial) {
-            if ($testimonial->file_path && Storage::disk('public')->exists($testimonial->file_path)) {
-                Storage::disk('public')->delete($testimonial->file_path);
+        foreach ($testimonials as $testimonial) {
+            if ($testimonial->image && Storage::disk('public')->exists($testimonial->image)) {
+                Storage::disk('public')->delete($testimonial->image);
             }
             $testimonial->delete();
         }
