@@ -132,13 +132,13 @@ class TestimonialController extends Controller
 
     public function toggleStatus($id)
     {
-        $addon = $this->addonRepository->toggleStatus($id);
+        $testimonial = $this->repository->toggleStatus($id);
 
         return response()->json([
             'status' => true,
             'message' => 'Status updated successfully.',
-            'new_status' => $addon->status,
-            'badge' => $addon->status_badge,
+            'new_status' => $testimonial->status,
+            'badge' => $testimonial->status_badge,
         ]);
     }
 

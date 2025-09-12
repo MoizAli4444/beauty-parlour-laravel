@@ -21,6 +21,10 @@ class Testimonial extends Model
         'status',
     ];
 
+    const STATUS_PENDING  = 'pending';
+    const STATUS_ACTIVE   = 'active';
+    const STATUS_INACTIVE = 'inactive';
+
     ///////////// fixed model functions //////////////
     public function creator()
     {

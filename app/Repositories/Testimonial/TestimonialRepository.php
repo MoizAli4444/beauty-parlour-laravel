@@ -156,14 +156,26 @@ class TestimonialRepository implements TestimonialRepositoryInterface
     {
         $testimonial = Testimonial::findOrFail($id);
 
-        $testimonial->status = $testimonial->status === Testimonial::STATUS_ACTIVE
-            ? Testimonial::STATUS_INACTIVE
-            : Testimonial::STATUS_ACTIVE;
+        switch ($testimonial->status) {
+            case Testimonial::STATUS_ACTIVE:
+                $testimonial->status = Testimonial::STATUS_INACTIVE;
+                break;
+
+            case Testimonial::STATUS_INACTIVE:
+                $testimonial->status = Testimonial::STATUS_ACTIVE;
+                break;
+
+            case Testimonial::STATUS_PENDING:
+            default:
+                $testimonial->status = Testimonial::STATUS_ACTIVE; // promote pending to active by default
+                break;
+        }
 
         $testimonial->save();
 
         return $testimonial;
     }
+
 
     public function toggleFeatured($id)
     {
