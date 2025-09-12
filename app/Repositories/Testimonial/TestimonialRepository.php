@@ -107,30 +107,9 @@ class TestimonialRepository implements TestimonialRepositoryInterface
 
     public function create(array $data)
     {
-        $data = $this->addCreatedBy($data);
-
-
-        if (isset($data['file'])) {
-            $file = $data['file'];
-
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $data['file_path'] = $file->storeAs('uploads/testimonial', $filename, 'public');
-            $data['file_size'] = $file->getSize();
-            // ✅ Detect file type automatically
-            $mimeType = $file->getMimeType(); // e.g. image/jpeg, video/mp4
-            if (str_starts_with($mimeType, 'image/')) {
-                $data['media_type'] = 'image';
-            } elseif (str_starts_with($mimeType, 'video/')) {
-                $data['media_type'] = 'video';
-            } else {
-                $data['media_type'] = 'other'; // fallback
-            }
-
-            unset($data['file']); // don’t try to insert file object into DB
-        }
-
         return Testimonial::create($data);
     }
+
 
 
     public function update($id, array $data)

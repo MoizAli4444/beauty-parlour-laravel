@@ -45,21 +45,23 @@ class TestimonialController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreAddonRequest $request)
+    public function store(StoreTestimonialRequest $request)
     {
-
         $validated = $request->validated();
 
+        // Handle image upload if present
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $filename = time() . '.' . $file->getClientOriginalExtension();
-            $validated['image'] = $file->storeAs('addons', $filename, 'public');
+            $validated['image'] = $file->storeAs('uploads/testimonials', $filename, 'public');
         }
 
         $this->repository->create($validated);
 
-        return redirect()->route('addons.index')->with('success', 'Addon created successfully.');
+        return redirect()->route('testimonials.index')
+            ->with('success', 'Testimonial created successfully.');
     }
+
 
     /**
      * Display the specified resource.
