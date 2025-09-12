@@ -69,13 +69,13 @@ class TestimonialController extends Controller
      */
     public function show($slug)
     {
-        $addon = $this->addonRepository->findBySlug($slug);
+        $testimonial = $this->repository->find($slug);
 
-        if (!$addon) {
-            return redirect()->route('addons.index')->with('error', 'Addon not found.');
+        if (!$testimonial) {
+            return redirect()->route('testimonials.index')->with('error', 'Testimonial not found.');
         }
 
-        return view('admin.addon.show', compact('addon'));
+        return view('admin.testimonials.show', compact('testimonial'));
     }
 
     /**
