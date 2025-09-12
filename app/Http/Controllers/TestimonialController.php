@@ -39,7 +39,7 @@ class TestimonialController extends Controller
      */
     public function create()
     {
-        return view('admin.addon.create');
+        return view('admin.testimonials.create');
     }
 
     /**

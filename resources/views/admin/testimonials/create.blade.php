@@ -32,25 +32,46 @@
                                 </div>
                             @endif
 
-                            <form action="{{ route('faqs.store') }}" method="POST">
+                            <form action="{{ route('testimonials.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
 
-                                {{-- Question --}}
+                                {{-- Name --}}
                                 <div class="mb-3">
-                                    <label class="form-label">Question <span class="text-danger">*</span></label>
-                                    <input type="text" name="question"
-                                        class="form-control @error('question') is-invalid @enderror"
-                                        value="{{ old('question') }}" required>
-                                    @error('question')
+                                    <label class="form-label">Name <span class="text-danger">*</span></label>
+                                    <input type="text" name="name"
+                                        class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}"
+                                        required>
+                                    @error('name')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
-                                {{-- Answer --}}
+                                {{-- Designation --}}
                                 <div class="mb-3">
-                                    <label class="form-label">Answer <span class="text-danger">*</span></label>
-                                    <textarea name="answer" rows="5" class="form-control @error('answer') is-invalid @enderror" required>{{ old('answer') }}</textarea>
-                                    @error('answer')
+                                    <label class="form-label">Designation</label>
+                                    <input type="text" name="designation"
+                                        class="form-control @error('designation') is-invalid @enderror"
+                                        value="{{ old('designation') }}">
+                                    @error('designation')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                {{-- Testimonial --}}
+                                <div class="mb-3">
+                                    <label class="form-label">Testimonial <span class="text-danger">*</span></label>
+                                    <textarea name="testimonial" rows="5" class="form-control @error('testimonial') is-invalid @enderror" required>{{ old('testimonial') }}</textarea>
+                                    @error('testimonial')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                {{-- Image --}}
+                                <div class="mb-3">
+                                    <label class="form-label">Image</label>
+                                    <input type="file" name="image"
+                                        class="form-control @error('image') is-invalid @enderror">
+                                    @error('image')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
@@ -59,6 +80,8 @@
                                 <div class="mb-3">
                                     <label class="form-label">Status</label>
                                     <select name="status" class="form-select @error('status') is-invalid @enderror">
+                                        <option value="pending" {{ old('status') == 'pending' ? 'selected' : '' }}>Pending
+                                        </option>
                                         <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active
                                         </option>
                                         <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>
@@ -70,7 +93,8 @@
                                 </div>
 
                                 {{-- Submit --}}
-                                <button type="submit" class="btn btn-primary">Create FAQ</button>
+                                <button type="submit" class="btn btn-primary">Create</button>
+                                <a href="{{ route('testimonials.index') }}" class="btn btn-secondary">Cancel</a>
                             </form>
 
 
