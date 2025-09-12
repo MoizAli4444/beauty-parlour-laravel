@@ -10,12 +10,12 @@
                     <div class="card">
 
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">View Deal</h5>
+                            <h5 class="mb-0">View Testimonial</h5>
                             <div>
 
-                                {!! render_delete_button($deal->id, route('deals.destroy', $deal->id), false) !!}
-                                {!! render_edit_button(route('deals.edit', $deal->slug), false) !!}
-                                {!! render_index_button(route('deals.index'), 'All Deals', false) !!}
+                                {!! render_delete_button($testimonial->id, route('testimonials.destroy', $testimonial->id), false) !!}
+                                {!! render_edit_button(route('testimonials.edit', $testimonial->id), false) !!}
+                                {!! render_index_button(route('testimonials.index'), 'All Testimonials', false) !!}
                             </div>
                         </div>
 
@@ -25,89 +25,71 @@
                                 <!-- Left Column -->
                                 <div class="col-md-8">
 
-                                    <!-- Title -->
+                                    <!-- Name -->
                                     <div class="mb-4">
-                                        <label class="form-label fw-bold">Deal Name:</label>
-                                        <div>{{ $deal->name ?? '-' }}</div>
+                                        <label class="form-label fw-bold">Name:</label>
+                                        <div>{{ $testimonial->name ?? '-' }}</div>
                                     </div>
 
-                                    <!-- Description -->
+                                    <!-- Designation -->
                                     <div class="mb-4">
-                                        <label class="form-label fw-bold">Description:</label>
-                                        <div>{{ $deal->description ?? '-' }}</div>
+                                        <label class="form-label fw-bold">Designation:</label>
+                                        <div>{{ $testimonial->designation ?? '-' }}</div>
                                     </div>
 
-                                    <!-- Price & Services Total -->
+                                    <!-- Testimonial Text -->
+                                    <div class="mb-4">
+                                        <label class="form-label fw-bold">Testimonial:</label>
+                                        <div>{{ $testimonial->testimonial ?? '-' }}</div>
+                                    </div>
+
                                     <div class="row mb-4">
-                                        <div class="col-md-6">
-                                            <label class="form-label fw-bold">Price:</label>
-                                            <div class="text-primary fw-semibold">
-                                                Rs {{ number_format($deal->price, 2) }}
-                                            </div>
+
+                                        <!-- Status -->
+                                        <div class="col-md-4">
+                                            <label class="form-label fw-bold">Status:</label>
+                                            <div>{!! $testimonial->status_badge !!}</div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label fw-bold">Services Total:</label>
+
+                                        <!-- Created At -->
+                                        <div class="col-md-4">
+                                            <label class="form-label fw-bold">Submitted On:</label>
                                             <div>
-                                                Rs {{ number_format($deal->services_total ?? 0, 2) }}
+                                                {{ $testimonial->created_at ? $testimonial->created_at->format('d M Y h:i A') : '—' }}
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <!-- Dates -->
-                                    <div class="row mb-4">
-                                        <div class="col-md-6">
-                                            <label class="form-label fw-bold">Start Date:</label>
+                                        <!-- Updated At -->
+                                         <div class="col-md-4">
+                                            <label class="form-label fw-bold">Last Updated:</label>
                                             <div>
-                                                {{ $deal->start_date ? \Carbon\Carbon::parse($deal->start_date)->format('d M Y h:i A') : '—' }}
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label fw-bold">End Date:</label>
-                                            <div>
-                                                {{ $deal->end_date ? \Carbon\Carbon::parse($deal->end_date)->format('d M Y h:i A') : '—' }}
+                                                {{ $testimonial->updated_at ? $testimonial->updated_at->format('d M Y h:i A') : '—' }}
                                             </div>
                                         </div>
                                     </div>
 
 
-                                    <!-- Status -->
-                                    <div class="mb-4">
-                                        <label class="form-label fw-bold">Status:</label>
-                                        <div>{!! $deal->status_badge !!}</div>
-                                    </div>
-
-                                    <!-- Services -->
-                                    <div class="mb-4">
-                                        <label class="form-label fw-bold">Services:</label>
-                                        <div>
-                                            @forelse($deal->serviceVariants as $service)
-                                                <span class="badge bg-info text-dark me-1 mb-1">
-                                                    {{ $service->name }} (Rs {{ number_format($service->price, 2) }})
-                                                </span>
-                                            @empty
-                                                <span>—</span>
-                                            @endforelse
-                                        </div>
-                                    </div>
 
 
                                 </div>
 
                                 <!-- Right Column (Image Preview) -->
                                 <div class="col-md-4 text-center">
-                                    <label class="form-label fw-bold">Media Preview:</label><br>
+                                    <label class="form-label fw-bold">Image Preview:</label><br>
 
-                                    @if ($deal->image && file_exists(public_path('storage/' . $deal->image)))
-                                        <img src="{{ asset('storage/' . $deal->image) }}" alt="{{ $deal->name }}"
+                                    @if ($testimonial->image && file_exists(public_path('storage/' . $testimonial->image)))
+                                        <img src="{{ asset('storage/' . $testimonial->image) }}"
+                                            alt="{{ $testimonial->name }}"
                                             class="img-fluid rounded shadow-sm mb-2 js-media-preview"
                                             style="max-height:200px; object-fit:cover;"
-                                            data-url="{{ asset('storage/' . $deal->image) }}" data-type="image">
+                                            data-url="{{ asset('storage/' . $testimonial->image) }}" data-type="image">
                                     @else
                                         <div class="text-muted">No image uploaded</div>
                                     @endif
                                 </div>
 
                             </div>
+
                         </div>
 
 

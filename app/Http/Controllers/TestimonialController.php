@@ -54,9 +54,10 @@ class TestimonialController extends Controller
 
         // Handle image upload if present
         if ($request->hasFile('image')) {
+
             $file = $request->file('image');
             $filename = time() . '.' . $file->getClientOriginalExtension();
-            $validated['image'] = $file->storeAs('uploads/testimonials', $filename, 'public');
+            $validated['image'] = $file->storeAs('testimonials', $filename, 'public');
         }
 
         $this->repository->create($validated);
@@ -69,9 +70,9 @@ class TestimonialController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($slug)
+    public function show($id)
     {
-        $testimonial = $this->repository->find($slug);
+        $testimonial = $this->repository->find($id);
 
         if (!$testimonial) {
             return redirect()->route('testimonials.index')->with('error', 'Testimonial not found.');

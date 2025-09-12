@@ -78,7 +78,9 @@
                                     @if ($testimonial->image)
                                         <div class="mb-2">
                                             <img src="{{ asset('storage/' . $testimonial->image) }}" alt="Image"
-                                                class="img-thumbnail" style="max-width: 150px;">
+                                                class="img-fluid rounded shadow-sm mb-2 js-media-preview"
+                                                style="max-height:150px; object-fit:cover;"
+                                                data-url="{{ asset('storage/' . $testimonial->image) }}" data-type="image">
                                         </div>
                                     @endif
                                     <input type="file" name="image"
