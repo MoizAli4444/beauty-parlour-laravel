@@ -56,15 +56,26 @@ class TestimonialRepository implements TestimonialRepositoryInterface
                 })
 
                 ->addColumn('image', function ($row) {
-                    if ($row->image) {
-                        return '<img src="' . asset('storage/' . $row->image) . '" 
-                            class="img-thumbnail js-media-preview" 
-                            style="max-width: 60px; cursor:pointer;"
-                            data-url="' . asset('storage/' . $row->image) . '" 
-                            data-type="image">';
+                    if (!$row->image) {
+                        // Case 1: No image uploaded
+                        return 'N/A';
                     }
-                    return 'N/A';
-                })
+
+                    if (Storage::disk('public')->exists($row->image)) {
+                        // Case 2: Uploaded image exists
+                        $image = asset('storage/' . $row->image);
+                    } else {
+                        // Case 3: Uploaded but missing → fallback image
+                        $image = asset('storage/default.png'); // put your placeholder here
+                    }
+
+                    return '<img src="' . $image . '" 
+                        class="img-thumbnail js-media-preview" 
+                        style="max-width: 60px; cursor:pointer;"
+                        data-url="' . $image . '" 
+                        data-type="image">';
+                    })
+
 
                 ->editColumn('status', function ($row) {
                     return $row->status_badge; // accessor on model
