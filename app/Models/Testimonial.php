@@ -34,23 +34,23 @@ class Testimonial extends Model
 
     public function getStatusBadgeAttribute()
     {
-        return render_status_badge($this->status, $this->id, route('galleries.toggle-status', $this->id));
+        return render_status_badge($this->status, $this->id, route('testimonials.toggle-status', $this->id));
     }
 
     public function getEditButtonAttribute()
     {
-        return render_edit_button(route('galleries.edit', $this->slug));
+        return render_edit_button(route('testimonials.edit', $this->id));
     }
 
     public function getViewButtonAttribute()
     {
-        return render_view_button(route('galleries.show', $this->slug));
+        return render_view_button(route('testimonials.show', $this->id));
     }
 
 
     public function getDeleteButtonAttribute()
     {
-        return render_delete_button($this->id, route('galleries.destroy', $this->id));
+        return render_delete_button($this->id, route('testimonials.destroy', $this->id));
     }
 
     public function scopeActive($query)
@@ -59,14 +59,5 @@ class Testimonial extends Model
     }
     ///////////// fixed model functions //////////////
 
-    /**
-     * Return default image if none exists.
-     */
-    public function getImageUrlAttribute(): string
-    {
-        return $this->image
-            ? asset('storage/testimonials/' . $this->image)
-            : asset('images/default-avatar.png');
-    }
 
 }
