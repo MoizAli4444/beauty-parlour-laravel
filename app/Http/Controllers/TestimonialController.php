@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Testimonials\StoreTestimonialRequest;
 use App\Models\Testimonial;
 use App\Repositories\Testimonial\TestimonialRepositoryInterface;
 use Illuminate\Http\Request;

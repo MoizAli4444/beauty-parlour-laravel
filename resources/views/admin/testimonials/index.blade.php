@@ -72,7 +72,7 @@
     </div>
 
     <!-- Media Preview Modal -->
-    {{-- @include('admin.pages-partials.preview_modal') --}}
+    @include('admin.pages-partials.preview_modal')
 
 
 
