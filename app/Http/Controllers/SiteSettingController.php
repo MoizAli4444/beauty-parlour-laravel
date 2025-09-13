@@ -3,16 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Models\SiteSetting;
+use App\Repositories\Setting\SettingRepositoryInterface;
 use Illuminate\Http\Request;
 
 class SiteSettingController extends Controller
 {
+    protected $repository;
+
+    public function __construct(SettingRepositoryInterface $repository)
+    {
+        $this->repository = $repository;
+    }
+    
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $settings = $this->repository->all();
+        return view('admin.settings.index',compact('settings'));
     }
 
     /**
