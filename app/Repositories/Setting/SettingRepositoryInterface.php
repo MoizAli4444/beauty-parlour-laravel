@@ -4,7 +4,7 @@ namespace App\Repositories\Setting;
 
 interface SettingRepositoryInterface
 {
-    public function getDatatableData();
+
     public function all();
     public function find($id);
     public function findBySlug($slug);
