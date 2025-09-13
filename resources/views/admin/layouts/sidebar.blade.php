@@ -198,6 +198,13 @@
             </a>
         </li>
 
+        <li class="menu-item {{ request()->routeIs('site-settings.*') ? 'active' : '' }}">
+            <a href="{{ route('site-settings.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-cog"></i>
+                <div class="text-truncate" data-i18n="site-settings">Site Settings</div>
+            </a>
+        </li>
+
 
 
 

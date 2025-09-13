@@ -14,6 +14,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ServiceVariantController;
+use App\Http\Controllers\SiteSettingController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\TestimonialController;
 use Illuminate\Support\Facades\Route;
@@ -335,6 +336,26 @@ Route::middleware('auth')->group(function () {
 
     // Resource Routes
     Route::resource('testimonials', TestimonialController::class);
+
+
+    // ==============================
+    // Site Settings Module Routes
+    // ==============================
+    Route::prefix('site-settings')->name('site-settings.')->group(function () {
+        // For DataTables AJAX loading
+        Route::get('datatable', [SiteSettingController::class, 'datatable'])->name('datatable');
+
+        // For toggling status (if needed, e.g., active/inactive settings)
+        Route::patch('{id}/toggle-status', [SiteSettingController::class, 'toggleStatus'])->name('toggle-status');
+
+        // Bulk actions (if you want bulk delete or bulk status update)
+        Route::post('bulk-delete', [SiteSettingController::class, 'bulkDelete'])->name('bulkDelete');
+        Route::post('bulk-status', [SiteSettingController::class, 'bulkStatus'])->name('bulkStatus');
+    });
+
+    // Resource Routes
+    Route::resource('site-settings', SiteSettingController::class);
+
 
 
 
