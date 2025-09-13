@@ -26,6 +26,8 @@ use App\Repositories\Gallery\GalleryRepositoryInterface;
 use App\Repositories\OfferRepository;
 use App\Repositories\ServiceRepository;
 use App\Repositories\ServiceVariantRepository;
+use App\Repositories\Setting\SettingRepository;
+use App\Repositories\Setting\SettingRepositoryInterface;
 use App\Repositories\StaffRepository;
 use App\Repositories\Testimonial\TestimonialRepository;
 use App\Repositories\Testimonial\TestimonialRepositoryInterface;
@@ -59,6 +61,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ContactMessageRepositoryInterface::class, ContactMessageRepository::class);
         
         $this->app->bind(TestimonialRepositoryInterface::class, TestimonialRepository::class);
+
+        $this->app->bind(SettingRepositoryInterface::class, SettingRepository::class);
     }
 
     /**
