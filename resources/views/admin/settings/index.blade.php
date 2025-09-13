@@ -53,6 +53,51 @@
                                             <th>Action</th>
                                         </tr>
                                     </thead>
+                                    <tbody>
+                                        @forelse ($settings as $setting)
+                                            <tr>
+                                                <td><input type="checkbox" name="selected[]" value="{{ $setting->id }}">
+                                                </td>
+                                                <td>{{ $setting->id }}</td>
+                                                <td>{{ $setting->key }}</td>
+                                                <td>
+                                                    {{-- if value is image --}}
+                                                    @if (Str::endsWith($setting->value, ['.jpg', '.jpeg', '.png', '.gif']))
+                                                        <img src="{{ asset('storage/' . $setting->value) }}"
+                                                            alt="setting image" width="50" height="50">
+                                                    @else
+                                                        {{ $setting->value ?? 'N/A' }}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <span
+                                                        class="badge bg-{{ $setting->status == 'active' ? 'success' : 'secondary' }}">
+                                                        {{ ucfirst($setting->status) }}
+                                                    </span>
+                                                </td>
+                                                <td>{{ $setting->created_at->format('Y-m-d') }}</td>
+                                                <td>
+                                                    <a href="{{ route('sitesettings.edit', $setting->id) }}"
+                                                        class="btn btn-sm btn-primary">
+                                                        <i class="bx bx-edit"></i>
+                                                    </a>
+                                                    <form action="{{ route('sitesettings.destroy', $setting->id) }}"
+                                                        method="POST" class="d-inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-sm btn-danger"
+                                                            onclick="return confirm('Are you sure?')">
+                                                            <i class="bx bx-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="7" class="text-center">No site settings found</td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
                                 </table>
 
                             </div>
