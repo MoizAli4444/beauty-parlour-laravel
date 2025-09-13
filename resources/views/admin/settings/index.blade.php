@@ -46,7 +46,8 @@
                                         <tr>
                                             <th><input type="checkbox" id="select-all"></th> {{-- universal checkbox --}}
                                             <th>ID</th>
-                                            <th>Question</th>
+                                            <th>Setting Key</th>
+                                            <th>Setting Value</th>
                                             <th>Status</th>
                                             <th>Created At</th>
                                             <th>Action</th>
