@@ -77,11 +77,11 @@
                                                 </td>
                                                 <td>{{ $setting->created_at->format('Y-m-d') }}</td>
                                                 <td>
-                                                    <a href="{{ route('sitesettings.edit', $setting->id) }}"
+                                                    <a href="{{ route('site-settings.edit', $setting->id) }}"
                                                         class="btn btn-sm btn-primary">
                                                         <i class="bx bx-edit"></i>
                                                     </a>
-                                                    <form action="{{ route('sitesettings.destroy', $setting->id) }}"
+                                                    <form action="{{ route('site-settings.destroy', $setting->id) }}"
                                                         method="POST" class="d-inline">
                                                         @csrf
                                                         @method('DELETE')
