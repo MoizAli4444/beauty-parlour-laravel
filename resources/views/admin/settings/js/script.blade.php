@@ -1,6 +1,6 @@
 <script>
     $(document).ready(function() {
-        $('#indexPageDataTable').DataTable({
+        $('#indexPageDataTable_notinuse').DataTable({
             processing: true,
             serverSide: true,
             ajax: '{{ route('faqs.datatable') }}',
