@@ -20,8 +20,9 @@ class SiteSettingController extends Controller
      */
     public function index()
     {
-        $settings = $this->repository->all();
-        return view('admin.settings.index',compact('settings'));
+        // $setting = $this->repository->all();
+        $setting = SiteSetting::first();
+        return view('admin.settings.index',compact('setting'));
     }
 
     /**

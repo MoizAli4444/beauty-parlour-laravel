@@ -40,122 +40,135 @@
                             ])
 
 
-                            <div class="table-responsive">
-                                <table id="indexsite-settingsTable" class="table table-bordered table-hover">
-                                    <thead class="table-light">
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Site Name</th>
-                                            <th>Logo</th>
-                                            <th>Favicon</th>
-                                            <th>Email</th>
-                                            <th>Phone</th>
-                                            <th>Address</th>
-                                            <th>Working Hours</th>
-                                            <th>Facebook</th>
-                                            <th>Instagram</th>
-                                            <th>Currency</th>
-                                            <th>Default Image</th>
-                                            <th>Created At</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @forelse ($settings as $setting)
-                                            <tr>
-                                                <td>{{ $setting->id }}</td>
-                                                <td>{{ $setting->site_name ?? 'N/A' }}</td>
-                                                <td>
-                                                    @if ($setting->site_logo && file_exists(public_path('storage/' . $setting->site_logo)))
-                                                        <img src="{{ asset('storage/' . $setting->site_logo) }}"
-                                                            width="50" height="50">
-                                                    @else
-                                                        N/A
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    @if ($setting->favicon && file_exists(public_path('storage/' . $setting->favicon)))
-                                                        <img src="{{ asset('storage/' . $setting->favicon) }}"
-                                                            width="30" height="30">
-                                                    @else
-                                                        N/A
-                                                    @endif
-                                                </td>
-                                                <td>{{ $setting->contact_email ?? 'N/A' }}</td>
-                                                <td>{{ $setting->contact_phone ?? 'N/A' }}</td>
-                                                <td>{{ $setting->contact_address ?? 'N/A' }}</td>
-                                                <td>{{ $setting->working_hours ?? 'N/A' }}</td>
-                                                <td>
-                                                    @if ($setting->facebook_link)
-                                                        <a href="{{ $setting->facebook_link }}" target="_blank">Facebook</a>
-                                                    @else
-                                                        N/A
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    @if ($setting->instagram_link)
-                                                        <a href="{{ $setting->instagram_link }}"
-                                                            target="_blank">Instagram</a>
-                                                    @else
-                                                        N/A
-                                                    @endif
-                                                </td>
-                                                <td>{{ $setting->currency ?? 'PKR' }}</td>
-                                                <td>
-                                                    @if ($setting->default_image && file_exists(public_path('storage/' . $setting->default_image)))
-                                                        <img src="{{ asset('storage/' . $setting->default_image) }}"
-                                                            width="50" height="50">
-                                                    @else
-                                                        N/A
-                                                    @endif
-                                                </td>
-                                                <td>{{ $setting->created_at->format('Y-m-d') }}</td>
-                                                <td>
-                                                    <a href="{{ route('site-settings.edit', $setting->id) }}"
-                                                        class="btn btn-sm btn-primary">
-                                                        <i class="bx bx-edit"></i>
-                                                    </a>
-                                                    <form action="{{ route('site-settings.destroy', $setting->id) }}"
-                                                        method="POST" class="d-inline">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-sm btn-danger"
-                                                            onclick="return confirm('Are you sure?')">
-                                                            <i class="bx bx-trash"></i>
-                                                        </button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                        @empty
-                                            <tr>
-                                                <td colspan="14" class="text-center">No site settings found</td>
-                                            </tr>
-                                        @endforelse
-                                    </tbody>
-                                </table>
+                            <div class="container">
+                                <form action="{{ route('site-settings.update', $setting->id) }}" method="POST"
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    @method('PUT')
+
+                                    <div class="row">
+                                        <!-- General Info -->
+                                        <div class="col-md-6">
+                                            <div class="card mb-3">
+                                                <div class="card-header fw-bold">General Info</div>
+                                                <div class="card-body">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Site Name</label>
+                                                        <input type="text" name="site_name" class="form-control"
+                                                            value="{{ old('site_name', $setting->site_name) }}">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Email</label>
+                                                        <input type="email" name="contact_email" class="form-control"
+                                                            value="{{ old('contact_email', $setting->contact_email) }}">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Phone</label>
+                                                        <input type="text" name="contact_phone" class="form-control"
+                                                            value="{{ old('contact_phone', $setting->contact_phone) }}">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Address</label>
+                                                        <textarea name="contact_address" class="form-control" rows="2">{{ old('contact_address', $setting->contact_address) }}</textarea>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Working Hours</label>
+                                                        <input type="text" name="working_hours" class="form-control"
+                                                            value="{{ old('working_hours', $setting->working_hours) }}">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Currency</label>
+                                                        <input type="text" name="currency" class="form-control"
+                                                            value="{{ old('currency', $setting->currency ?? 'PKR') }}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Branding -->
+                                        <div class="col-md-6">
+                                            <div class="card mb-3">
+                                                <div class="card-header fw-bold">Branding</div>
+                                                <div class="card-body">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Logo</label><br>
+                                                        @if ($setting->site_logo && file_exists(public_path('storage/' . $setting->site_logo)))
+                                                            <img src="{{ asset('storage/' . $setting->site_logo) }}"
+                                                                width="100" class="mb-2">
+                                                        @endif
+                                                        <input type="file" name="site_logo" class="form-control">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Favicon</label><br>
+                                                        @if ($setting->favicon && file_exists(public_path('storage/' . $setting->favicon)))
+                                                            <img src="{{ asset('storage/' . $setting->favicon) }}"
+                                                                width="30" class="mb-2">
+                                                        @endif
+                                                        <input type="file" name="favicon" class="form-control">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Default Image</label><br>
+                                                        @if ($setting->default_image && file_exists(public_path('storage/' . $setting->default_image)))
+                                                            <img src="{{ asset('storage/' . $setting->default_image) }}"
+                                                                width="100" class="mb-2">
+                                                        @endif
+                                                        <input type="file" name="default_image" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Social Media -->
+                                        <div class="col-md-12">
+                                            <div class="card mb-3">
+                                                <div class="card-header fw-bold">Social Media</div>
+                                                <div class="card-body">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Facebook Link</label>
+                                                        <input type="url" name="facebook_link" class="form-control"
+                                                            value="{{ old('facebook_link', $setting->facebook_link) }}">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Instagram Link</label>
+                                                        <input type="url" name="instagram_link" class="form-control"
+                                                            value="{{ old('instagram_link', $setting->instagram_link) }}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Save Button -->
+                                    <div class="text-end">
+                                        <button type="submit" class="btn btn-success">
+                                            <i class="bx bx-save"></i> Save Changes
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
 
-                        </div>
+
                     </div>
                 </div>
-
             </div>
+
         </div>
-        <!-- / Content -->
-
-        <div class="content-backdrop fade"></div>
     </div>
+    <!-- / Content -->
 
-    <!-- Media Preview Modal -->
-    {{-- @include('admin.pages-partials.preview_modal') --}}
+    <div class="content-backdrop fade"></div>
+</div>
+
+<!-- Media Preview Modal -->
+{{-- @include('admin.pages-partials.preview_modal') --}}
 
 
 
 
 
-    <!-- Content wrapper -->
+<!-- Content wrapper -->
 @endsection
 
 @push('scripts')
-    @include('admin.faqs.js.script')
+@include('admin.faqs.js.script')
 @endpush

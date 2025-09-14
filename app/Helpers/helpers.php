@@ -1,6 +1,7 @@
 <?php
 
 use App\GenderType;
+use Illuminate\Support\Facades\Storage;
 
 if (!function_exists('render_index_button')) {
     function render_index_button($route, $label = 'All Records', $isOutline = true): string
@@ -96,3 +97,11 @@ if (!function_exists('render_gender_badge')) {
     }
 }
 
+
+if (!function_exists('getImage')) {
+    function getImage(?string $path, string $default = 'storage/default.png'): string {
+        return $path && Storage::disk('public')->exists($path)
+            ? asset('storage/' . $path)
+            : asset($default);
+    }
+}
