@@ -92,26 +92,25 @@
                                                 <div class="card-body">
                                                     <div class="mb-3">
                                                         <label class="form-label">Logo</label><br>
-                                                        @if ($setting->site_logo && file_exists(public_path('storage/' . $setting->site_logo)))
-                                                            <img src="{{ asset('storage/' . $setting->site_logo) }}"
-                                                                width="100" class="mb-2">
-                                                        @endif
+                                                        
+                                                        
+                                                        <img src="{{ getImage($setting->site_logo) }}" width="80">
+
                                                         <input type="file" name="site_logo" class="form-control">
                                                     </div>
                                                     <div class="mb-3">
                                                         <label class="form-label">Favicon</label><br>
-                                                        @if ($setting->favicon && file_exists(public_path('storage/' . $setting->favicon)))
-                                                            <img src="{{ asset('storage/' . $setting->favicon) }}"
-                                                                width="30" class="mb-2">
-                                                        @endif
+                                                      
+                                                        
+                                                        <img src="{{ getImage($setting->favicon) }}" width="80">
+
                                                         <input type="file" name="favicon" class="form-control">
                                                     </div>
                                                     <div class="mb-3">
                                                         <label class="form-label">Default Image</label><br>
-                                                        @if ($setting->default_image && file_exists(public_path('storage/' . $setting->default_image)))
-                                                            <img src="{{ asset('storage/' . $setting->default_image) }}"
-                                                                width="100" class="mb-2">
-                                                        @endif
+                                                        
+                                                        <img src="{{ getImage($setting->default_image) }}" width="80">
+
                                                         <input type="file" name="default_image" class="form-control">
                                                     </div>
                                                 </div>
