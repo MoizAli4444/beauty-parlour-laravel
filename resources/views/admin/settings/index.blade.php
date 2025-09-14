@@ -41,14 +41,21 @@
 
 
                             <div class="table-responsive">
-                                <table id="indexsite-settingsTable" class="table table-bordered">
-                                    <thead>
+                                <table id="indexsite-settingsTable" class="table table-bordered table-hover">
+                                    <thead class="table-light">
                                         <tr>
-                                            <th><input type="checkbox" id="select-all"></th> {{-- universal checkbox --}}
                                             <th>ID</th>
-                                            <th>Setting Key</th>
-                                            <th>Setting Value</th>
-                                            <th>Status</th>
+                                            <th>Site Name</th>
+                                            <th>Logo</th>
+                                            <th>Favicon</th>
+                                            <th>Email</th>
+                                            <th>Phone</th>
+                                            <th>Address</th>
+                                            <th>Working Hours</th>
+                                            <th>Facebook</th>
+                                            <th>Instagram</th>
+                                            <th>Currency</th>
+                                            <th>Default Image</th>
                                             <th>Created At</th>
                                             <th>Action</th>
                                         </tr>
@@ -56,24 +63,51 @@
                                     <tbody>
                                         @forelse ($settings as $setting)
                                             <tr>
-                                                <td><input type="checkbox" name="selected[]" value="{{ $setting->id }}">
-                                                </td>
                                                 <td>{{ $setting->id }}</td>
-                                                <td>{{ $setting->key }}</td>
+                                                <td>{{ $setting->site_name ?? 'N/A' }}</td>
                                                 <td>
-                                                    {{-- if value is image --}}
-                                                    @if (Str::endsWith($setting->value, ['.jpg', '.jpeg', '.png', '.gif']))
-                                                        <img src="{{ asset('storage/' . $setting->value) }}"
-                                                            alt="setting image" width="50" height="50">
+                                                    @if ($setting->site_logo && file_exists(public_path('storage/' . $setting->site_logo)))
+                                                        <img src="{{ asset('storage/' . $setting->site_logo) }}"
+                                                            width="50" height="50">
                                                     @else
-                                                        {{ $setting->value ?? 'N/A' }}
+                                                        N/A
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <span
-                                                        class="badge bg-{{ $setting->status == 'active' ? 'success' : 'secondary' }}">
-                                                        {{ ucfirst($setting->status) }}
-                                                    </span>
+                                                    @if ($setting->favicon && file_exists(public_path('storage/' . $setting->favicon)))
+                                                        <img src="{{ asset('storage/' . $setting->favicon) }}"
+                                                            width="30" height="30">
+                                                    @else
+                                                        N/A
+                                                    @endif
+                                                </td>
+                                                <td>{{ $setting->contact_email ?? 'N/A' }}</td>
+                                                <td>{{ $setting->contact_phone ?? 'N/A' }}</td>
+                                                <td>{{ $setting->contact_address ?? 'N/A' }}</td>
+                                                <td>{{ $setting->working_hours ?? 'N/A' }}</td>
+                                                <td>
+                                                    @if ($setting->facebook_link)
+                                                        <a href="{{ $setting->facebook_link }}" target="_blank">Facebook</a>
+                                                    @else
+                                                        N/A
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($setting->instagram_link)
+                                                        <a href="{{ $setting->instagram_link }}"
+                                                            target="_blank">Instagram</a>
+                                                    @else
+                                                        N/A
+                                                    @endif
+                                                </td>
+                                                <td>{{ $setting->currency ?? 'PKR' }}</td>
+                                                <td>
+                                                    @if ($setting->default_image && file_exists(public_path('storage/' . $setting->default_image)))
+                                                        <img src="{{ asset('storage/' . $setting->default_image) }}"
+                                                            width="50" height="50">
+                                                    @else
+                                                        N/A
+                                                    @endif
                                                 </td>
                                                 <td>{{ $setting->created_at->format('Y-m-d') }}</td>
                                                 <td>
@@ -94,12 +128,11 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="7" class="text-center">No site settings found</td>
+                                                <td colspan="14" class="text-center">No site settings found</td>
                                             </tr>
                                         @endforelse
                                     </tbody>
                                 </table>
-
                             </div>
 
                         </div>
