@@ -89,7 +89,7 @@
                                         <div class="col-md-6">
                                             <div class="card mb-3">
                                                 <div class="card-header fw-bold">Branding</div>
-                                                <div class="card-body">
+                                                {{-- <div class="card-body">
                                                     <div class="mb-3">
                                                         <label class="form-label">Logo</label><br>
 
@@ -111,7 +111,53 @@
 
                                                         <input type="file" name="default_image" class="form-control">
                                                     </div>
+                                                </div> --}}
+                                                <div class="card-body">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Logo</label><br>
+                                                        {!! getImage($setting->site_logo, true, ) !!}
+                                                        <div class="mt-2">
+                                                            <input type="file" name="site_logo" class="form-control">
+                                                            <div class="form-check mt-1">
+                                                                <input type="checkbox" name="remove_site_logo"
+                                                                    value="1" class="form-check-input"
+                                                                    id="remove_site_logo">
+                                                                <label for="remove_site_logo"
+                                                                    class="form-check-label">Remove Logo</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Favicon</label><br>
+                                                        {!! getImage($setting->favicon, true) !!}
+                                                        <div class="mt-2">
+                                                            <input type="file" name="favicon" class="form-control">
+                                                            <div class="form-check mt-1">
+                                                                <input type="checkbox" name="remove_favicon" value="1"
+                                                                    class="form-check-input" id="remove_favicon">
+                                                                <label for="remove_favicon" class="form-check-label">Remove
+                                                                    Favicon</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Default Image</label><br>
+                                                        {!! getImage($setting->default_image, true, ) !!}
+                                                        <div class="mt-2">
+                                                            <input type="file" name="default_image" class="form-control">
+                                                            <div class="form-check mt-1">
+                                                                <input type="checkbox" name="remove_default_image"
+                                                                    value="1" class="form-check-input"
+                                                                    id="remove_default_image">
+                                                                <label for="remove_default_image"
+                                                                    class="form-check-label">Remove Default Image</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
+
                                             </div>
                                         </div>
 
