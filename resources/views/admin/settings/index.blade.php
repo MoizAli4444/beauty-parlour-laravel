@@ -92,24 +92,22 @@
                                                 <div class="card-body">
                                                     <div class="mb-3">
                                                         <label class="form-label">Logo</label><br>
-                                                        
-                                                        
-                                                        <img src="{{ getImage($setting->site_logo) }}" width="80">
+
+                                                        {!! getImage($setting->site_logo, true) !!}
 
                                                         <input type="file" name="site_logo" class="form-control">
                                                     </div>
                                                     <div class="mb-3">
                                                         <label class="form-label">Favicon</label><br>
-                                                      
-                                                        
-                                                        <img src="{{ getImage($setting->favicon) }}" width="80">
+
+                                                        {!! getImage($setting->favicon, true) !!}
 
                                                         <input type="file" name="favicon" class="form-control">
                                                     </div>
                                                     <div class="mb-3">
                                                         <label class="form-label">Default Image</label><br>
-                                                        
-                                                        <img src="{{ getImage($setting->default_image) }}" width="80">
+
+                                                        {!! getImage($setting->default_image, true) !!}
 
                                                         <input type="file" name="default_image" class="form-control">
                                                     </div>
@@ -147,27 +145,27 @@
                             </div>
 
 
+                        </div>
                     </div>
                 </div>
+
             </div>
-
         </div>
+        <!-- / Content -->
+
+        <div class="content-backdrop fade"></div>
     </div>
-    <!-- / Content -->
 
-    <div class="content-backdrop fade"></div>
-</div>
-
-<!-- Media Preview Modal -->
-{{-- @include('admin.pages-partials.preview_modal') --}}
+    <!-- Media Preview Modal -->
+    @include('admin.pages-partials.preview_modal')
 
 
 
 
 
-<!-- Content wrapper -->
+    <!-- Content wrapper -->
 @endsection
 
 @push('scripts')
-@include('admin.faqs.js.script')
+    @include('admin.settings.js.script')
 @endpush

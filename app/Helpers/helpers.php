@@ -98,10 +98,50 @@ if (!function_exists('render_gender_badge')) {
 }
 
 
+// if (!function_exists('getImage')) {
+//     function getImage(?string $path, string $default = 'storage/default.png'): string {
+//         return $path && Storage::disk('public')->exists($path)
+//             ? asset('storage/' . $path)
+//             : asset($default);
+//     }
+// }
+
 if (!function_exists('getImage')) {
-    function getImage(?string $path, string $default = 'storage/default.png'): string {
-        return $path && Storage::disk('public')->exists($path)
+    /**
+     * Get image URL or full <img> tag
+     *
+     * @param string|null $path
+     * @param string $default
+     * @param bool $asTag
+     * @param array $attributes
+     * @return string
+     */
+    function getImage(?string $path, bool $asTag = false, string $default = 'storage/default.png',  array $attributes = []): string
+    {
+        $url = $path && Storage::disk('public')->exists($path)
             ? asset('storage/' . $path)
             : asset($default);
+
+        if (! $asTag) {
+            return $url; // return only URL
+        }
+
+        // Default attributes
+        $defaultAttributes = [
+            'class' => 'img-thumbnail js-media-preview',
+            'style' => 'max-width: 60px; cursor:pointer;',
+            'data-url' => $url,
+            'data-type' => 'image',
+        ];
+
+        // Merge user-supplied attributes (they override defaults)
+        $finalAttributes = array_merge($defaultAttributes, $attributes);
+
+        // Convert attributes array to HTML string
+        $attrString = collect($finalAttributes)->map(function ($value, $key) {
+            return $key . '="' . e($value) . '"';
+        })->implode(' ');
+
+        return '<img src="' . $url . '" ' . $attrString . '>';
     }
 }
