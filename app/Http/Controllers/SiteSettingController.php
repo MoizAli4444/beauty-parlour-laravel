@@ -79,19 +79,7 @@ class SiteSettingController extends Controller
             'default_image'   => 'nullable|image|mimes:jpg,jpeg,png,svg,gif|max:2048',
         ]);
 
-        // ✅ Handle file uploads (loop for DRY code)
-        // foreach (['site_logo', 'favicon', 'default_image'] as $field) {
-        //     if ($request->hasFile($field)) {
-        //         // Delete old file if exists
-        //         if ($setting->$field && Storage::disk('public')->exists($setting->$field)) {
-        //             Storage::disk('public')->delete($setting->$field);
-        //         }
-
-        //         // Store new file
-        //         $path = $request->file($field)->store('uploads/settings', 'public');
-        //         $validated[$field] = $path;
-        //     }
-        // }
+      
 
         foreach (['site_logo', 'favicon', 'default_image'] as $field) {
             // Case 1: New file uploaded
