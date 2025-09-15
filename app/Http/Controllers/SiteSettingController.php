@@ -107,10 +107,12 @@ class SiteSettingController extends Controller
                 if ($setting->$field && Storage::disk('public')->exists($setting->$field)) {
                     Storage::disk('public')->delete($setting->$field);
                 }
-                $validated[$field] = 'storage/default.png'; // ✅ Fallback instead of null
+                // ✅ Save relative path inside DB (consistent with uploads)
+                $validated[$field] = 'uploads/settings/default.png';
             }
             // Case 3: Do nothing → keep old
         }
+
 
 
         // ✅ Update settings
