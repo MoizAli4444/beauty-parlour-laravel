@@ -11,6 +11,8 @@ use App\Interfaces\ServiceRepositoryInterface;
 use App\Interfaces\ServiceVariantRepositoryInterface;
 use App\Interfaces\StaffRepositoryInterface;
 use App\Repositories\AddonRepository;
+use App\Repositories\Blog\BlogRepository;
+use App\Repositories\Blog\BlogRepositoryInterface;
 use App\Repositories\BookingRepository;
 use App\Repositories\BookingReview\BookingReviewRepository;
 use App\Repositories\BookingReview\BookingReviewRepositoryInterface;
@@ -63,6 +65,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(TestimonialRepositoryInterface::class, TestimonialRepository::class);
 
         $this->app->bind(SettingRepositoryInterface::class, SettingRepository::class);
+        $this->app->bind(BlogRepositoryInterface::class, BlogRepository::class);
     }
 
     /**
