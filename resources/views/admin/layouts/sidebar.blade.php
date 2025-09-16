@@ -205,6 +205,14 @@
             </a>
         </li>
 
+        <li class="menu-item {{ request()->routeIs('blogs.*') ? 'active' : '' }}">
+            <a href="{{ route('blogs.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-news"></i>
+                <div class="text-truncate" data-i18n="blogs">Blogs</div>
+            </a>
+        </li>
+
+
 
 
 
