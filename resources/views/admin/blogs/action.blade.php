@@ -1,9 +1,8 @@
 <div class="d-flex" role="group">
 
-    {!! $testimonial->edit_button !!}
-    {!! $testimonial->view_button !!}
-    {{-- {!! $testimonial->renderButton() !!} --}}
-    {!! $testimonial->delete_button !!}
+    {!! $blog->edit_button !!}
+    {!! $blog->view_button !!}
+    {!! $blog->delete_button !!}
 
 </div>
 
