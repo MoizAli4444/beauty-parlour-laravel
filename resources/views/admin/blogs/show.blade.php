@@ -48,7 +48,7 @@
                                     <!-- Content -->
                                     <div class="mb-4">
                                         <label class="form-label fw-bold">Content:</label>
-                                        <div>{!! nl2br(e($blog->content)) !!}</div>
+                                        <div>{!!$blog->content !!}</div>
                                     </div>
 
                                     <div class="row mb-4">
@@ -104,24 +104,7 @@
                                 <div class="col-md-4 text-center">
                                     <label class="form-label fw-bold">Image Preview:</label><br>
 
-                                    @if ($blog->image && Storage::disk('public')->exists($blog->image))
-                                        <img src="{{ asset('storage/' . $blog->image) }}" alt="{{ $blog->title }}"
-                                            class="img-fluid rounded shadow-sm mb-2 js-media-preview"
-                                            style="max-height:250px; object-fit:cover;"
-                                            data-url="{{ asset('storage/' . $blog->image) }}" data-type="image">
-                                    @else
-                                        <div class="text-muted">No image uploaded</div>
-                                    @endif
-
-                                     @if ($blog->image && file_exists(public_path('storage/' . $blog->image)))
-                                        <img src="{{ asset('storage/' . $blog->image) }}"
-                                            alt="{{ $blog->name }}"
-                                            class="img-fluid rounded shadow-sm mb-2 js-media-preview"
-                                            style="max-height:200px; object-fit:cover;"
-                                            data-url="{{ asset('storage/' . $blog->image) }}" data-type="image">
-                                    @else
-                                        <div class="text-muted">No image uploaded</div>
-                                    @endif
+                                    {!! getImage($blog->image, true, ) !!}
                                 </div>
 
                             </div>
