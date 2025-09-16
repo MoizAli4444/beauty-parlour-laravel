@@ -53,9 +53,15 @@ class BlogPostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(BlogPost $blogPost)
+   public function show($slug)
     {
-        //
+        $blog = $this->repository->findBySlug($slug);
+
+        if (!$blog) {
+            return redirect()->route('blogs.index')->with('error', 'Blog not found.');
+        }
+
+        return view('admin.blogs.show', compact('blog'));
     }
 
     /**

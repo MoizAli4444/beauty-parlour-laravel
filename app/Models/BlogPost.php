@@ -71,7 +71,7 @@ class BlogPost extends Model
     {
         return [
             'slug' => [
-                'source' => 'question',
+                'source' => 'title',
                 'onUpdate' => true
             ]
         ];
@@ -94,17 +94,17 @@ class BlogPost extends Model
 
     public function getEditButtonAttribute()
     {
-        return render_edit_button(route('faqs.edit', $this->slug));
+        return render_edit_button(route('blogs.edit', $this->slug));
     }
 
     public function getViewButtonAttribute()
     {
-        return render_view_button(route('faqs.show', $this->slug));
+        return render_view_button(route('blogs.show', $this->slug));
     }
 
     public function renderButton($isOutline = true): string
     {
-        $route = route('faqs.edit', $this->slug);
+        $route = route('blogs.edit', $this->slug);
 
         $btnClass = $isOutline ? 'btn-sm btn-outline-info' : 'btn-info';
 
@@ -116,7 +116,7 @@ class BlogPost extends Model
 
     public function getDeleteButtonAttribute()
     {
-        return render_delete_button($this->id, route('faqs.destroy', $this->id));
+        return render_delete_button($this->id, route('blogs.destroy', $this->id));
     }
 
     public function scopeActive($query)
