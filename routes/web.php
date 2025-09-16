@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AddonController;
+use App\Http\Controllers\BlogPostController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\BookingReviewController;
 use App\Http\Controllers\ContactMessageController;
@@ -355,6 +356,25 @@ Route::middleware('auth')->group(function () {
 
     // Resource Routes
     Route::resource('site-settings', SiteSettingController::class);
+
+
+    // ==============================
+    // Blog Module Routes
+    // ==============================
+    Route::prefix('blogs')->name('blogs.')->group(function () {
+        // For DataTables AJAX loading
+        Route::get('datatable', [BlogPostController::class, 'datatable'])->name('datatable');
+
+        // For toggling status (draft <-> published)
+        Route::patch('{id}/toggle-status', [BlogPostController::class, 'toggleStatus'])->name('toggle-status');
+
+        // Bulk actions
+        Route::post('bulk-delete', [BlogPostController::class, 'bulkDelete'])->name('bulkDelete');
+        Route::post('bulk-status', [BlogPostController::class, 'bulkStatus'])->name('bulkStatus');
+    });
+
+    // Resource Routes
+    Route::resource('blogs', BlogPostController::class);
 
 
 
