@@ -24,6 +24,13 @@ class BlogPost extends Model
         'views',
     ];
 
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'published_at' => 'datetime',
+    ];
+
+
     // Only published posts
     public function scopePublished($query)
     {
@@ -35,6 +42,23 @@ class BlogPost extends Model
     // 🔹 Status constants
     const STATUS_PUBLISHED = 'published';
     const STATUS_DRAFT     = 'draft';
+
+    public function getStatusBadgeAttribute(): string
+    {
+        $statuses = [
+            'published' => ['Published', 'success'],
+            'draft'     => ['Draft', 'secondary'],
+        ];
+
+        [$text, $class] = $statuses[$this->status] ?? ['Unknown', 'dark'];
+
+        return "<a href='javascript:void(0)' 
+                   data-id='{$this->id}' 
+                   data-route='" . route('blogs.toggle-status', $this->id) . "' 
+                   class='toggle-status badge rounded-pill text-bg-{$class}'>
+                   {$text}
+                </a>";
+    }
 
 
     public function service()
@@ -63,10 +87,10 @@ class BlogPost extends Model
         return $this->belongsTo(User::class, 'updated_by');
     }
 
-    public function getStatusBadgeAttribute()
-    {
-        return render_status_badge($this->status, $this->id, route('faqs.toggle-status', $this->id));
-    }
+    // public function getStatusBadgeAttribute()
+    // {
+    //     return render_status_badge($this->status, $this->id, route('faqs.toggle-status', $this->id));
+    // }
 
     public function getEditButtonAttribute()
     {
