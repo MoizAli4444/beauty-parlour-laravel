@@ -19,7 +19,7 @@
                             </div>
                         </div>
 
-                        <div class="card-body">
+                        {{-- <div class="card-body">
                             <div class="row justify-content-center">
 
                                 <!-- Left Column -->
@@ -90,6 +90,56 @@
 
                             </div>
 
+                        </div> --}}
+
+
+                        <div class="card shadow-lg border-0 rounded-3">
+                            @if ($blog->image && Storage::disk('public')->exists($blog->image))
+                                <img src="{{ asset('storage/' . $blog->image) }}" class="card-img-top rounded-top"
+                                    alt="{{ $blog->title }}" style="max-height: 400px; object-fit: cover;">
+                            @endif
+
+                            <div class="card-body p-4">
+                                {{-- Title + Status --}}
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h2 class="card-title mb-0">{{ $blog->title }}</h2>
+                                    {!! $blog->status_badge !!}
+                                </div>
+
+                                {{-- Excerpt --}}
+                                @if ($blog->excerpt)
+                                    <p class="text-muted fst-italic">{{ $blog->excerpt }}</p>
+                                @endif
+
+                                {{-- Meta --}}
+                                <div class="mb-3 small text-muted">
+                                    <i class="bi bi-person-circle me-1"></i>
+                                    {{ $blog->author->name ?? 'Unknown Author' }}
+
+                                    @if ($blog->service)
+                                        | <i class="bi bi-scissors me-1"></i> {{ $blog->service->name }}
+                                    @endif
+
+                                    | <i class="bi bi-calendar-event me-1"></i>
+                                    {{ $blog->published_at ? $blog->published_at->format('d M, Y') : 'Not Published' }}
+
+                                    | <i class="bi bi-eye me-1"></i> {{ $blog->views }} views
+                                </div>
+
+                                {{-- Content --}}
+                                <div class="card-text">
+                                    {!! nl2br(e($blog->content)) !!}
+                                </div>
+                            </div>
+
+                            <div class="card-footer bg-white text-end">
+                                <a href="{{ route('blogs.index') }}" class="btn btn-outline-secondary btn-sm">
+                                    <i class="bi bi-arrow-left"></i> Back
+                                </a>
+                                <a href="{{ route('blogs.edit', $blog->id) }}" class="btn btn-primary btn-sm">
+                                    <i class="bi bi-pencil-square"></i> Edit
+                                </a>
+                            </div>
                         </div>
 
 
