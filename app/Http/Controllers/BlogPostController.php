@@ -3,16 +3,35 @@
 namespace App\Http\Controllers;
 
 use App\Models\BlogPost;
+use App\Repositories\Blog\BlogRepositoryInterface;
 use Illuminate\Http\Request;
 
 class BlogPostController extends Controller
 {
+    protected $repository;
+
+    public function __construct(BlogRepositoryInterface $repository)
+    {
+        $this->repository = $repository;
+    }
+
+    public function datatable(Request $request)
+    {
+        if ($request->ajax()) {
+            $filters = $request->only(['status', 'title', 'service_id']);
+            return $this->repository->getDatatableData($filters);
+        }
+
+        return abort(403);
+    }
+
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return view('admin.blogs.index');
     }
 
     /**
