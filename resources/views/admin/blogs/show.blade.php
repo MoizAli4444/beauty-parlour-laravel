@@ -10,139 +10,122 @@
                     <div class="card">
 
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">View Testimonial</h5>
+                            <h5 class="mb-0">View Blog</h5>
                             <div>
 
-                                {!! render_delete_button($testimonial->id, route('testimonials.destroy', $testimonial->id), false) !!}
-                                {!! render_edit_button(route('testimonials.edit', $testimonial->id), false) !!}
-                                {!! render_index_button(route('testimonials.index'), 'All Testimonials', false) !!}
+                                {!! render_delete_button($blog->id, route('blogs.destroy', $blog->id), false) !!}
+                                {!! render_edit_button(route('blogs.edit', $blog->id), false) !!}
+                                {!! render_index_button(route('blogs.index'), 'All blogs', false) !!}
                             </div>
                         </div>
 
-                        {{-- <div class="card-body">
+                        <div class="card-body">
                             <div class="row justify-content-center">
 
                                 <!-- Left Column -->
                                 <div class="col-md-8">
 
-                                    <!-- Name -->
+                                    <!-- Title -->
                                     <div class="mb-4">
-                                        <label class="form-label fw-bold">Name:</label>
-                                        <div>{{ $testimonial->name ?? '-' }}</div>
+                                        <label class="form-label fw-bold">Title:</label>
+                                        <div>{{ $blog->title ?? '-' }}</div>
                                     </div>
 
-                                    <!-- Designation -->
+                                    <!-- Slug -->
                                     <div class="mb-4">
-                                        <label class="form-label fw-bold">Designation:</label>
-                                        <div>{{ $testimonial->designation ?? '-' }}</div>
+                                        <label class="form-label fw-bold">Slug:</label>
+                                        <div>{{ $blog->slug ?? '-' }}</div>
                                     </div>
 
-                                    <!-- Testimonial Text -->
+                                    <!-- Excerpt -->
+                                    @if ($blog->excerpt)
+                                        <div class="mb-4">
+                                            <label class="form-label fw-bold">Excerpt:</label>
+                                            <div class="text-muted fst-italic">{{ $blog->excerpt }}</div>
+                                        </div>
+                                    @endif
+
+                                    <!-- Content -->
                                     <div class="mb-4">
-                                        <label class="form-label fw-bold">Testimonial:</label>
-                                        <div>{{ $testimonial->testimonial ?? '-' }}</div>
+                                        <label class="form-label fw-bold">Content:</label>
+                                        <div>{!! nl2br(e($blog->content)) !!}</div>
                                     </div>
 
                                     <div class="row mb-4">
-
                                         <!-- Status -->
                                         <div class="col-md-4">
                                             <label class="form-label fw-bold">Status:</label>
-                                            <div>{!! $testimonial->status_badge !!}</div>
+                                            <div>{!! $blog->status_badge !!}</div>
                                         </div>
 
-                                        <!-- Created At -->
+                                        <!-- Published At -->
                                         <div class="col-md-4">
-                                            <label class="form-label fw-bold">Submitted On:</label>
+                                            <label class="form-label fw-bold">Published On:</label>
                                             <div>
-                                                {{ $testimonial->created_at ? $testimonial->created_at->format('d M Y h:i A') : '—' }}
+                                                {{ $blog->published_at ? $blog->published_at->format('d M Y h:i A') : '—' }}
                                             </div>
                                         </div>
 
-                                        <!-- Updated At -->
-                                         <div class="col-md-4">
-                                            <label class="form-label fw-bold">Last Updated:</label>
-                                            <div>
-                                                {{ $testimonial->updated_at ? $testimonial->updated_at->format('d M Y h:i A') : '—' }}
-                                            </div>
+                                        <!-- Views -->
+                                        <div class="col-md-4">
+                                            <label class="form-label fw-bold">Views:</label>
+                                            <div>{{ $blog->views }}</div>
                                         </div>
                                     </div>
 
+                                    <div class="row mb-4">
+                                        <!-- Author -->
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-bold">Author:</label>
+                                            <div>{{ $blog->author->name ?? '—' }}</div>
+                                        </div>
 
+                                        <!-- Service -->
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-bold">Service:</label>
+                                            <div>{{ $blog->service->name ?? '—' }}</div>
+                                        </div>
+                                    </div>
 
-
+                                    <!-- Timestamps -->
+                                    <div class="row mb-4">
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-bold">Created At:</label>
+                                            <div>{{ $blog->created_at?->format('d M Y h:i A') ?? '—' }}</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-bold">Last Updated:</label>
+                                            <div>{{ $blog->updated_at?->format('d M Y h:i A') ?? '—' }}</div>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <!-- Right Column (Image Preview) -->
                                 <div class="col-md-4 text-center">
                                     <label class="form-label fw-bold">Image Preview:</label><br>
 
-                                    @if ($testimonial->image && file_exists(public_path('storage/' . $testimonial->image)))
-                                        <img src="{{ asset('storage/' . $testimonial->image) }}"
-                                            alt="{{ $testimonial->name }}"
+                                    @if ($blog->image && Storage::disk('public')->exists($blog->image))
+                                        <img src="{{ asset('storage/' . $blog->image) }}" alt="{{ $blog->title }}"
+                                            class="img-fluid rounded shadow-sm mb-2 js-media-preview"
+                                            style="max-height:250px; object-fit:cover;"
+                                            data-url="{{ asset('storage/' . $blog->image) }}" data-type="image">
+                                    @else
+                                        <div class="text-muted">No image uploaded</div>
+                                    @endif
+
+                                     @if ($blog->image && file_exists(public_path('storage/' . $blog->image)))
+                                        <img src="{{ asset('storage/' . $blog->image) }}"
+                                            alt="{{ $blog->name }}"
                                             class="img-fluid rounded shadow-sm mb-2 js-media-preview"
                                             style="max-height:200px; object-fit:cover;"
-                                            data-url="{{ asset('storage/' . $testimonial->image) }}" data-type="image">
+                                            data-url="{{ asset('storage/' . $blog->image) }}" data-type="image">
                                     @else
                                         <div class="text-muted">No image uploaded</div>
                                     @endif
                                 </div>
 
                             </div>
-
-                        </div> --}}
-
-
-                        <div class="card shadow-lg border-0 rounded-3">
-                            @if ($blog->image && Storage::disk('public')->exists($blog->image))
-                                <img src="{{ asset('storage/' . $blog->image) }}" class="card-img-top rounded-top"
-                                    alt="{{ $blog->title }}" style="max-height: 400px; object-fit: cover;">
-                            @endif
-
-                            <div class="card-body p-4">
-                                {{-- Title + Status --}}
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <h2 class="card-title mb-0">{{ $blog->title }}</h2>
-                                    {!! $blog->status_badge !!}
-                                </div>
-
-                                {{-- Excerpt --}}
-                                @if ($blog->excerpt)
-                                    <p class="text-muted fst-italic">{{ $blog->excerpt }}</p>
-                                @endif
-
-                                {{-- Meta --}}
-                                <div class="mb-3 small text-muted">
-                                    <i class="bi bi-person-circle me-1"></i>
-                                    {{ $blog->author->name ?? 'Unknown Author' }}
-
-                                    @if ($blog->service)
-                                        | <i class="bi bi-scissors me-1"></i> {{ $blog->service->name }}
-                                    @endif
-
-                                    | <i class="bi bi-calendar-event me-1"></i>
-                                    {{ $blog->published_at ? $blog->published_at->format('d M, Y') : 'Not Published' }}
-
-                                    | <i class="bi bi-eye me-1"></i> {{ $blog->views }} views
-                                </div>
-
-                                {{-- Content --}}
-                                <div class="card-text">
-                                    {!! nl2br(e($blog->content)) !!}
-                                </div>
-                            </div>
-
-                            <div class="card-footer bg-white text-end">
-                                <a href="{{ route('blogs.index') }}" class="btn btn-outline-secondary btn-sm">
-                                    <i class="bi bi-arrow-left"></i> Back
-                                </a>
-                                <a href="{{ route('blogs.edit', $blog->id) }}" class="btn btn-primary btn-sm">
-                                    <i class="bi bi-pencil-square"></i> Edit
-                                </a>
-                            </div>
                         </div>
-
-
 
 
                     </div>
