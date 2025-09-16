@@ -103,8 +103,8 @@ if (!function_exists('getImage')) {
      * Get image URL or full <img> tag
      *
      * @param string|null $path
-     * @param string $default
      * @param bool $asTag
+     * @param string $default
      * @param array $attributes
      * @return string
      */
