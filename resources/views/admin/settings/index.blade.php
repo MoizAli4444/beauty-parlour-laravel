@@ -15,31 +15,6 @@
                         </div>
                         <div class="card-body">
 
-                            @include('admin.pages-partials.bulk-actions', [
-                                'itemType' => 'faqs',
-                                'actions' => [
-                                    [
-                                        'text' => 'Delete Selected',
-                                        'value' => 'delete',
-                                        'class' => 'btn-danger',
-                                        'url' => route('faqs.bulkDelete'),
-                                    ],
-                                    [
-                                        'text' => 'Mark as Active',
-                                        'value' => 'active',
-                                        'class' => 'btn-success',
-                                        'url' => route('faqs.bulkStatus'),
-                                    ],
-                                    [
-                                        'text' => 'Mark as Inactive',
-                                        'value' => 'inactive',
-                                        'class' => 'btn-secondary',
-                                        'url' => route('faqs.bulkStatus'),
-                                    ],
-                                ],
-                            ])
-
-
                             <div class="container">
                                 <form action="{{ route('site-settings.update', $setting->id) }}" method="POST"
                                     enctype="multipart/form-data">
