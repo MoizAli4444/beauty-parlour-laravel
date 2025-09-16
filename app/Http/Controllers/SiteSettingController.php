@@ -74,12 +74,13 @@ class SiteSettingController extends Controller
             'currency'        => 'nullable|string|max:10',
             'facebook_link'   => 'nullable|url|max:255',
             'instagram_link'  => 'nullable|url|max:255',
-            'site_logo'       => 'nullable|image|mimes:jpg,jpeg,png,svg,gif|max:2048',
-            'favicon'         => 'nullable|image|mimes:jpg,jpeg,png,ico|max:1024',
-            'default_image'   => 'nullable|image|mimes:jpg,jpeg,png,svg,gif|max:2048',
+            'site_logo' => 'nullable|image|mimes:jpg,jpeg,png,svg,gif,webp|max:6000',
+            'favicon' => 'nullable|image|mimes:jpg,jpeg,png,ico,webp|max:6000',
+            'default_image' => 'nullable|image|mimes:jpg,jpeg,png,svg,gif,webp|max:6000',
+
         ]);
 
-      
+
 
         foreach (['site_logo', 'favicon', 'default_image'] as $field) {
             // Case 1: New file uploaded
