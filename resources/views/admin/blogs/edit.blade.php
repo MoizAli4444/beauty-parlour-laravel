@@ -36,83 +36,90 @@
                                 </div>
                             @endif
 
-                            <form action="{{ route('testimonials.update', $testimonial->id) }}" method="POST"
-                                enctype="multipart/form-data">
-                                @csrf
-                                @method('PUT')
+                             <form action="{{ route('blogs.update', $blog->id) }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        @method('PUT')
 
-                                {{-- Name --}}
-                                <div class="mb-3">
-                                    <label class="form-label">Name <span class="text-danger">*</span></label>
-                                    <input type="text" name="name"
-                                        class="form-control @error('name') is-invalid @enderror"
-                                        value="{{ old('name', $testimonial->name) }}" required>
-                                    @error('name')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
+        {{-- Title --}}
+        <div class="mb-3">
+            <label class="form-label">Title <span class="text-danger">*</span></label>
+            <input type="text" name="title"
+                   class="form-control @error('title') is-invalid @enderror"
+                   value="{{ old('title', $blog->title) }}" required>
+            @error('title')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
 
-                                {{-- Designation --}}
-                                <div class="mb-3">
-                                    <label class="form-label">Designation</label>
-                                    <input type="text" name="designation"
-                                        class="form-control @error('designation') is-invalid @enderror"
-                                        value="{{ old('designation', $testimonial->designation) }}">
-                                    @error('designation')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
+        {{-- Excerpt --}}
+        <div class="mb-3">
+            <label class="form-label">Excerpt</label>
+            <textarea name="excerpt" rows="3"
+                      class="form-control @error('excerpt') is-invalid @enderror">{{ old('excerpt', $blog->excerpt) }}</textarea>
+            @error('excerpt')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
 
-                                {{-- Testimonial --}}
-                                <div class="mb-3">
-                                    <label class="form-label">Testimonial <span class="text-danger">*</span></label>
-                                    <textarea name="testimonial" rows="5" class="form-control @error('testimonial') is-invalid @enderror" required>{{ old('testimonial', $testimonial->testimonial) }}</textarea>
-                                    @error('testimonial')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
+        {{-- Content (CKEditor) --}}
+        <div class="mb-3">
+            <label class="form-label">Content <span class="text-danger">*</span></label>
+            <textarea id="editor" name="content"
+                      class="form-control @error('content') is-invalid @enderror" rows="8" required>
+                {{ old('content', $blog->content) }}
+            </textarea>
+            @error('content')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
 
-                                {{-- Image --}}
-                                <div class="mb-3">
-                                    <label class="form-label">Image</label>
-                                    @if ($testimonial->image)
-                                        <div class="mb-2">
-                                            <img src="{{ asset('storage/' . $testimonial->image) }}" alt="Image"
-                                                class="img-fluid rounded shadow-sm mb-2 js-media-preview"
-                                                style="max-height:150px; object-fit:cover;"
-                                                data-url="{{ asset('storage/' . $testimonial->image) }}" data-type="image">
-                                        </div>
-                                    @endif
-                                    <input type="file" name="image"
-                                        class="form-control @error('image') is-invalid @enderror">
-                                    @error('image')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
+        {{-- Image --}}
+        <div class="mb-3">
+            <label class="form-label">Image</label>
+            @if ($blog->image)
+                <div class="mb-2">
+                    <img src="{{ asset('storage/' . $blog->image) }}" alt="Image"
+                         class="img-fluid rounded shadow-sm mb-2 js-media-preview"
+                         style="max-height:150px; object-fit:cover;"
+                         data-url="{{ asset('storage/' . $blog->image) }}" data-type="image">
+                </div>
+            @endif
+            <input type="file" name="image"
+                   class="form-control @error('image') is-invalid @enderror">
+            @error('image')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
 
-                                {{-- Status --}}
-                                <div class="mb-3">
-                                    <label class="form-label">Status</label>
-                                    <select name="status" class="form-select @error('status') is-invalid @enderror">
-                                        <option value="pending"
-                                            {{ old('status', $testimonial->status) == 'pending' ? 'selected' : '' }}>
-                                            Pending</option>
-                                        <option value="active"
-                                            {{ old('status', $testimonial->status) == 'active' ? 'selected' : '' }}>
-                                            Active</option>
-                                        <option value="inactive"
-                                            {{ old('status', $testimonial->status) == 'inactive' ? 'selected' : '' }}>
-                                            Inactive</option>
-                                    </select>
-                                    @error('status')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
+        {{-- Status --}}
+        <div class="mb-3">
+            <label class="form-label">Status</label>
+            <select name="status" class="form-select @error('status') is-invalid @enderror">
+                <option value="draft" {{ old('status', $blog->status) == 'draft' ? 'selected' : '' }}>Draft</option>
+                <option value="published" {{ old('status', $blog->status) == 'published' ? 'selected' : '' }}>Published</option>
+            </select>
+            @error('status')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
 
-                                {{-- Submit --}}
-                                <button type="submit" class="btn btn-primary">Update</button>
-                                <a href="{{ route('testimonials.index') }}" class="btn btn-secondary">Cancel</a>
-                            </form>
+        {{-- Published At --}}
+        <div class="mb-3">
+            <label class="form-label">Published At</label>
+            <input type="datetime-local" name="published_at"
+                   class="form-control @error('published_at') is-invalid @enderror"
+                   value="{{ old('published_at', optional($blog->published_at)->format('Y-m-d\TH:i')) }}">
+            @error('published_at')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="d-flex justify-content-end">
+            <a href="{{ route('blogs.index') }}" class="btn btn-secondary me-2">Cancel</a>
+            <button type="submit" class="btn btn-primary">Update Blog</button>
+        </div>
+    </form>
+
 
                         </div>
                     </div>
@@ -123,7 +130,7 @@
         <!-- / Content -->
 
         <!-- Media Preview Modal -->
-        @include('admin.pages-partials.preview_modal')
+        {{-- @include('admin.pages-partials.preview_modal') --}}
 
 
 
@@ -132,31 +139,13 @@
 @endsection
 
 @push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
+    <!-- CKEditor 5 CDN -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
     <script>
-        let serviceSelect = new TomSelect("#services", {
-            plugins: ['remove_button'],
-            placeholder: "Select services"
-        });
-
-        function updateTotal() {
-            let total = 0;
-            let selectedOptions = serviceSelect.getValue();
-
-            selectedOptions.forEach(id => {
-                let option = document.querySelector(`#services option[value="${id}"]`);
-                if (option) {
-                    total += parseFloat(option.getAttribute('data-price')) || 0;
-                }
+        ClassicEditor
+            .create(document.querySelector('#editor'))
+            .catch(error => {
+                console.error(error);
             });
-
-            document.getElementById('services_total').value = total.toFixed(2);
-        }
-
-        // Run when changed
-        serviceSelect.on('change', updateTotal);
-
-        // Run on page load (in case of edit with pre-selected services)
-        updateTotal();
     </script>
 @endpush

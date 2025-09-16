@@ -14,7 +14,7 @@
                             <div>
 
                                 {!! render_delete_button($blog->id, route('blogs.destroy', $blog->id), false) !!}
-                                {!! render_edit_button(route('blogs.edit', $blog->id), false) !!}
+                                {!! render_edit_button(route('blogs.edit', $blog->slug), false) !!}
                                 {!! render_index_button(route('blogs.index'), 'All blogs', false) !!}
                             </div>
                         </div>

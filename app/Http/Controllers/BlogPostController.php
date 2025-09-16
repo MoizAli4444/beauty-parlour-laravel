@@ -53,7 +53,7 @@ class BlogPostController extends Controller
     /**
      * Display the specified resource.
      */
-   public function show($slug)
+    public function show($slug)
     {
         $blog = $this->repository->findBySlug($slug);
 
@@ -67,11 +67,16 @@ class BlogPostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(BlogPost $blogPost)
+    public function edit($slug)
     {
-        //
-    }
+        $blog = $this->repository->findBySlug($slug);
 
+        if (!$blog) {
+            return redirect()->route('blogs.index')->with('error', 'blog not found');
+        }
+
+        return view('admin.blogs.edit', compact('blog'));
+    }
     /**
      * Update the specified resource in storage.
      */
