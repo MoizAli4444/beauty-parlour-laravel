@@ -11,7 +11,7 @@
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h5 class="mb-0">All FAQs</h5>
-                            <a href="{{ route('faqs.create') }}" class="btn btn-warning">Create</a>
+                            
                         </div>
                         <div class="card-body">
 
