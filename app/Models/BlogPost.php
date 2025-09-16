@@ -47,7 +47,7 @@ class BlogPost extends Model
         ];
     }
 
-    public function creator()
+    public function author()
     {
         return $this->belongsTo(User::class, 'created_by');
     }
