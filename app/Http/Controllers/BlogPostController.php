@@ -81,4 +81,30 @@ class BlogPostController extends Controller
     {
         //
     }
+
+    public function toggleStatus($id)
+    {
+        $testimonial = $this->repository->toggleStatus($id);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Status updated successfully.',
+            'new_status' => $testimonial->status,
+            'badge' => $testimonial->status_badge,
+        ]);
+    }
+
+    public function bulkDelete(Request $request)
+    {
+        $this->repository->bulkDelete($request->ids);
+
+        return response()->json(['message' => 'Selected blogs deleted successfully.']);
+    }
+
+    public function bulkStatus(Request $request)
+    {
+        $this->repository->bulkStatus($request->ids, $request->status);
+
+        return response()->json(['message' => 'Status updated']);
+    }
 }
