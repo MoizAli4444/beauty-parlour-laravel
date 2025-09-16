@@ -36,6 +36,12 @@ class BlogPost extends Model
     const STATUS_PUBLISHED = 'published';
     const STATUS_DRAFT     = 'draft';
 
+
+    public function service()
+    {
+        return $this->belongsTo(Service::class);
+    }
+
     ///////////// fixed model functions //////////////
     public function sluggable(): array
     {
