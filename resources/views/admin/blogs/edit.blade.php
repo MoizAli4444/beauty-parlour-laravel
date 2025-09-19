@@ -15,12 +15,12 @@
                     <div class="card">
 
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">Edit Testimonial</h5>
+                            <h5 class="mb-0">Edit Blog</h5>
 
                             <div>
-                                {!! render_delete_button($testimonial->id, route('testimonials.destroy', $testimonial->id), false) !!}
-                                {!! render_view_button(route('testimonials.show', $testimonial->id), false) !!}
-                                {!! render_index_button(route('testimonials.index'), 'All Testimonials', false) !!}
+                                {!! render_delete_button($blog->id, route('blogs.destroy', $blog->id), false) !!}
+                                {!! render_view_button(route('blogs.show', $blog->id), false) !!}
+                                {!! render_index_button(route('blogs.index'), 'All Blogs', false) !!}
 
                             </div>
                         </div>
@@ -36,89 +36,85 @@
                                 </div>
                             @endif
 
-                             <form action="{{ route('blogs.update', $blog->id) }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        @method('PUT')
+                            <form action="{{ route('blogs.update', $blog->id) }}" method="POST"
+                                enctype="multipart/form-data">
+                                @csrf
+                                @method('PUT')
 
-        {{-- Title --}}
-        <div class="mb-3">
-            <label class="form-label">Title <span class="text-danger">*</span></label>
-            <input type="text" name="title"
-                   class="form-control @error('title') is-invalid @enderror"
-                   value="{{ old('title', $blog->title) }}" required>
-            @error('title')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
+                                {{-- Title --}}
+                                <div class="mb-3">
+                                    <label class="form-label">Title <span class="text-danger">*</span></label>
+                                    <input type="text" name="title"
+                                        class="form-control @error('title') is-invalid @enderror"
+                                        value="{{ old('title', $blog->title) }}" required>
+                                    @error('title')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
 
-        {{-- Excerpt --}}
-        <div class="mb-3">
-            <label class="form-label">Excerpt</label>
-            <textarea name="excerpt" rows="3"
-                      class="form-control @error('excerpt') is-invalid @enderror">{{ old('excerpt', $blog->excerpt) }}</textarea>
-            @error('excerpt')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
+                                {{-- Excerpt --}}
+                                <div class="mb-3">
+                                    <label class="form-label">Excerpt</label>
+                                    <textarea name="excerpt" rows="3" class="form-control @error('excerpt') is-invalid @enderror">{{ old('excerpt', $blog->excerpt) }}</textarea>
+                                    @error('excerpt')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
 
-        {{-- Content (CKEditor) --}}
-        <div class="mb-3">
-            <label class="form-label">Content <span class="text-danger">*</span></label>
-            <textarea id="editor" name="content"
-                      class="form-control @error('content') is-invalid @enderror" rows="8" required>
+                                {{-- Content (CKEditor) --}}
+                                <div class="mb-3">
+                                    <label class="form-label">Content <span class="text-danger">*</span></label>
+                                    <textarea id="editor" name="content" class="form-control @error('content') is-invalid @enderror" rows="8"
+                                        required>
                 {{ old('content', $blog->content) }}
             </textarea>
-            @error('content')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
+                                    @error('content')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
 
-        {{-- Image --}}
-        <div class="mb-3">
-            <label class="form-label">Image</label>
-            @if ($blog->image)
-                <div class="mb-2">
-                    <img src="{{ asset('storage/' . $blog->image) }}" alt="Image"
-                         class="img-fluid rounded shadow-sm mb-2 js-media-preview"
-                         style="max-height:150px; object-fit:cover;"
-                         data-url="{{ asset('storage/' . $blog->image) }}" data-type="image">
-                </div>
-            @endif
-            <input type="file" name="image"
-                   class="form-control @error('image') is-invalid @enderror">
-            @error('image')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
+                                {{-- Image --}}
+                                <div class="mb-3">
+                                    <label class="form-label">Image</label>
+                                   {!! getImage($blog->image, true) !!}
+                                    <input type="file" name="image"
+                                        class="form-control @error('image') is-invalid @enderror">
+                                    @error('image')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
 
-        {{-- Status --}}
-        <div class="mb-3">
-            <label class="form-label">Status</label>
-            <select name="status" class="form-select @error('status') is-invalid @enderror">
-                <option value="draft" {{ old('status', $blog->status) == 'draft' ? 'selected' : '' }}>Draft</option>
-                <option value="published" {{ old('status', $blog->status) == 'published' ? 'selected' : '' }}>Published</option>
-            </select>
-            @error('status')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
+                                {{-- Status --}}
+                                <div class="mb-3">
+                                    <label class="form-label">Status</label>
+                                    <select name="status" class="form-select @error('status') is-invalid @enderror">
+                                        <option value="draft"
+                                            {{ old('status', $blog->status) == 'draft' ? 'selected' : '' }}>Draft</option>
+                                        <option value="published"
+                                            {{ old('status', $blog->status) == 'published' ? 'selected' : '' }}>Published
+                                        </option>
+                                    </select>
+                                    @error('status')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
 
-        {{-- Published At --}}
-        <div class="mb-3">
-            <label class="form-label">Published At</label>
-            <input type="datetime-local" name="published_at"
-                   class="form-control @error('published_at') is-invalid @enderror"
-                   value="{{ old('published_at', optional($blog->published_at)->format('Y-m-d\TH:i')) }}">
-            @error('published_at')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
+                                {{-- Published At --}}
+                                <div class="mb-3">
+                                    <label class="form-label">Published At</label>
+                                    <input type="datetime-local" name="published_at"
+                                        class="form-control @error('published_at') is-invalid @enderror"
+                                        value="{{ old('published_at', optional($blog->published_at)->format('Y-m-d\TH:i')) }}">
+                                    @error('published_at')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
 
-        <div class="d-flex justify-content-end">
-            <a href="{{ route('blogs.index') }}" class="btn btn-secondary me-2">Cancel</a>
-            <button type="submit" class="btn btn-primary">Update Blog</button>
-        </div>
-    </form>
+                                <div class="d-flex justify-content-end">
+                                    <a href="{{ route('blogs.index') }}" class="btn btn-secondary me-2">Cancel</a>
+                                    <button type="submit" class="btn btn-primary">Update Blog</button>
+                                </div>
+                            </form>
 
 
                         </div>
@@ -130,7 +126,7 @@
         <!-- / Content -->
 
         <!-- Media Preview Modal -->
-        {{-- @include('admin.pages-partials.preview_modal') --}}
+        @include('admin.pages-partials.preview_modal')
 
 
 
