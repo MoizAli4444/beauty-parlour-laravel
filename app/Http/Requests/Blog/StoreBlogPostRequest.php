@@ -4,7 +4,7 @@ namespace App\Http\Requests\Blog;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateBlogPostRequest extends FormRequest
+class StoreBlogPostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,7 @@ class UpdateBlogPostRequest extends FormRequest
             'title'   => 'required|string|max:255',
             'content' => 'required|string',
             'excerpt' => 'nullable|string|max:500',
-            'image'   => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120', // 5MB
+            'image'   => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'status'  => 'required|in:draft,published',
             'service_id' => 'nullable|exists:services,id',
         ];
