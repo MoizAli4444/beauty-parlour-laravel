@@ -129,6 +129,17 @@ class BlogRepository implements BlogRepositoryInterface
 
     public function create(array $data)
     {
+        $data = $this->addCreatedBy($data);
+
+        if (isset($data['image']) && $data['image'] instanceof \Illuminate\Http\UploadedFile) {
+            $path = $data['image']->store('uploads/blogs', 'public');
+            $data['image'] = $path;
+        }
+
+        if (($data['status'] ?? null) === 'published' && empty($data['published_at'])) {
+            $data['published_at'] = now();
+        }
+
         return BlogPost::create($data);
     }
 
@@ -138,24 +149,17 @@ class BlogRepository implements BlogRepositoryInterface
     {
         $blog = BlogPost::findOrFail($id);
 
-        // Track who updated
         $data = $this->addUpdatedBy($data);
 
-        // Handle blog image upload
         if (isset($data['image']) && $data['image'] instanceof \Illuminate\Http\UploadedFile) {
-            // Delete old image if exists
             if ($blog->image && Storage::disk('public')->exists($blog->image)) {
                 Storage::disk('public')->delete($blog->image);
             }
 
-            // Store new file
             $path = $data['image']->store('uploads/blogs', 'public');
-
-            // Save path in DB (only path, not file object)
             $data['image'] = $path;
         }
 
-        // If published_at is empty and status is published → set now
         if (($data['status'] ?? null) === 'published' && empty($blog->published_at)) {
             $data['published_at'] = now();
         }
@@ -168,15 +172,26 @@ class BlogRepository implements BlogRepositoryInterface
 
 
 
+    // public function delete($id)
+    // {
+    //     $testimonial = BlogPost::findOrFail($id);
+
+    //     if ($testimonial->image && Storage::disk('public')->exists($testimonial->image)) {
+    //         Storage::disk('public')->delete($testimonial->image);
+    //     }
+
+    //     return $testimonial->delete(); // uses softDeletes
+    // }
+
     public function delete($id)
     {
-        $testimonial = BlogPost::findOrFail($id);
+        $blog = BlogPost::findOrFail($id);
 
-        if ($testimonial->image && Storage::disk('public')->exists($testimonial->image)) {
-            Storage::disk('public')->delete($testimonial->image);
+        if ($blog->image && Storage::disk('public')->exists($blog->image)) {
+            Storage::disk('public')->delete($blog->image);
         }
 
-        return $testimonial->delete(); // uses softDeletes
+        return $blog->delete();
     }
 
 
