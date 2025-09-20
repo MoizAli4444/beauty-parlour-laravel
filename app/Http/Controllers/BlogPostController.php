@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Blog\StoreBlogPostRequest;
+use App\Http\Requests\Blog\UpdateBlogPostRequest;
 use App\Models\BlogPost;
 use App\Repositories\Blog\BlogRepositoryInterface;
 use Illuminate\Http\Request;
@@ -39,15 +41,19 @@ class BlogPostController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.blogs.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreBlogPostRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        $this->repository->create($validated);
+
+        return redirect()->route('blogs.index')->with('success', 'Blog created successfully.');
     }
 
     /**
@@ -77,20 +83,27 @@ class BlogPostController extends Controller
 
         return view('admin.blogs.edit', compact('blog'));
     }
+
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, BlogPost $blogPost)
+    public function update(UpdateBlogPostRequest $request, $id)
     {
-        //
+        $validated = $request->validated();
+        $this->repository->update($id, $validated);
+
+        return redirect()->route('blogs.index')->with('success', 'Blog updated successfully.');
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(BlogPost $blogPost)
+    public function destroy($id)
     {
-        //
+        $this->repository->delete($id);
+
+        return redirect()->route('blogs.index')->with('success', 'Blog deleted successfully.');
     }
 
     public function toggleStatus($id)
