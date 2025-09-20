@@ -142,21 +142,17 @@ class BlogRepository implements BlogRepositoryInterface
         $data = $this->addUpdatedBy($data);
 
         // Handle blog image upload
-        if (isset($data['image'])) {
-            $file = $data['image'];
-
+        if (isset($data['image']) && $data['image'] instanceof \Illuminate\Http\UploadedFile) {
             // Delete old image if exists
             if ($blog->image && Storage::disk('public')->exists($blog->image)) {
                 Storage::disk('public')->delete($blog->image);
             }
 
             // Store new file
-            $path = $file->store('uploads/blogs', 'public');
+            $path = $data['image']->store('uploads/blogs', 'public');
 
+            // Save path in DB (only path, not file object)
             $data['image'] = $path;
-
-            unset($data['image']); // remove raw file object from saving
-            $data['image'] = $path; // save only path in DB
         }
 
         // If published_at is empty and status is published → set now
@@ -168,6 +164,7 @@ class BlogRepository implements BlogRepositoryInterface
 
         return $blog;
     }
+
 
 
 

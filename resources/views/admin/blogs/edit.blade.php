@@ -64,10 +64,8 @@
                                 {{-- Content (CKEditor) --}}
                                 <div class="mb-3">
                                     <label class="form-label">Content <span class="text-danger">*</span></label>
-                                    <textarea id="editor" name="content" class="form-control @error('content') is-invalid @enderror" rows="8"
-                                        required>
-                {{ old('content', $blog->content) }}
-            </textarea>
+                                    <textarea id="editor" name="content" class="form-control @error('content') is-invalid @enderror" rows="8" required>{{ old('content', $blog->content) }}</textarea>
+
                                     @error('content')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
