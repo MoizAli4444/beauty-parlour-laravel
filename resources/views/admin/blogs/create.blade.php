@@ -32,36 +32,38 @@
                                 </div>
                             @endif
 
-                            <form action="{{ route('testimonials.store') }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('blogs.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
 
-                                {{-- Name --}}
+                                {{-- Title --}}
                                 <div class="mb-3">
-                                    <label class="form-label">Name <span class="text-danger">*</span></label>
-                                    <input type="text" name="name"
-                                        class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}"
-                                        required>
-                                    @error('name')
+                                    <label class="form-label">Title <span class="text-danger">*</span></label>
+                                    <input type="text" name="title"
+                                        class="form-control @error('title') is-invalid @enderror"
+                                        value="{{ old('title') }}" required>
+                                    @error('title')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
-                                {{-- Designation --}}
+
+                                {{-- Excerpt --}}
                                 <div class="mb-3">
-                                    <label class="form-label">Designation</label>
-                                    <input type="text" name="designation"
-                                        class="form-control @error('designation') is-invalid @enderror"
-                                        value="{{ old('designation') }}">
-                                    @error('designation')
+                                    <label class="form-label">Excerpt</label>
+                                    <textarea name="excerpt" rows="3" class="form-control @error('excerpt') is-invalid @enderror">{{ old('excerpt') }}</textarea>
+                                    @error('excerpt')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
-                                {{-- Testimonial --}}
+                                {{-- Content (CKEditor) --}}
                                 <div class="mb-3">
-                                    <label class="form-label">Testimonial <span class="text-danger">*</span></label>
-                                    <textarea name="testimonial" rows="5" class="form-control @error('testimonial') is-invalid @enderror" required>{{ old('testimonial') }}</textarea>
-                                    @error('testimonial')
+                                    <label class="form-label">Content <span class="text-danger">*</span></label>
+                                    <textarea id="editor" name="content" class="form-control @error('content') is-invalid @enderror" rows="8">
+    {{ old('content') }}
+</textarea>
+
+                                    @error('content')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
@@ -80,23 +82,31 @@
                                 <div class="mb-3">
                                     <label class="form-label">Status</label>
                                     <select name="status" class="form-select @error('status') is-invalid @enderror">
-                                        <option value="pending" {{ old('status') == 'pending' ? 'selected' : '' }}>Pending
+                                        <option value="draft" {{ old('status') == 'draft' ? 'selected' : '' }}>Draft
                                         </option>
-                                        <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active
-                                        </option>
-                                        <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>
-                                            Inactive</option>
+                                        <option value="published" {{ old('status') == 'published' ? 'selected' : '' }}>
+                                            Published</option>
                                     </select>
                                     @error('status')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
-                                {{-- Submit --}}
-                                <button type="submit" class="btn btn-primary">Create</button>
-                                <a href="{{ route('testimonials.index') }}" class="btn btn-secondary">Cancel</a>
-                            </form>
+                                {{-- Published At --}}
+                                <div class="mb-3">
+                                    <label class="form-label">Published At</label>
+                                    <input type="datetime-local" name="published_at"
+                                        class="form-control @error('published_at') is-invalid @enderror"
+                                        value="{{ old('published_at') }}">
+                                    @error('published_at')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
 
+                                {{-- Submit --}}
+                                <button type="submit" class="btn btn-primary">Create Blog</button>
+                                <a href="{{ route('blogs.index') }}" class="btn btn-secondary">Cancel</a>
+                            </form>
 
 
                         </div>
@@ -140,5 +150,28 @@
 
         // Run on page load (in case of edit with pre-selected services)
         updateTotal();
+    </script>
+@endpush
+
+@push('scripts')
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
+    <script>
+        let editorInstance;
+
+        ClassicEditor
+            .create(document.querySelector('#editor'))
+            .then(editor => {
+                editorInstance = editor;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+        // Sync content before submit
+        document.querySelector('form').addEventListener('submit', function(e) {
+            if (editorInstance) {
+                document.querySelector('#editor').value = editorInstance.getData();
+            }
+        });
     </script>
 @endpush
