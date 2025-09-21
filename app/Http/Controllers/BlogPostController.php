@@ -102,8 +102,10 @@ class BlogPostController extends Controller
     public function destroy($id)
     {
         $this->repository->delete($id);
-
-        return redirect()->route('blogs.index')->with('success', 'Blog deleted successfully.');
+        return response()->json([
+            'status' => true,
+            'message' => 'Blog deleted successfully.',
+        ]);
     }
 
     public function toggleStatus($id)
