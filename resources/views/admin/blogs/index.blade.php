@@ -16,25 +16,25 @@
                         <div class="card-body">
 
                             @include('admin.pages-partials.bulk-actions', [
-                                'itemType' => 'testimonials',
+                                'itemType' => 'blogs',
                                 'actions' => [
                                     [
                                         'text' => 'Delete Selected',
                                         'value' => 'delete',
                                         'class' => 'btn-danger',
-                                        'url' => route('testimonials.bulkDelete'),
+                                        'url' => route('blogs.bulkDelete'),
                                     ],
                                     [
-                                        'text' => 'Mark as Active',
-                                        'value' => 'active',
+                                        'text' => 'Mark as Published',
+                                        'value' => 'published',
                                         'class' => 'btn-success',
-                                        'url' => route('testimonials.bulkStatus'),
+                                        'url' => route('blogs.bulkStatus'),
                                     ],
                                     [
-                                        'text' => 'Mark as Inactive',
-                                        'value' => 'inactive',
+                                        'text' => 'Mark as Draft',
+                                        'value' => 'draft',
                                         'class' => 'btn-secondary',
-                                        'url' => route('testimonials.bulkStatus'),
+                                        'url' => route('blogs.bulkStatus'),
                                     ],
                                 ],
                             ])
