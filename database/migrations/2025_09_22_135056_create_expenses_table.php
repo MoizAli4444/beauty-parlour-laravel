@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('expenses', function (Blueprint $table) {
             $table->id();
+            $table->string('expense_type'); // Rent, Salary, Supplies, etc.
+            $table->decimal('amount', 10, 2); // Total expense
+            $table->enum('payment_method', ['cash', 'card', 'bank_transfer'])->default('cash');
+            $table->date('date'); // Expense date
+            $table->text('notes')->nullable(); // Optional description
             $table->timestamps();
         });
     }
