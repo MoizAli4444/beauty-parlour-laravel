@@ -46,14 +46,15 @@
                                         <tr>
                                             <th><input type="checkbox" id="select-all"></th> {{-- universal checkbox --}}
                                             <th>ID</th>
-                                            <th>Name</th>
-                                            <th>Designation</th>
-                                            <th>Testimonial</th>
-                                            <th>Image</th>
+                                            <th>Title</th>
+                                            <th>Amount</th>
+                                            <th>Date</th>
+                                            <th>Receipt</th> {{-- image/file upload --}}
                                             <th>Status</th>
                                             <th>Created At</th>
                                             <th>Action</th>
                                         </tr>
+
                                     </thead>
 
                                 </table>

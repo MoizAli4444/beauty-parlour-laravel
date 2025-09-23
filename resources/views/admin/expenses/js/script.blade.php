@@ -3,9 +3,8 @@
         $('#indexPageDataTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '{{ route('testimonials.datatable') }}', // route for testimonials
-            columns: [
-                {
+            ajax: '{{ route('expenses.datatable') }}', // route for expenses
+            columns: [{
                     data: 'checkbox',
                     name: 'checkbox',
                     orderable: false,
@@ -16,20 +15,20 @@
                     name: 'id'
                 },
                 {
-                    data: 'name',
-                    name: 'name'
+                    data: 'title',
+                    name: 'title'
                 },
                 {
-                    data: 'designation',
-                    name: 'designation'
+                    data: 'amount',
+                    name: 'amount'
                 },
                 {
-                    data: 'testimonial',
-                    name: 'testimonial'
+                    data: 'date',
+                    name: 'date'
                 },
                 {
-                    data: 'image',
-                    name: 'image',
+                    data: 'receipt',
+                    name: 'receipt',
                     orderable: false,
                     searchable: false
                 },
@@ -49,5 +48,6 @@
                 }
             ]
         });
+
     });
 </script>
