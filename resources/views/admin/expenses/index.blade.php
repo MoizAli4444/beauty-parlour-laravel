@@ -10,31 +10,31 @@
                 <div class="col-xl">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">All Testimonials</h5>
-                            <a href="{{ route('testimonials.create') }}" class="btn btn-warning">Create</a>
+                            <h5 class="mb-0">All expenses</h5>
+                            <a href="{{ route('expenses.create') }}" class="btn btn-warning">Create</a>
                         </div>
                         <div class="card-body">
 
                             @include('admin.pages-partials.bulk-actions', [
-                                'itemType' => 'testimonials',
+                                'itemType' => 'expenses',
                                 'actions' => [
                                     [
                                         'text' => 'Delete Selected',
                                         'value' => 'delete',
                                         'class' => 'btn-danger',
-                                        'url' => route('testimonials.bulkDelete'),
+                                        'url' => route('expenses.bulkDelete'),
                                     ],
                                     [
                                         'text' => 'Mark as Active',
                                         'value' => 'active',
                                         'class' => 'btn-success',
-                                        'url' => route('testimonials.bulkStatus'),
+                                        'url' => route('expenses.bulkStatus'),
                                     ],
                                     [
                                         'text' => 'Mark as Inactive',
                                         'value' => 'inactive',
                                         'class' => 'btn-secondary',
-                                        'url' => route('testimonials.bulkStatus'),
+                                        'url' => route('expenses.bulkStatus'),
                                     ],
                                 ],
                             ])
@@ -82,5 +82,5 @@
 @endsection
 
 @push('scripts')
-    @include('admin.testimonials.js.script')
+    @include('admin.expenses.js.script')
 @endpush
