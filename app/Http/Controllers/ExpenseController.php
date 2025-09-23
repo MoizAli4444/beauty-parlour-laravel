@@ -3,17 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Models\Expense;
+use App\Repositories\Expense\ExpenseRepositoryInterface;
 use Illuminate\Http\Request;
 
 class ExpenseController extends Controller
 {
+    protected $repository;
+
+    public function __construct(ExpenseRepositoryInterface $repository)
+    {
+        $this->repository = $repository;
+    }
+
+    public function datatable(Request $request)
+    {
+
+        if ($request->ajax()) {
+            return $this->repository->getDatatableData();
+        }
+
+        return abort(403);
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return view('admin.expense.index');
     }
+
 
     /**
      * Show the form for creating a new resource.

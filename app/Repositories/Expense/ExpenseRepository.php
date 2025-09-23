@@ -25,15 +25,19 @@ class ExpenseRepository implements ExpenseRepositoryInterface
     public function getDatatableData(array $filters)
     {
         try {
-            $query = Expense::latest();
+            $query = Expense::with('moderator')->latest();
 
             // ✅ Filters
-            if (!empty($filters['status'])) {
-                $query->where('status', $filters['status']);
+            if (!empty($filters['expense_type'])) {
+                $query->where('expense_type', 'like', '%' . $filters['expense_type'] . '%');
             }
 
-            if (!empty($filters['name'])) {
-                $query->where('name', 'like', '%' . $filters['name'] . '%');
+            if (!empty($filters['payment_method'])) {
+                $query->where('payment_method', $filters['payment_method']);
+            }
+
+            if (!empty($filters['date_from']) && !empty($filters['date_to'])) {
+                $query->whereBetween('date', [$filters['date_from'], $filters['date_to']]);
             }
 
             // ✅ DataTable response
@@ -47,57 +51,44 @@ class ExpenseRepository implements ExpenseRepositoryInterface
 
                 ->addColumn('id', fn($row) => $row->id)
 
-                ->addColumn('name', fn($row) => e($row->name))
+                ->addColumn('expense_type', fn($row) => e($row->expense_type))
 
-                ->addColumn('designation', fn($row) => $row->designation ?? 'N/A')
+                ->addColumn('amount', fn($row) => number_format($row->amount, 2) . ' PKR')
 
-                ->addColumn('testimonial', function ($row) {
-                    return strlen($row->testimonial) > 80 ? substr($row->testimonial, 0, 80) . '...' : $row->testimonial;
+                ->addColumn('payment_method', fn($row) => ucfirst($row->payment_method))
+
+                ->addColumn('moderator', function ($row) {
+                    if ($row->moderator) {
+                        return class_basename($row->moderator_type) . ' - ' . ($row->moderator->name ?? 'N/A');
+                    }
+                    return 'N/A';
                 })
 
-                ->addColumn('image', function ($row) {
-                    if (!$row->image) {
-                        // Case 1: No image uploaded
-                        return 'N/A';
-                    }
-
-                    if (Storage::disk('public')->exists($row->image)) {
-                        // Case 2: Uploaded image exists
-                        $image = asset('storage/' . $row->image);
-                    } else {
-                        // Case 3: Uploaded but missing → fallback image
-                        $image = asset('storage/default.png'); // put your placeholder here
-                    }
-
-                    return '<img src="' . $image . '" 
-                        class="img-thumbnail js-media-preview" 
-                        style="max-width: 60px; cursor:pointer;"
-                        data-url="' . $image . '" 
-                        data-type="image">';
-                    })
-
-
-                ->editColumn('status', function ($row) {
-                    return $row->status_badge; // accessor on model
+                ->addColumn('notes', function ($row) {
+                    return strlen($row->notes) > 50
+                        ? substr($row->notes, 0, 50) . '...'
+                        : ($row->notes ?? 'N/A');
                 })
 
                 ->editColumn(
-                    'created_at',
-                    fn($row) => $row->created_at->format('d M Y')
+                    'date',
+                    fn($row) =>
+                    $row->date ? \Carbon\Carbon::parse($row->date)->format('d M Y') : 'N/A'
                 )
 
                 ->addColumn(
                     'action',
                     fn($row) =>
-                    view('admin.testimonials.action', ['testimonial' => $row])->render()
+                    view('admin.expenses.action', ['expense' => $row])->render()
                 )
 
-                ->rawColumns(['checkbox', 'image', 'status', 'action'])
+                ->rawColumns(['checkbox', 'action'])
                 ->make(true);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
 
 
     public function all()
