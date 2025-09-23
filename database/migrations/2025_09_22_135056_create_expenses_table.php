@@ -13,11 +13,30 @@ return new class extends Migration
     {
         Schema::create('expenses', function (Blueprint $table) {
             $table->id();
+
+            // who logged the expense (from users table)
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+
+            // who/what the expense was paid to (can be admin, staff, employee, supplier, etc.)
+            $table->morphs('userable'); // creates userable_id + userable_type
+
+            // expense details
             $table->string('expense_type'); // Rent, Salary, Supplies, etc.
-            $table->decimal('amount', 10, 2); // Total expense
-            $table->enum('payment_method', ['cash', 'card', 'bank_transfer'])->default('cash');
-            $table->date('date'); // Expense date
-            $table->text('notes')->nullable(); // Optional description
+            $table->decimal('amount', 10, 2);
+
+            // flexible payment methods
+            $table->enum('payment_method', [
+                'cash',
+                'cheque',
+                'online_payment'
+            ])->default('cash');
+
+            $table->date('date');
+            $table->string('receipt_path')->nullable(); // optional receipt/proof
+            $table->text('notes')->nullable();
+
+            // soft delete + timestamps
+            $table->softDeletes();
             $table->timestamps();
         });
     }
