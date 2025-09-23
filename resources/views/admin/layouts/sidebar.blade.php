@@ -212,6 +212,14 @@
             </a>
         </li>
 
+        <li class="menu-item {{ request()->routeIs('expenses.*') ? 'active' : '' }}">
+            <a href="{{ route('expenses.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-money"></i>
+                <div class="text-truncate" data-i18n="expenses">Expenses</div>
+            </a>
+        </li>
+
+
 
 
 
