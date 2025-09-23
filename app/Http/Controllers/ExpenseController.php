@@ -45,9 +45,21 @@ class ExpenseController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreExpenseRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        // Handle receipt upload if present
+        if ($request->hasFile('receipt_file')) {
+            $file = $request->file('receipt_file');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $validated['receipt_path'] = $file->storeAs('expenses', $filename, 'public');
+        }
+
+        $this->repository->create($validated);
+
+        return redirect()->route('expenses.index')
+            ->with('success', 'Expense created successfully.');
     }
 
     /**
@@ -69,10 +81,31 @@ class ExpenseController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Expense $expense)
+    public function update(UpdateExpenseRequest $request, $id = null)
     {
-        //
+        $validated = $request->validated();
+
+        $expense = $this->repository->find($id);
+
+        // Handle receipt upload if present
+        if ($request->hasFile('receipt_file')) {
+            // Delete old receipt if it exists
+            if ($expense->receipt_path && Storage::disk('public')->exists($expense->receipt_path)) {
+                Storage::disk('public')->delete($expense->receipt_path);
+            }
+
+            $file = $request->file('receipt_file');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $validated['receipt_path'] = $file->storeAs('expenses', $filename, 'public');
+        }
+
+        $this->repository->update($id, $validated);
+
+        return redirect()
+            ->route('expenses.index')
+            ->with('success', 'Expense updated successfully.');
     }
+
 
     /**
      * Remove the specified resource from storage.

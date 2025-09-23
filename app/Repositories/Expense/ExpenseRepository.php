@@ -109,18 +109,6 @@ class ExpenseRepository implements ExpenseRepositoryInterface
 
     public function create(array $data)
     {
-        // If a receipt file is uploaded
-        if (isset($data['receipt_file'])) {
-            $file = $data['receipt_file'];
-
-            // Store file in public/uploads/expenses
-            $path = $file->store('uploads/expenses', 'public');
-
-            $data['receipt_path'] = $path;
-
-            unset($data['receipt_file']); // don’t store raw file object
-        }
-
         return Expense::create($data);
     }
 
