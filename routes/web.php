@@ -7,6 +7,7 @@ use App\Http\Controllers\BookingReviewController;
 use App\Http\Controllers\ContactMessageController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DealController;
+use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\OfferController;
@@ -375,6 +376,26 @@ Route::middleware('auth')->group(function () {
 
     // Resource Routes
     Route::resource('blogs', BlogPostController::class);
+
+
+
+    // ==============================
+    // Expense Module Routes
+    // ==============================
+    Route::prefix('expenses')->name('expenses.')->group(function () {
+        // For DataTables AJAX loading
+        Route::get('datatable', [ExpenseController::class, 'datatable'])->name('datatable');
+
+        // For toggling status (active <-> inactive) if you need it
+        Route::patch('{id}/toggle-status', [ExpenseController::class, 'toggleStatus'])->name('toggle-status');
+
+        // Bulk actions
+        Route::post('bulk-delete', [ExpenseController::class, 'bulkDelete'])->name('bulkDelete');
+        Route::post('bulk-status', [ExpenseController::class, 'bulkStatus'])->name('bulkStatus');
+    });
+
+    // Resource Routes
+    Route::resource('expenses', ExpenseController::class);
 
 
 
