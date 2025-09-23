@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Expense;
 use App\Repositories\Expense\ExpenseRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ExpenseController extends Controller
 {
@@ -110,8 +111,20 @@ class ExpenseController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Expense $expense)
+    public function destroy($id)
     {
-        //
+        $this->repository->delete($id);
+        return response()->json([
+            'status' => true,
+            'message' => 'Expense deleted successfully.',
+        ]);
+    }
+
+
+    public function bulkDelete(Request $request)
+    {
+        $this->repository->bulkDelete($request->ids);
+
+        return response()->json(['message' => 'Selected expenses deleted successfully.']);
     }
 }
