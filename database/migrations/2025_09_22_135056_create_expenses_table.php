@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('expenses', function (Blueprint $table) {
             $table->id();
 
-            // who logged the expense (from users table)
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-
             // who/what the expense was paid to (can be admin, staff, employee, supplier, etc.)
-            $table->morphs('userable'); // creates userable_id + userable_type
+
+            $table->nullableMorphs('moderator');
+            // moderator_id + moderator_type (can be null)
+
 
             // expense details
             $table->string('expense_type'); // Rent, Salary, Supplies, etc.
