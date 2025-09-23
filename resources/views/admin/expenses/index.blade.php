@@ -46,7 +46,7 @@
                                         <tr>
                                             <th><input type="checkbox" id="select-all"></th> {{-- universal checkbox --}}
                                             <th>ID</th>
-                                            <th>Title</th>
+                                            <th>Expense Type</th>
                                             <th>Amount</th>
                                             <th>Date</th>
                                             <th>Receipt</th> {{-- image/file upload --}}

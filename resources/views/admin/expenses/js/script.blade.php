@@ -15,8 +15,8 @@
                     name: 'id'
                 },
                 {
-                    data: 'title',
-                    name: 'title'
+                    data: 'expense_type',
+                    name: 'expense_type'
                 },
                 {
                     data: 'amount',
