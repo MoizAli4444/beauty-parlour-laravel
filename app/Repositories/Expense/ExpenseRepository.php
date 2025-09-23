@@ -109,105 +109,73 @@ class ExpenseRepository implements ExpenseRepositoryInterface
 
     public function create(array $data)
     {
+        // If a receipt file is uploaded
+        if (isset($data['receipt_file'])) {
+            $file = $data['receipt_file'];
+
+            // Store file in public/uploads/expenses
+            $path = $file->store('uploads/expenses', 'public');
+
+            $data['receipt_path'] = $path;
+
+            unset($data['receipt_file']); // don’t store raw file object
+        }
+
         return Expense::create($data);
     }
 
-
-
     public function update($id, array $data)
     {
-        $testimonial = Expense::findOrFail($id);
+        $expense = Expense::findOrFail($id);
 
-        // Track who updated
-        $data = $this->addUpdatedBy($data);
+        // If a new receipt file is uploaded
+        if (isset($data['receipt_file'])) {
+            $file = $data['receipt_file'];
 
-        // If a new file is uploaded (extra file handling if needed)
-        if (isset($data['file'])) {
-            $file = $data['file'];
+            // Delete old file if exists
+            if ($expense->receipt_path && Storage::disk('public')->exists($expense->receipt_path)) {
+                Storage::disk('public')->delete($expense->receipt_path);
+            }
 
-            // Store file in public/uploads/testimonials
-            $path = $file->store('uploads/testimonials', 'public');
+            // Store new file
+            $path = $file->store('uploads/expenses', 'public');
+            $data['receipt_path'] = $path;
 
-            $data['file_path']  = $path;
-            $data['file_size']  = $file->getSize();
-            $data['media_type'] = str_starts_with($file->getMimeType(), 'video')
-                ? 'video'
-                : 'image';
-
-            unset($data['file']); // avoid saving raw file object
+            unset($data['receipt_file']);
         }
 
-        $testimonial->update($data);
+        $expense->update($data);
 
-        return $testimonial;
+        return $expense;
     }
-
 
     public function delete($id)
     {
-        $testimonial = Expense::findOrFail($id);
+        $expense = Expense::findOrFail($id);
 
-        if ($testimonial->image && Storage::disk('public')->exists($testimonial->image)) {
-            Storage::disk('public')->delete($testimonial->image);
+        // Delete receipt if exists
+        if ($expense->receipt_path && Storage::disk('public')->exists($expense->receipt_path)) {
+            Storage::disk('public')->delete($expense->receipt_path);
         }
 
-        return $testimonial->delete(); // uses softDeletes
+        return $expense->delete(); // soft delete
     }
-
-
-    public function toggleStatus($id)
-    {
-        $testimonial = Expense::findOrFail($id);
-
-        switch ($testimonial->status) {
-            case Expense::STATUS_ACTIVE:
-                $testimonial->status = Expense::STATUS_INACTIVE;
-                break;
-
-            case Expense::STATUS_INACTIVE:
-                $testimonial->status = Expense::STATUS_ACTIVE;
-                break;
-
-            case Expense::STATUS_PENDING:
-            default:
-                $testimonial->status = Expense::STATUS_ACTIVE; // promote pending to active by default
-                break;
-        }
-
-        $testimonial->save();
-
-        return $testimonial;
-    }
-
-
-    public function toggleFeatured($id)
-    {
-        $testimonial = Expense::findOrFail($id);
-        $testimonial->featured = !$testimonial->featured;
-        $testimonial->save();
-
-        return $testimonial;
-    }
-
 
 
     public function bulkDelete(array $ids)
     {
-        $testimonials = Expense::whereIn('id', $ids)->get();
+        $expenses = Expense::whereIn('id', $ids)->get();
 
-        foreach ($testimonials as $testimonial) {
-            if ($testimonial->image && Storage::disk('public')->exists($testimonial->image)) {
-                Storage::disk('public')->delete($testimonial->image);
+        foreach ($expenses as $expense) {
+            // Delete receipt file if it exists
+            if ($expense->receipt_path && Storage::disk('public')->exists($expense->receipt_path)) {
+                Storage::disk('public')->delete($expense->receipt_path);
             }
-            $testimonial->delete();
+
+            // Soft delete the record
+            $expense->delete();
         }
 
         return true;
-    }
-
-
-    public function bulkStatus(array $ids, string $status)
-    {
-        return Expense::whereIn('id', $ids)->update(['status' => $status]);
     }
 }
