@@ -116,26 +116,11 @@ class ExpenseRepository implements ExpenseRepositoryInterface
     {
         $expense = Expense::findOrFail($id);
 
-        // If a new receipt file is uploaded
-        if (isset($data['receipt_file'])) {
-            $file = $data['receipt_file'];
-
-            // Delete old file if exists
-            if ($expense->receipt_path && Storage::disk('public')->exists($expense->receipt_path)) {
-                Storage::disk('public')->delete($expense->receipt_path);
-            }
-
-            // Store new file
-            $path = $file->store('uploads/expenses', 'public');
-            $data['receipt_path'] = $path;
-
-            unset($data['receipt_file']);
-        }
-
         $expense->update($data);
 
         return $expense;
     }
+
 
     public function delete($id)
     {
