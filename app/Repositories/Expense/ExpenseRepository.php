@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Repositories\Testimonial;
+namespace App\Repositories\Expense;
 
-use App\Models\Testimonial;
+use App\Models\Expense;
 
-use App\Repositories\Testimonial\TestimonialRepositoryInterface;
+use App\Repositories\Expense\ExpenseRepositoryInterface;
 use Yajra\DataTables\Facades\DataTables;
 use App\Traits\TracksUser;
 use Illuminate\Support\Facades\Storage;
 
-class TestimonialRepository implements TestimonialRepositoryInterface
+class ExpenseRepository implements ExpenseRepositoryInterface
 {
 
     /**
@@ -25,7 +25,7 @@ class TestimonialRepository implements TestimonialRepositoryInterface
     public function getDatatableData(array $filters)
     {
         try {
-            $query = Testimonial::latest();
+            $query = Expense::latest();
 
             // ✅ Filters
             if (!empty($filters['status'])) {
@@ -102,30 +102,30 @@ class TestimonialRepository implements TestimonialRepositoryInterface
 
     public function all()
     {
-        return Testimonial::latest()->get();
+        return Expense::latest()->get();
     }
 
     public function find($id)
     {
-        return Testimonial::findOrFail($id);
+        return Expense::findOrFail($id);
     }
 
     public function findBySlug($slug)
     {
-        return Testimonial::where('slug', $slug)->first();
+        return Expense::where('slug', $slug)->first();
     }
 
 
     public function create(array $data)
     {
-        return Testimonial::create($data);
+        return Expense::create($data);
     }
 
 
 
     public function update($id, array $data)
     {
-        $testimonial = Testimonial::findOrFail($id);
+        $testimonial = Expense::findOrFail($id);
 
         // Track who updated
         $data = $this->addUpdatedBy($data);
@@ -154,7 +154,7 @@ class TestimonialRepository implements TestimonialRepositoryInterface
 
     public function delete($id)
     {
-        $testimonial = Testimonial::findOrFail($id);
+        $testimonial = Expense::findOrFail($id);
 
         if ($testimonial->image && Storage::disk('public')->exists($testimonial->image)) {
             Storage::disk('public')->delete($testimonial->image);
@@ -166,20 +166,20 @@ class TestimonialRepository implements TestimonialRepositoryInterface
 
     public function toggleStatus($id)
     {
-        $testimonial = Testimonial::findOrFail($id);
+        $testimonial = Expense::findOrFail($id);
 
         switch ($testimonial->status) {
-            case Testimonial::STATUS_ACTIVE:
-                $testimonial->status = Testimonial::STATUS_INACTIVE;
+            case Expense::STATUS_ACTIVE:
+                $testimonial->status = Expense::STATUS_INACTIVE;
                 break;
 
-            case Testimonial::STATUS_INACTIVE:
-                $testimonial->status = Testimonial::STATUS_ACTIVE;
+            case Expense::STATUS_INACTIVE:
+                $testimonial->status = Expense::STATUS_ACTIVE;
                 break;
 
-            case Testimonial::STATUS_PENDING:
+            case Expense::STATUS_PENDING:
             default:
-                $testimonial->status = Testimonial::STATUS_ACTIVE; // promote pending to active by default
+                $testimonial->status = Expense::STATUS_ACTIVE; // promote pending to active by default
                 break;
         }
 
@@ -191,7 +191,7 @@ class TestimonialRepository implements TestimonialRepositoryInterface
 
     public function toggleFeatured($id)
     {
-        $testimonial = Testimonial::findOrFail($id);
+        $testimonial = Expense::findOrFail($id);
         $testimonial->featured = !$testimonial->featured;
         $testimonial->save();
 
@@ -202,7 +202,7 @@ class TestimonialRepository implements TestimonialRepositoryInterface
 
     public function bulkDelete(array $ids)
     {
-        $testimonials = Testimonial::whereIn('id', $ids)->get();
+        $testimonials = Expense::whereIn('id', $ids)->get();
 
         foreach ($testimonials as $testimonial) {
             if ($testimonial->image && Storage::disk('public')->exists($testimonial->image)) {
@@ -217,6 +217,6 @@ class TestimonialRepository implements TestimonialRepositoryInterface
 
     public function bulkStatus(array $ids, string $status)
     {
-        return Testimonial::whereIn('id', $ids)->update(['status' => $status]);
+        return Expense::whereIn('id', $ids)->update(['status' => $status]);
     }
 }

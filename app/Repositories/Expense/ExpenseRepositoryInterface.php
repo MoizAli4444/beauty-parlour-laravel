@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repositories\Testimonial;
+namespace App\Repositories\Expense;
 
-interface TestimonialRepositoryInterface
+interface ExpenseRepositoryInterface
 {
     public function getDatatableData(array $data);
     public function all();
