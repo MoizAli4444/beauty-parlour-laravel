@@ -21,6 +21,8 @@ use App\Repositories\ContactMessage\ContactMessageRepositoryInterface;
 use App\Repositories\CustomerRepository;
 use App\Repositories\Deal\DealRepository;
 use App\Repositories\Deal\DealRepositoryInterface;
+use App\Repositories\Expense\ExpenseRepository;
+use App\Repositories\Expense\ExpenseRepositoryInterface;
 use App\Repositories\Faq\FaqRepository;
 use App\Repositories\Faq\FaqRepositoryInterface;
 use App\Repositories\Gallery\GalleryRepository;
@@ -66,6 +68,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(SettingRepositoryInterface::class, SettingRepository::class);
         $this->app->bind(BlogRepositoryInterface::class, BlogRepository::class);
+        $this->app->bind(ExpenseRepositoryInterface::class, ExpenseRepository::class);
     }
 
     /**
