@@ -36,8 +36,12 @@ class ExpenseRepository implements ExpenseRepositoryInterface
                 $query->where('payment_method', $filters['payment_method']);
             }
 
-            if (!empty($filters['date_from']) && !empty($filters['date_to'])) {
-                $query->whereBetween('date', [$filters['date_from'], $filters['date_to']]);
+            if (!empty($filters['date_from'])) {
+                $query->whereDate('created_at', '>=', $filters['date_from']);
+            }
+
+            if (!empty($filters['date_to'])) {
+                $query->whereDate('created_at', '<=', $filters['date_to']);
             }
 
             // ✅ DataTable response

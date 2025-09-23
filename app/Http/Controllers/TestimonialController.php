@@ -21,12 +21,13 @@ class TestimonialController extends Controller
     public function datatable(Request $request)
     {
         if ($request->ajax()) {
-            $filters = $request->only(['status', 'name']);
+            $filters = $request->only(['expense_type', 'payment_method', 'date_from', 'date_to']);
             return $this->repository->getDatatableData($filters);
         }
 
-        return abort(403);
+        return abort(403, 'Unauthorized action.');
     }
+
 
     /**
      * Display a listing of the resource.
