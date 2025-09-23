@@ -44,7 +44,10 @@ class DatabaseSeeder extends Seeder
             FaqSeeder::class,
             ContactMessageSeeder::class,
             TestimonialSeeder::class,
-            BlogPostsSeeder::class
+            BlogPostsSeeder::class,
+
+            ExpenseSeeder::class,
+
 
 
         ]);
