@@ -11,7 +11,7 @@ class StoreExpenseRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,12 @@ class StoreExpenseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'expense_type'   => 'required|string|max:255',
+            'amount'         => 'required|numeric|min:0',
+            'payment_method' => 'required|in:cash,cheque,online_payment',
+            'date'           => 'required|date',
+            'receipt_file'   => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048', // 2MB max
+            'notes'          => 'nullable|string|max:500',
         ];
     }
 }

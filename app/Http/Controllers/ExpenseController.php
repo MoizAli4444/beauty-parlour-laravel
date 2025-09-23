@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Expense\StoreExpenseRequest;
+use App\Http\Requests\Expense\UpdateExpenseRequest;
 use App\Models\Expense;
 use App\Repositories\Expense\ExpenseRepositoryInterface;
 use Illuminate\Http\Request;
@@ -18,12 +20,12 @@ class ExpenseController extends Controller
 
     public function datatable(Request $request)
     {
-
         if ($request->ajax()) {
-            return $this->repository->getDatatableData();
+            $filters = $request->only(['expense_type', 'payment_method', 'date_from', 'date_to']);
+            return $this->repository->getDatatableData($filters);
         }
 
-        return abort(403);
+        return abort(403, 'Unauthorized action.');
     }
 
     /**
