@@ -32,10 +32,10 @@
                     orderable: false,
                     searchable: false
                 },
-                {
-                    data: 'status',
-                    name: 'status'
-                },
+                // {
+                //     data: 'status',
+                //     name: 'status'
+                // },
                 {
                     data: 'created_at',
                     name: 'created_at'

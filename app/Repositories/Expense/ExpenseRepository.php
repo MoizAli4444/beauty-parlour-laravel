@@ -68,6 +68,20 @@ class ExpenseRepository implements ExpenseRepositoryInterface
                     return 'N/A';
                 })
 
+                ->addColumn('receipt', function ($row) {
+                    if (!$row->receipt_path) {
+                        return 'N/A';
+                    }
+
+                    if (Storage::disk('public')->exists($row->receipt_path)) {
+                        $url = asset('storage/' . $row->receipt_path);
+                        return '<a href="' . $url . '" target="_blank">View</a>';
+                    }
+
+                    return 'N/A';
+                })
+
+
                 ->addColumn('notes', function ($row) {
                     return strlen($row->notes) > 50
                         ? substr($row->notes, 0, 50) . '...'
@@ -86,7 +100,7 @@ class ExpenseRepository implements ExpenseRepositoryInterface
                     view('admin.expenses.action', ['expense' => $row])->render()
                 )
 
-                ->rawColumns(['checkbox', 'action'])
+                    ->rawColumns(['checkbox', 'receipt', 'action'])
                 ->make(true);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);

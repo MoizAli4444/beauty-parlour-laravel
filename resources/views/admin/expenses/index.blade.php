@@ -50,7 +50,7 @@
                                             <th>Amount</th>
                                             <th>Date</th>
                                             <th>Receipt</th> {{-- image/file upload --}}
-                                            <th>Status</th>
+                                            {{-- <th>Status</th> --}}
                                             <th>Created At</th>
                                             <th>Action</th>
                                         </tr>
