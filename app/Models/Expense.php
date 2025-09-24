@@ -31,4 +31,46 @@ class Expense extends Model
     {
         return $this->morphTo();
     }
+
+
+    ///////////// fixed model functions //////////////
+    
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function updater()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    public function getStatusBadgeAttribute()
+    {
+        return render_status_badge($this->status, $this->id, route('expenses.toggle-status', $this->id));
+    }
+
+    public function getEditButtonAttribute()
+    {
+        return render_edit_button(route('expenses.edit', $this->id));
+    }
+
+    public function getViewButtonAttribute()
+    {
+        return render_view_button(route('expenses.show', $this->id));
+    }
+
+
+    public function getDeleteButtonAttribute()
+    {
+        return render_delete_button($this->id, route('expenses.destroy', $this->id));
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', 'active');
+    }
+
+    ///////////// fixed model functions //////////////
 }
