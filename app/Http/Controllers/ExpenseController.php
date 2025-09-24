@@ -53,8 +53,8 @@ class ExpenseController extends Controller
         $validated = $request->validated();
 
         // Handle receipt upload if present
-        if ($request->hasFile('receipt_file')) {
-            $file = $request->file('receipt_file');
+        if ($request->hasFile('receipt_path')) {
+            $file = $request->file('receipt_path');
             $filename = time() . '.' . $file->getClientOriginalExtension();
             $validated['receipt_path'] = $file->storeAs('expenses', $filename, 'public');
         }
@@ -97,18 +97,19 @@ class ExpenseController extends Controller
      */
     public function update(UpdateExpenseRequest $request, $id = null)
     {
+        // dd("passed");
         $validated = $request->validated();
 
         $expense = $this->repository->find($id);
 
         // Handle receipt upload if present
-        if ($request->hasFile('receipt_file')) {
+        if ($request->hasFile('receipt_path')) {
             // Delete old receipt if it exists
             if ($expense->receipt_path && Storage::disk('public')->exists($expense->receipt_path)) {
                 Storage::disk('public')->delete($expense->receipt_path);
             }
 
-            $file = $request->file('receipt_file');
+            $file = $request->file('receipt_path');
             $filename = time() . '.' . $file->getClientOriginalExtension();
             $validated['receipt_path'] = $file->storeAs('expenses', $filename, 'public');
         }

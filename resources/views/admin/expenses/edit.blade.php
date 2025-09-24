@@ -106,15 +106,7 @@
                                 {{-- Receipt Upload --}}
                                 <div class="mb-3">
                                     <label class="form-label">Receipt</label>
-                                    @if ($expense->receipt_path && file_exists(public_path('storage/' . $expense->receipt_path)))
-                                        <div class="mb-2">
-                                            <img src="{{ asset('storage/' . $expense->receipt_path) }}" alt="Receipt"
-                                                class="img-fluid rounded shadow-sm mb-2 js-media-preview"
-                                                style="max-height:150px; object-fit:cover;"
-                                                data-url="{{ asset('storage/' . $expense->receipt_path) }}"
-                                                data-type="image">
-                                        </div>
-                                    @endif
+                                   {!! getImage($expense->receipt_path, true) !!}
                                     <input type="file" name="receipt_path"
                                         class="form-control @error('receipt_path') is-invalid @enderror">
                                     @error('receipt_path')

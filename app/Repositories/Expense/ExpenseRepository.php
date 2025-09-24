@@ -69,17 +69,12 @@ class ExpenseRepository implements ExpenseRepositoryInterface
                 })
 
                 ->addColumn('receipt', function ($row) {
-                    if (!$row->receipt_path) {
-                        return 'N/A';
-                    }
-
-                    if (Storage::disk('public')->exists($row->receipt_path)) {
-                        $url = asset('storage/' . $row->receipt_path);
-                        return '<a href="' . $url . '" target="_blank">View</a>';
-                    }
-
-                    return 'N/A';
+                    // Use helper to return <img> tag or "N/A"
+                    return $row->receipt_path
+                        ? getImage($row->receipt_path, true)
+                        : 'N/A';
                 })
+
 
 
                 ->addColumn('notes', function ($row) {

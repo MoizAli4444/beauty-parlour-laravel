@@ -26,7 +26,7 @@ class StoreExpenseRequest extends FormRequest
             'amount'         => 'required|numeric|min:0',
             'payment_method' => 'required|in:cash,cheque,online_payment',
             'date'           => 'required|date',
-            'receipt_file'   => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048', // 2MB max
+            'receipt_path'   => 'nullable|file|mimes:jpg,jpeg,png,pdf,webp|max:6000', 
             'notes'          => 'nullable|string|max:500',
         ];
     }

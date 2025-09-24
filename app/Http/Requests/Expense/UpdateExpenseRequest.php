@@ -26,7 +26,7 @@ class UpdateExpenseRequest extends FormRequest
             'amount'         => 'sometimes|required|numeric|min:0',
             'payment_method' => 'sometimes|required|in:cash,cheque,online_payment',
             'date'           => 'sometimes|required|date',
-            'receipt_file'   => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'receipt_path'   => 'nullable|file|mimes:jpg,jpeg,png,pdf,webp|max:6000', 
             'notes'          => 'nullable|string|max:500',
         ];
     }
