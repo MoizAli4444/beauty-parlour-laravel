@@ -95,12 +95,19 @@ class ExpenseRepository implements ExpenseRepositoryInterface
                 )
 
                 ->addColumn(
+                    'created_at',
+                    fn($row) =>
+                    $row->created_at->format('d M Y, h:i A')
+                )
+
+
+                ->addColumn(
                     'action',
                     fn($row) =>
                     view('admin.expenses.action', ['expense' => $row])->render()
                 )
 
-                    ->rawColumns(['checkbox', 'receipt', 'action'])
+                ->rawColumns(['checkbox', 'receipt', 'action'])
                 ->make(true);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
