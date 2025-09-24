@@ -52,11 +52,7 @@
 
                                     <div class="row mb-4">
 
-                                        <!-- Status -->
-                                        <div class="col-md-4">
-                                            <label class="form-label fw-bold">Status:</label>
-                                            <div>{!! $expense->status_badge !!}</div>
-                                        </div>
+                                      
 
                                         <!-- Date -->
                                         <div class="col-md-4">
@@ -75,7 +71,7 @@
                                         </div>
 
                                         <!-- Updated At -->
-                                        <div class="col-md-4 mt-3">
+                                        <div class="col-md-4">
                                             <label class="form-label fw-bold">Last Updated:</label>
                                             <div>
                                                 {{ $expense->updated_at ? $expense->updated_at->format('d M Y h:i A') : '—' }}
@@ -89,7 +85,7 @@
                                 <div class="col-md-4 text-center">
                                     <label class="form-label fw-bold">Receipt Preview:</label><br>
 
-                                    {!! getImage($expense->image, true) !!}
+                                    {!! getImage($expense->receipt_path, true) !!}
                                 </div>
 
                             </div>

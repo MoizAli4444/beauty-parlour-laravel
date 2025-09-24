@@ -82,11 +82,16 @@ class ExpenseController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Expense $expense)
+    public function edit($id)
     {
-        //
-    }
+        $expense = $this->repository->find($id);
 
+        if (!$expense) {
+            return redirect()->route('expenses.index')->with('error', 'Expense not found');
+        }
+
+        return view('admin.expenses.edit', compact('expense'));
+    }
     /**
      * Update the specified resource in storage.
      */

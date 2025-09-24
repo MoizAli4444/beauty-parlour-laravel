@@ -15,12 +15,12 @@
                     <div class="card">
 
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">Edit Testimonial</h5>
+                            <h5 class="mb-0">Edit Expense</h5>
 
                             <div>
-                                {!! render_delete_button($testimonial->id, route('testimonials.destroy', $testimonial->id), false) !!}
-                                {!! render_view_button(route('testimonials.show', $testimonial->id), false) !!}
-                                {!! render_index_button(route('testimonials.index'), 'All Testimonials', false) !!}
+                                {!! render_delete_button($expense->id, route('expenses.destroy', $expense->id), false) !!}
+                                {!! render_view_button(route('expenses.show', $expense->id), false) !!}
+                                {!! render_index_button(route('expenses.index'), 'All Expenses', false) !!}
 
                             </div>
                         </div>
@@ -36,83 +36,97 @@
                                 </div>
                             @endif
 
-                            <form action="{{ route('testimonials.update', $testimonial->id) }}" method="POST"
+                            <form action="{{ route('expenses.update', $expense->id) }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
 
-                                {{-- Name --}}
+                                {{-- Expense Type --}}
                                 <div class="mb-3">
-                                    <label class="form-label">Name <span class="text-danger">*</span></label>
-                                    <input type="text" name="name"
-                                        class="form-control @error('name') is-invalid @enderror"
-                                        value="{{ old('name', $testimonial->name) }}" required>
-                                    @error('name')
+                                    <label class="form-label">Expense Type <span class="text-danger">*</span></label>
+                                    <input type="text" name="expense_type"
+                                        class="form-control @error('expense_type') is-invalid @enderror"
+                                        value="{{ old('expense_type', $expense->expense_type) }}" required>
+                                    @error('expense_type')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
-                                {{-- Designation --}}
+                                {{-- Amount --}}
                                 <div class="mb-3">
-                                    <label class="form-label">Designation</label>
-                                    <input type="text" name="designation"
-                                        class="form-control @error('designation') is-invalid @enderror"
-                                        value="{{ old('designation', $testimonial->designation) }}">
-                                    @error('designation')
+                                    <label class="form-label">Amount (PKR) <span class="text-danger">*</span></label>
+                                    <input type="number" step="0.01" name="amount"
+                                        class="form-control @error('amount') is-invalid @enderror"
+                                        value="{{ old('amount', $expense->amount) }}" required>
+                                    @error('amount')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
-                                {{-- Testimonial --}}
+                                {{-- Payment Method --}}
                                 <div class="mb-3">
-                                    <label class="form-label">Testimonial <span class="text-danger">*</span></label>
-                                    <textarea name="testimonial" rows="5" class="form-control @error('testimonial') is-invalid @enderror" required>{{ old('testimonial', $testimonial->testimonial) }}</textarea>
-                                    @error('testimonial')
+                                    <label class="form-label">Payment Method <span class="text-danger">*</span></label>
+                                    <select name="payment_method"
+                                        class="form-select @error('payment_method') is-invalid @enderror" required>
+                                        <option value="cash"
+                                            {{ old('payment_method', $expense->payment_method) == 'cash' ? 'selected' : '' }}>
+                                            Cash</option>
+                                        <option value="cheque"
+                                            {{ old('payment_method', $expense->payment_method) == 'cheque' ? 'selected' : '' }}>
+                                            Cheque</option>
+                                        <option value="online_payment"
+                                            {{ old('payment_method', $expense->payment_method) == 'online_payment' ? 'selected' : '' }}>
+                                            Online Payment</option>
+                                    </select>
+                                    @error('payment_method')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
-                                {{-- Image --}}
+                                {{-- Date --}}
                                 <div class="mb-3">
-                                    <label class="form-label">Image</label>
-                                    @if ($testimonial->image)
+                                    <label class="form-label">Expense Date <span class="text-danger">*</span></label>
+                                    <input type="date" name="date"
+                                        class="form-control @error('date') is-invalid @enderror"
+                                        value="{{ old('date', $expense->date) }}" required>
+                                    @error('date')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                {{-- Notes --}}
+                                <div class="mb-3">
+                                    <label class="form-label">Notes</label>
+                                    <textarea name="notes" rows="4" class="form-control @error('notes') is-invalid @enderror">{{ old('notes', $expense->notes) }}</textarea>
+                                    @error('notes')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                {{-- Receipt Upload --}}
+                                <div class="mb-3">
+                                    <label class="form-label">Receipt</label>
+                                    @if ($expense->receipt_path && file_exists(public_path('storage/' . $expense->receipt_path)))
                                         <div class="mb-2">
-                                            <img src="{{ asset('storage/' . $testimonial->image) }}" alt="Image"
+                                            <img src="{{ asset('storage/' . $expense->receipt_path) }}" alt="Receipt"
                                                 class="img-fluid rounded shadow-sm mb-2 js-media-preview"
                                                 style="max-height:150px; object-fit:cover;"
-                                                data-url="{{ asset('storage/' . $testimonial->image) }}" data-type="image">
+                                                data-url="{{ asset('storage/' . $expense->receipt_path) }}"
+                                                data-type="image">
                                         </div>
                                     @endif
-                                    <input type="file" name="image"
-                                        class="form-control @error('image') is-invalid @enderror">
-                                    @error('image')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                {{-- Status --}}
-                                <div class="mb-3">
-                                    <label class="form-label">Status</label>
-                                    <select name="status" class="form-select @error('status') is-invalid @enderror">
-                                        <option value="pending"
-                                            {{ old('status', $testimonial->status) == 'pending' ? 'selected' : '' }}>
-                                            Pending</option>
-                                        <option value="active"
-                                            {{ old('status', $testimonial->status) == 'active' ? 'selected' : '' }}>
-                                            Active</option>
-                                        <option value="inactive"
-                                            {{ old('status', $testimonial->status) == 'inactive' ? 'selected' : '' }}>
-                                            Inactive</option>
-                                    </select>
-                                    @error('status')
+                                    <input type="file" name="receipt_path"
+                                        class="form-control @error('receipt_path') is-invalid @enderror">
+                                    @error('receipt_path')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
                                 {{-- Submit --}}
-                                <button type="submit" class="btn btn-primary">Update</button>
-                                <a href="{{ route('testimonials.index') }}" class="btn btn-secondary">Cancel</a>
+                                <button type="submit" class="btn btn-primary">Update Expense</button>
+                                <a href="{{ route('expenses.index') }}" class="btn btn-secondary">Cancel</a>
                             </form>
+
 
                         </div>
                     </div>
