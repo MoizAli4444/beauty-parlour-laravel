@@ -10,12 +10,12 @@
                     <div class="card">
 
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">View Testimonial</h5>
+                            <h5 class="mb-0">View Expense</h5>
                             <div>
 
-                                {!! render_delete_button($testimonial->id, route('testimonials.destroy', $testimonial->id), false) !!}
-                                {!! render_edit_button(route('testimonials.edit', $testimonial->id), false) !!}
-                                {!! render_index_button(route('testimonials.index'), 'All Testimonials', false) !!}
+                                {!! render_delete_button($expense->id, route('expenses.destroy', $expense->id), false) !!}
+                                {!! render_edit_button(route('expenses.edit', $expense->id), false) !!}
+                                {!! render_index_button(route('expenses.index'), 'All Expenses', false) !!}
                             </div>
                         </div>
 
@@ -25,22 +25,29 @@
                                 <!-- Left Column -->
                                 <div class="col-md-8">
 
-                                    <!-- Name -->
+                                    <!-- Expense Type -->
                                     <div class="mb-4">
-                                        <label class="form-label fw-bold">Name:</label>
-                                        <div>{{ $testimonial->name ?? '-' }}</div>
+                                        <label class="form-label fw-bold">Expense Type:</label>
+                                        <div>{{ $expense->expense_type ?? '-' }}</div>
                                     </div>
 
-                                    <!-- Designation -->
+                                    <!-- Amount -->
                                     <div class="mb-4">
-                                        <label class="form-label fw-bold">Designation:</label>
-                                        <div>{{ $testimonial->designation ?? '-' }}</div>
+                                        <label class="form-label fw-bold">Amount:</label>
+                                        <div>{{ $expense->amount ? number_format($expense->amount, 2) . ' PKR' : '-' }}
+                                        </div>
                                     </div>
 
-                                    <!-- Testimonial Text -->
+                                    <!-- Payment Method -->
                                     <div class="mb-4">
-                                        <label class="form-label fw-bold">Testimonial:</label>
-                                        <div>{{ $testimonial->testimonial ?? '-' }}</div>
+                                        <label class="form-label fw-bold">Payment Method:</label>
+                                        <div>{{ ucfirst($expense->payment_method) ?? '-' }}</div>
+                                    </div>
+
+                                    <!-- Notes -->
+                                    <div class="mb-4">
+                                        <label class="form-label fw-bold">Notes:</label>
+                                        <div>{{ $expense->notes ?? '-' }}</div>
                                     </div>
 
                                     <div class="row mb-4">
@@ -48,47 +55,45 @@
                                         <!-- Status -->
                                         <div class="col-md-4">
                                             <label class="form-label fw-bold">Status:</label>
-                                            <div>{!! $testimonial->status_badge !!}</div>
+                                            <div>{!! $expense->status_badge !!}</div>
+                                        </div>
+
+                                        <!-- Date -->
+                                        <div class="col-md-4">
+                                            <label class="form-label fw-bold">Expense Date:</label>
+                                            <div>
+                                                {{ $expense->date ? \Carbon\Carbon::parse($expense->date)->format('d M Y h:i A') : '—' }}
+                                            </div>
                                         </div>
 
                                         <!-- Created At -->
                                         <div class="col-md-4">
-                                            <label class="form-label fw-bold">Submitted On:</label>
+                                            <label class="form-label fw-bold">Created At:</label>
                                             <div>
-                                                {{ $testimonial->created_at ? $testimonial->created_at->format('d M Y h:i A') : '—' }}
+                                                {{ $expense->created_at ? $expense->created_at->format('d M Y h:i A') : '—' }}
                                             </div>
                                         </div>
 
                                         <!-- Updated At -->
-                                         <div class="col-md-4">
+                                        <div class="col-md-4 mt-3">
                                             <label class="form-label fw-bold">Last Updated:</label>
                                             <div>
-                                                {{ $testimonial->updated_at ? $testimonial->updated_at->format('d M Y h:i A') : '—' }}
+                                                {{ $expense->updated_at ? $expense->updated_at->format('d M Y h:i A') : '—' }}
                                             </div>
                                         </div>
                                     </div>
 
-
-
-
                                 </div>
 
-                                <!-- Right Column (Image Preview) -->
+                                <!-- Right Column (Receipt Preview) -->
                                 <div class="col-md-4 text-center">
-                                    <label class="form-label fw-bold">Image Preview:</label><br>
+                                    <label class="form-label fw-bold">Receipt Preview:</label><br>
 
-                                    @if ($testimonial->image && file_exists(public_path('storage/' . $testimonial->image)))
-                                        <img src="{{ asset('storage/' . $testimonial->image) }}"
-                                            alt="{{ $testimonial->name }}"
-                                            class="img-fluid rounded shadow-sm mb-2 js-media-preview"
-                                            style="max-height:200px; object-fit:cover;"
-                                            data-url="{{ asset('storage/' . $testimonial->image) }}" data-type="image">
-                                    @else
-                                        <div class="text-muted">No image uploaded</div>
-                                    @endif
+                                    {!! getImage($expense->image, true) !!}
                                 </div>
 
                             </div>
+
 
                         </div>
 

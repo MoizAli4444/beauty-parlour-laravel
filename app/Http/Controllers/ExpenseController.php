@@ -68,9 +68,15 @@ class ExpenseController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Expense $expense)
+    public function show($id)
     {
-        //
+        $expense = $this->repository->find($id);
+
+        if (!$expense) {
+            return redirect()->route('expenses.index')->with('error', 'Expense record not found.');
+        }
+
+        return view('admin.expenses.show', compact('expense'));
     }
 
     /**
