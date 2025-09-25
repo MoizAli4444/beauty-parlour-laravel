@@ -67,7 +67,7 @@
                 <div class="text-truncate" data-i18n="Dashboards">Dashboards</div>
                 <span class="badge rounded-pill bg-danger ms-auto">5</span>
             </a>
-            <ul class="menu-sub">
+            {{-- <ul class="menu-sub">
                 <li class="menu-item active">
                     <a href="index.html" class="menu-link">
                         <div class="text-truncate" data-i18n="Analytics">Analytics</div>
@@ -101,7 +101,7 @@
                         <div class="badge rounded-pill bg-label-primary text-uppercase fs-tiny ms-auto">Pro</div>
                     </a>
                 </li>
-            </ul>
+            </ul> --}}
         </li>
 
         <li class="menu-item {{ request()->routeIs('services.*') ? 'active' : '' }}">
